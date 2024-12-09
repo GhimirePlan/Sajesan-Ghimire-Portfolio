@@ -40,13 +40,13 @@ type TConfig = {
 
 export const config: TConfig = {
   html: {
-    title: "Sajesan Ghimire — Portfolio",
-    fullName: "Sajesan Ghimire",
-    email: "contact@sajesanghimire.com.np",
+    title: "John Doe — 3D Portfolio",
+    fullName: "John Doe",
+    email: "johndoe@mail.com",
   },
   hero: {
-    name: "Sajesan Ghimire",
-    p: ["An Electrical Engineer | Researcher ", "from Nepal"],
+    name: "John Doe",
+    p: ["I develop 3D visuals, user", "interfaces and web applications"],
   },
   contact: {
     p: "Get in touch",
@@ -67,7 +67,11 @@ export const config: TConfig = {
     about: {
       p: "Introduction",
       h2: "Overview.",
-      content: `Electrical Engineering student at Tribhuvan University, IOE, Pashchimanchal Campus, graduating in May 2025. Proven skills in MATLAB, Simulink, AutoCAD Electrical, and more. Experienced in graphic design and web development. Successful track record in hackathons and project leadership. Seeking opportunities in Electrical Engineering and related fields.`,
+      content: `I'm a skilled software developer with experience in TypeScript and
+      JavaScript, and expertise in frameworks like React, Node.js, and
+      Three.js. I'm a quick learner and collaborate closely with clients to
+      create efficient, scalable, and user-friendly solutions that solve
+      real-world problems. Let's work together to bring your ideas to life!`,
     },
     experience: {
       p: "What I have done so far",
@@ -81,7 +85,8 @@ export const config: TConfig = {
       p: "My work",
       h2: "Projects.",
       content: `Following projects showcases my skills and experience through
-    real-world examples of my work. Each project is briefly described. It reflects my
+    real-world examples of my work. Each project is briefly described with
+    links to code repositories and live demos in it. It reflects my
     ability to solve complex problems, work with different technologies,
     and manage projects effectively.`,
     },
