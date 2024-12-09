@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "homepage": "https://sajesanghimire.com.np/Sajesan-Ghimire-Portfolio/",
+    "homepage": "https://sajesanghimire.com.np/",
     "build": "tsc && vite build",
     "predeploy": "npm run build",
     "serve": "vite preview",
