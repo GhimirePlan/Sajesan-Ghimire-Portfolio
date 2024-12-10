@@ -12,22 +12,23 @@ import {
   backend,
   creator,
   web,
-  javascript,
-  typescript,
-  html,
-  css,
-  reactjs,
-  redux,
-  tailwind,
-  nodejs,
-  mongodb,
+  proteus,
+  dialux,
+
   git,
+  audrino,
   figma,
-  docker,
+  
   carrent,
   jobit,
   tripguide,
-  threejs,
+
+  excel,
+  Ai,
+  Photoshop,
+  canva,
+  word,
+  Matlab,
 } from "../assets";
 
 export const navLinks: TNavLink[] = [
@@ -66,44 +67,40 @@ const services: TService[] = [
 
 const technologies: TTechnology[] = [
   {
-    name: "HTML 5",
-    icon: html,
+    name: "Matlab",
+    icon: Matlab,
   },
   {
-    name: "CSS 3",
-    icon: css,
+    name: "Ai",
+    icon: Ai,
   },
   {
-    name: "JavaScript",
-    icon: javascript,
+    name: "word",
+    icon: word,
   },
   {
-    name: "TypeScript",
-    icon: typescript,
+    name: "excel",
+    icon: excel,
   },
   {
-    name: "React JS",
-    icon: reactjs,
+    name: "canva",
+    icon: canva,
   },
   {
-    name: "Redux Toolkit",
-    icon: redux,
+    name: "Photoshop",
+    icon: Photoshop,
   },
   {
-    name: "Tailwind CSS",
-    icon: tailwind,
+    name: "proteus",
+    icon: proteus,
   },
   {
-    name: "Node JS",
-    icon: nodejs,
+    name: "audrino",
+    icon: audrino,
   },
   {
-    name: "MongoDB",
-    icon: mongodb,
-  },
-  {
-    name: "Three JS",
-    icon: threejs,
+    name: "dialux",
+    icon: dialux,
   },
   {
     name: "git",
@@ -113,10 +110,7 @@ const technologies: TTechnology[] = [
     name: "figma",
     icon: figma,
   },
-  {
-    name: "docker",
-    icon: docker,
-  },
+
 ];
 
 const experiences: TExperience[] = [

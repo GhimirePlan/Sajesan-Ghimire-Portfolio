@@ -6,26 +6,21 @@ import web from "./web.png";
 import github from "./github.png";
 import menu from "./menu.svg";
 import close from "./close.svg";
-
-import css from "./tech/css.png";
-import docker from "./tech/docker.png";
 import figma from "./tech/figma.png";
 import git from "./tech/git.png";
-import html from "./tech/html.png";
-import javascript from "./tech/javascript.png";
-import mongodb from "./tech/mongodb.png";
-import nodejs from "./tech/nodejs.png";
-import reactjs from "./tech/reactjs.png";
-import redux from "./tech/redux.png";
-import tailwind from "./tech/tailwind.png";
-import typescript from "./tech/typescript.png";
-import threejs from "./tech/threejs.svg";
-
+import Matlab from "./tech/Matlab.png"
 import meta from "./company/meta.png";
 import shopify from "./company/shopify.png";
 import starbucks from "./company/starbucks.png";
 import tesla from "./company/tesla.png";
-
+import proteus from "./tech/proteus.png"
+import excel from "./tech/excel.png"
+import Ai from "./tech/ai.png"
+import word from "./tech/word.jpg"
+import Photoshop from "./tech/photoshop.png"
+import canva from "./tech/canva.png"
+import audrino from "./tech/audrino.png"
+import dialux from "./tech/dialux.jpg"
 import carrent from "./carrent.png";
 import jobit from "./jobit.png";
 import tripguide from "./tripguide.png";
@@ -36,14 +31,25 @@ export {
   creator,
   mobile,
   web,
+  dialux,
   github,
   menu,
   close,
   css,
+  proteus,
+  audrino,
   docker,
   figma,
   git,
   html,
+  word,
+  
+  
+  Matlab,
+  excel,
+  Ai,
+  Photoshop,
+  canva,
   javascript,
   mongodb,
   nodejs,
