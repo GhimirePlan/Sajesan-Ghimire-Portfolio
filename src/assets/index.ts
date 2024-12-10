@@ -35,13 +35,13 @@ export {
   github,
   menu,
   close,
-  css,
+
   proteus,
   audrino,
-  docker,
+
   figma,
   git,
-  html,
+
   word,
   
   
@@ -50,14 +50,6 @@ export {
   Ai,
   Photoshop,
   canva,
-  javascript,
-  mongodb,
-  nodejs,
-  reactjs,
-  redux,
-  tailwind,
-  typescript,
-  threejs,
   meta,
   shopify,
   starbucks,

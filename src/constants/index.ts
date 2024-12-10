@@ -172,35 +172,76 @@ const experiences: TExperience[] = [
 const testimonials: TTestimonial[] = [
   {
     testimonial:
-      "I thought it was impossible to make a website as beautiful as our product, but Rick proved me wrong.",
+      "Their designs for electrical systems are top-notch, adhering to all safety standards and delivering exceptional performance.",
     name: "Sara Lee",
-    designation: "CFO",
-    company: "Acme Co",
+    designation: "Senior Engineer",
+    company: "ElectroTech Solutions",
     image: "https://randomuser.me/api/portraits/women/4.jpg",
   },
   {
     testimonial:
-      "I've never met a web developer who truly cares about their clients' success like Rick does.",
+      "The automation solutions provided were seamless and efficient. Truly a game-changer for our industrial operations.",
     name: "Chris Brown",
-    designation: "COO",
-    company: "DEF Corp",
+    designation: "Operations Manager",
+    company: "Innovative Systems Inc.",
     image: "https://randomuser.me/api/portraits/men/5.jpg",
   },
   {
     testimonial:
-      "After Rick optimized our website, our traffic increased by 50%. We can't thank them enough!",
+      "Their expertise in power distribution and energy optimization significantly reduced our operational costs.",
     name: "Lisa Wang",
-    designation: "CTO",
-    company: "456 Enterprises",
+    designation: "Project Manager",
+    company: "GreenGrid Enterprises",
     image: "https://randomuser.me/api/portraits/women/6.jpg",
   },
 ];
-
 const projects: TProject[] = [
   {
-    name: "Car Rent",
+    name: "Smart Grid Optimization",
     description:
-      "Web-based platform that allows users to search, book, and manage car rentals from various providers, providing a convenient and efficient solution for transportation needs.",
+      "A simulation-based project that integrates smart grid technologies to enhance power distribution, monitor energy consumption, and ensure cybersecurity.",
+    tags: [
+      {
+        name: "matlab",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "simulink",
+        color: "green-text-gradient",
+      },
+      {
+        name: "cybersecurity",
+        color: "pink-text-gradient",
+      },
+    ],
+    image: carrent, // Replace with a relevant image
+    sourceCodeLink: "https://github.com/",
+  },
+  {
+    name: "IoT-Based Automation",
+    description:
+      "An IoT-powered project designed to automate industrial processes and enable remote monitoring and control of operations using smart sensors and devices.",
+    tags: [
+      {
+        name: "iot",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "arduino",
+        color: "green-text-gradient",
+      },
+      {
+        name: "python",
+        color: "pink-text-gradient",
+      },
+    ],
+    image: jobit, // Replace with a relevant image
+    sourceCodeLink: "https://github.com/",
+  },
+  {
+    name: "Energy Management System",
+    description:
+      "A web-based platform to monitor and optimize energy usage in residential and commercial settings, incorporating renewable energy sources and load management.",
     tags: [
       {
         name: "react",
@@ -215,51 +256,10 @@ const projects: TProject[] = [
         color: "pink-text-gradient",
       },
     ],
-    image: carrent,
-    sourceCodeLink: "https://github.com/",
-  },
-  {
-    name: "Job IT",
-    description:
-      "Web application that enables users to search for job openings, view estimated salary ranges for positions, and locate available jobs based on their current location.",
-    tags: [
-      {
-        name: "react",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "restapi",
-        color: "green-text-gradient",
-      },
-      {
-        name: "scss",
-        color: "pink-text-gradient",
-      },
-    ],
-    image: jobit,
-    sourceCodeLink: "https://github.com/",
-  },
-  {
-    name: "Trip Guide",
-    description:
-      "A comprehensive travel booking platform that allows users to book flights, hotels, and rental cars, and offers curated recommendations for popular destinations.",
-    tags: [
-      {
-        name: "nextjs",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "supabase",
-        color: "green-text-gradient",
-      },
-      {
-        name: "css",
-        color: "pink-text-gradient",
-      },
-    ],
-    image: tripguide,
+    image: tripguide, // Replace with a relevant image
     sourceCodeLink: "https://github.com/",
   },
 ];
+
 
 export { services, technologies, experiences, testimonials, projects };
