@@ -13,7 +13,7 @@ import meta from "./company/meta.png";
 import shopify from "./company/shopify.png";
 import starbucks from "./company/starbucks.png";
 import tesla from "./company/tesla.png";
-import proteus from "./tech/proteus.png"
+import proteus from "./tech/Proteus.png"
 import excel from "./tech/excel.png"
 import Ai from "./tech/ai.png"
 import word from "./tech/word.jpg"
