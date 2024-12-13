@@ -117,7 +117,7 @@ const experiences: TExperience[] = [
   {
     title: "Electrical Engineering Internship",
     companyName: "Nepal Manipal Teaching Hospital",
-    icon: "https://media.licdn.com/dms/image/v2/D4D0BAQFn2LprYpfaqw/company-logo_200_200/company-logo_200_200/0/1713088102200/nepalmanipal_logo?e=1741824000&v=beta&t=q9jeTfOcBVb09zhLG2RnTY180QlUpUdTNLu7IuCoSsY",
+    icon: "./src/assets/company/manipal.png",
     iconBg: "#383E56",
     date: "September 2024 - November 2024",
     points: [
@@ -131,7 +131,7 @@ const experiences: TExperience[] = [
   {
     title: "Engineering Intern",
     companyName: "Nepal Electricity Authority, Nepal",
-    icon: "https://media.licdn.com/dms/image/v2/C560BAQH-MlWDO0vKiw/company-logo_200_200/company-logo_200_200/0/1631407533564/nepal_electricity_authority_government_of_nepal_logo?e=1741824000&v=beta&t=3nv6zUw433oPjZ1cDkXewi4cYXO7D8u_6f6Qt-aN2cY",
+    icon: "./src/assets/company/nea.png",
     iconBg: "#E6DEDD",
     date: "Nov 2023 - Dec 2023",
     points: [
@@ -144,7 +144,7 @@ const experiences: TExperience[] = [
   {
     title: "Secretary",
     companyName: "Electrical Generation Club (E-GEN)",
-    icon: "https://media.licdn.com/dms/image/v2/D560BAQHIHJkaT1HBDQ/company-logo_200_200/company-logo_200_200/0/1687169291342?e=1741824000&v=beta&t=S3NWErVqv55hwLAxZ212gYG04bo1caXhHu87L4JtHe8",
+    icon: "./src/assets/company/egen.png",
     iconBg: "#383E56",
     date: "Jan 2022 - Jan 2023",
     points: [
@@ -157,7 +157,7 @@ const experiences: TExperience[] = [
   {
     title: "President",
     companyName: "Engineering Student Society of Tanahun and Lamjung (ESSOTL)",
-    icon: "https://media.licdn.com/dms/image/v2/D4E0BAQF3eBTjluaIig/company-logo_200_200/company-logo_200_200/0/1704103900483?e=1741824000&v=beta&t=ZibsNZ877xtdIT8mI6g_O106FaPt5VLyq3vOF-mi9Pg",
+    icon: "./src/assets/company/essotl.png",
     iconBg: "#E6DEDD",
     date: "Apr 2023 - Jun 2024",
     points: [
