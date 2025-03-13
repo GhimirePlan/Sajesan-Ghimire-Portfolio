@@ -1,5 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
-
+import { useEffect, useState } from "react";
 import {
   About,
   Contact,
@@ -12,15 +12,28 @@ import {
   StarsCanvas,
   Footer,
 } from "./components";
-import { useEffect } from "react";
 import { config } from "./constants/config";
+import Loader from "./components/Loader";
 
 const App = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     if (document.title !== config.html.title) {
       document.title = config.html.title;
     }
+
+    // Simulate loading time
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000); // Show loader for 2 seconds
+
+    return () => clearTimeout(timer);
   }, []);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <BrowserRouter>

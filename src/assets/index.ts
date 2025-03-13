@@ -17,6 +17,7 @@ import proteus from "./tech/Proteus.png"
 import excel from "./tech/excel.png"
 import Ai from "./tech/ai.png"
 import word from "./tech/word.jpg"
+import researchgate from "./research.png"
 import Photoshop from "./tech/photoshop.png"
 import canva from "./tech/canva.png"
 import audrino from "./tech/audrino.png"
@@ -31,6 +32,7 @@ export {
   creator,
   mobile,
   web,
+  researchgate,
   dialux,
   github,
   menu,

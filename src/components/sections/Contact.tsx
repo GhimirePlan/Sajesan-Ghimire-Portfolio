@@ -1,6 +1,9 @@
 import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
+import { FaFacebookF, FaLinkedinIn } from 'react-icons/fa';
+import { MdEmail } from 'react-icons/md';
+import { SiResearchgate } from 'react-icons/si';
 
 import { EarthCanvas } from "../canvas";
 import { SectionWrapper } from "../../hoc";
@@ -16,6 +19,84 @@ const emailjsConfig = {
   serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
   templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
   accessToken: import.meta.env.VITE_EMAILJS_ACCESS_TOKEN,
+};
+
+const SocialLinks = () => {
+  const socialLinks = [
+    {
+      name: 'LinkedIn',
+      icon: <FaLinkedinIn className="w-6 h-6" />,
+      url: 'https://www.linkedin.com/in/sajesan/',
+      color: 'hover:bg-[#0077B5]'
+    },
+    {
+      name: 'Facebook',
+      icon: <FaFacebookF className="w-6 h-6" />,
+      url: 'https://www.facebook.com/sajesan.g',
+      color: 'hover:bg-[#4267B2]'
+    },
+    {
+      name: 'Email',
+      icon: <MdEmail className="w-6 h-6" />,
+      url: 'mailto:contact@sajesanghimire.com.np',
+      color: 'hover:bg-[#EA4335]'
+    },
+    {
+      name: 'ResearchGate',
+      icon: <SiResearchgate className="w-6 h-6" />,
+      url: 'https://www.researchgate.net/profile/Sajesan-Ghimire',
+      color: 'hover:bg-[#00CCBB]'
+    },
+  ];
+
+  return (
+    <div className="w-full flex flex-col items-center mt-10">
+      <h3 className="text-white font-medium mb-10 text-[20px]">
+        Connect With Me
+      </h3>
+      <div className="flex gap-6">
+        {socialLinks.map((link) => (
+          <a
+            key={link.name}
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`
+              w-12 h-12
+              flex items-center justify-center
+              rounded-full
+              bg-tertiary
+              text-white
+              transition-all duration-300 ease-in-out
+              transform hover:scale-110
+              ${link.color}
+              hover:shadow-lg hover:shadow-primary
+              group
+              relative
+            `}
+          >
+            <span className="group-hover:scale-110 transition-transform duration-300">
+              {link.icon}
+            </span>
+            
+            <span className="
+              absolute -bottom-10
+              bg-black/80
+              text-white
+              text-sm
+              px-3 py-1
+              rounded-full
+              opacity-0 group-hover:opacity-100
+              transition-opacity duration-300
+              whitespace-nowrap
+            ">
+              {link.name}
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 const Contact = () => {
@@ -108,6 +189,7 @@ const Contact = () => {
             {loading ? "Sending..." : "Send"}
           </button>
         </form>
+        <SocialLinks />
       </motion.div>
 
       <motion.div

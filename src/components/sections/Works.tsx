@@ -1,7 +1,7 @@
 import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
 
-import { github } from "../../assets";
+import { researchgate } from "../../assets";
 import { SectionWrapper } from "../../hoc";
 import { projects } from "../../constants";
 import { fadeIn } from "../../utils/motion";
@@ -39,7 +39,7 @@ const ProjectCard: React.FC<{ index: number } & TProject> = ({
                 className="black-gradient flex h-10 w-10 cursor-pointer items-center justify-center rounded-full"
               >
                 <img
-                  src={github}
+                  src={researchgate}
                   alt="github"
                   className="h-1/2 w-1/2 object-contain"
                 />

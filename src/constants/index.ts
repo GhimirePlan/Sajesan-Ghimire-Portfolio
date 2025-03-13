@@ -115,6 +115,19 @@ const technologies: TTechnology[] = [
 
 const experiences: TExperience[] = [
   {
+    title: "Electrical Engineer (Site)",
+    companyName: "Panchase Engineering Consultancy",
+    icon: "./src/assets/company/panchase.png",
+    iconBg: "#383E56",
+    date: "Nov 2024 – jan 2025",
+    points: [
+      "Supervised and executed MEP electrical works, ensuring design compliance and site safety.",
+      "Implemented, revised, and optimized electrical designs as per field conditions.",
+      "Managed measurements, billing, testing, and commissioning of electrical systems.",
+     
+    ],
+  },
+  {
     title: "Electrical Engineering Internship",
     companyName: "Nepal Manipal Teaching Hospital",
     icon: "./src/assets/company/manipal.png",
@@ -172,34 +185,35 @@ const experiences: TExperience[] = [
 const testimonials: TTestimonial[] = [
   {
     testimonial:
+      "Working on-site, I ensured electrical designs were not just implemented but optimized in real-time, overcoming challenges to enhance efficiency and project success.",
+    name: "Sanat Poudel",
+    designation: "Operations Manager",
+    company: "Himal Enginnering Inc.",
+    image: "https://randomuser.me/api/portraits/men/5.jpg",
+  },
+  {
+    testimonial:
       "Their designs for electrical systems are top-notch, adhering to all safety standards and delivering exceptional performance.",
     name: "Sara Lee",
     designation: "Senior Engineer",
     company: "ElectroTech Solutions",
     image: "https://randomuser.me/api/portraits/women/4.jpg",
   },
-  {
-    testimonial:
-      "The automation solutions provided were seamless and efficient. Truly a game-changer for our industrial operations.",
-    name: "Chris Brown",
-    designation: "Operations Manager",
-    company: "Innovative Systems Inc.",
-    image: "https://randomuser.me/api/portraits/men/5.jpg",
-  },
+
   {
     testimonial:
       "Their expertise in power distribution and energy optimization significantly reduced our operational costs.",
-    name: "Lisa Wang",
+    name: "Ghi Wang",
     designation: "Project Manager",
     company: "GreenGrid Enterprises",
-    image: "https://randomuser.me/api/portraits/women/6.jpg",
+    image: "https://randomuser.me/api/portraits/men/1.jpg",
   },
 ];
 const projects: TProject[] = [
   {
-    name: "Smart Grid Optimization",
+    name: "Comparative Assessment of PID and ANFIS Controllers in an AVR",
     description:
-      "A simulation-based project that integrates smart grid technologies to enhance power distribution, monitor energy consumption, and ensure cybersecurity.",
+      "This research analyzes PID and ANFIS controllers in AVR systems using MATLAB-SIMULINK, revealing ANFIS's superior performance with a 1.7277s settling time and 1.8716% overshoot, validating its efficiency for power sector applications.",
     tags: [
       {
         name: "matlab",
@@ -210,17 +224,38 @@ const projects: TProject[] = [
         color: "green-text-gradient",
       },
       {
-        name: "cybersecurity",
+        name: "ANFS",
         color: "pink-text-gradient",
       },
     ],
     image: carrent, // Replace with a relevant image
-    sourceCodeLink: "https://github.com/",
+    sourceCodeLink: "https://www.researchgate.net/publication/389150640_Comparative_Assessment_of_PID_and_ANFIS_Controllers_in_an_Automatic_Voltage_Regulator",
   },
   {
-    name: "IoT-Based Automation",
+    name: "ANN-BASED UPFC FOR ENHANCEMENT OF POWER FLOW AND VOLTAGE PROFILE",
     description:
-      "An IoT-powered project designed to automate industrial processes and enable remote monitoring and control of operations using smart sensors and devices.",
+      "This research proposes an ANN-based UPFC for enhanced power flow and voltage regulation in modern power systems, achieving faster response, improved stability, and reduced faults compared to PID-based control, as validated by MATLAB/Simulink simulations.",
+    tags: [
+      {
+        name: "matlab",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "UPFC",
+        color: "green-text-gradient",
+      },
+      {
+        name: "ANN",
+        color: "pink-text-gradient",
+      },
+    ],
+    image: tripguide, // Replace with a relevant image
+    sourceCodeLink: "https://www.linkedin.com/in/sajesan/",
+  },
+  {
+    name: "IoT-Based Complete Home Automation System",
+    description:
+      "This project presents an advanced IoT-powered home automation system integrating Arduino, Python, and NodeMCU, enabling seamless remote control of appliances and security, revolutionizing smart living with efficiency and convenience.",
     tags: [
       {
         name: "iot",
@@ -236,29 +271,9 @@ const projects: TProject[] = [
       },
     ],
     image: jobit, // Replace with a relevant image
-    sourceCodeLink: "https://github.com/",
+    sourceCodeLink: "https://www.linkedin.com/posts/sajesan_teamurja-hardwarehackathon-activity-7155555264052486144-Or6Z?utm_source=share&utm_medium=member_desktop&rcm=ACoAADk4wCsBjLFTlUqsTlcQrGPSo3T73aeu9Is",
   },
-  {
-    name: "Energy Management System",
-    description:
-      "A web-based platform to monitor and optimize energy usage in residential and commercial settings, incorporating renewable energy sources and load management.",
-    tags: [
-      {
-        name: "react",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "mongodb",
-        color: "green-text-gradient",
-      },
-      {
-        name: "tailwind",
-        color: "pink-text-gradient",
-      },
-    ],
-    image: tripguide, // Replace with a relevant image
-    sourceCodeLink: "https://github.com/",
-  },
+ 
 ];
 
 
