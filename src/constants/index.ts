@@ -34,6 +34,7 @@ import {
   nea,
   egen,
   essotl,
+  panchase,
 } from "../assets";
 
 export const navLinks: TNavLink[] = [
@@ -122,7 +123,7 @@ const experiences: TExperience[] = [
   {
     title: "Electrical Engineer (Site)",
     companyName: "Panchase Engineering Consultancy",
-    icon: "./src/assets/company/panchase.png",
+    icon: panchase,
     iconBg: "#383E56",
     date: "Nov 2024 – jan 2025",
     points: [

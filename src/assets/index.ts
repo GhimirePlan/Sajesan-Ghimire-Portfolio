@@ -29,6 +29,7 @@ import manipal from './company/manipal.png';
 import nea from './company/nea.png';
 import egen from './company/egen.png';
 import essotl from './company/essotl.png';
+import panchase from './company/panchase.png';
 
 export {
   logo,
@@ -67,4 +68,5 @@ export {
   nea,
   egen,
   essotl,
+  panchase,
 };
