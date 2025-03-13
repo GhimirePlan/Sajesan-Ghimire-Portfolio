@@ -29,6 +29,11 @@ import {
   canva,
   word,
   Matlab,
+
+  manipal,
+  nea,
+  egen,
+  essotl,
 } from "../assets";
 
 export const navLinks: TNavLink[] = [
@@ -130,7 +135,7 @@ const experiences: TExperience[] = [
   {
     title: "Electrical Engineering Internship",
     companyName: "Nepal Manipal Teaching Hospital",
-    icon: "./src/assets/company/manipal.png",
+    icon: manipal,
     iconBg: "#383E56",
     date: "September 2024 - November 2024",
     points: [
@@ -144,7 +149,7 @@ const experiences: TExperience[] = [
   {
     title: "Engineering Intern",
     companyName: "Nepal Electricity Authority, Nepal",
-    icon: "./src/assets/company/nea.png",
+    icon: nea,
     iconBg: "#E6DEDD",
     date: "Nov 2023 - Dec 2023",
     points: [
@@ -157,7 +162,7 @@ const experiences: TExperience[] = [
   {
     title: "Secretary",
     companyName: "Electrical Generation Club (E-GEN)",
-    icon: "./src/assets/company/egen.png",
+    icon: egen,
     iconBg: "#383E56",
     date: "Jan 2022 - Jan 2023",
     points: [
@@ -170,7 +175,7 @@ const experiences: TExperience[] = [
   {
     title: "President",
     companyName: "Engineering Student Society of Tanahun and Lamjung (ESSOTL)",
-    icon: "./src/assets/company/essotl.png",
+    icon: essotl,
     iconBg: "#E6DEDD",
     date: "Apr 2023 - Jun 2024",
     points: [

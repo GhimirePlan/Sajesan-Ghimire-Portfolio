@@ -25,6 +25,10 @@ import dialux from "./tech/dialux.jpg"
 import carrent from "./carrent.png";
 import jobit from "./jobit.png";
 import tripguide from "./tripguide.png";
+import manipal from './company/manipal.png';
+import nea from './company/nea.png';
+import egen from './company/egen.png';
+import essotl from './company/essotl.png';
 
 export {
   logo,
@@ -59,4 +63,8 @@ export {
   carrent,
   jobit,
   tripguide,
+  manipal,
+  nea,
+  egen,
+  essotl,
 };
