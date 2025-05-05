@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaFacebookF, FaLinkedinIn } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
@@ -92,7 +92,7 @@ const Contact = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = () => {
     setLoading(true);
     // FormSubmit will handle the submission automatically
     // We just need to show loading state
