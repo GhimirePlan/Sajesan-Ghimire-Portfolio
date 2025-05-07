@@ -3,12 +3,22 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial, Preload } from "@react-three/drei";
 import { random } from "maath";
 import { TypedArray } from "three";
+import React from "react";
 
 const Stars = (props: any) => {
   const ref = useRef<THREE.Points>();
-  const [sphere] = useState<TypedArray>(() =>
-    random.inSphere(new Float32Array(5001), { radius: 1.2 })
-  );
+  const [sphere, setSphere] = useState<TypedArray | null>(null);
+  const [error, setError] = useState(false);
+
+  React.useEffect(() => {
+    try {
+      const points = random.inSphere(new Float32Array(5001), { radius: 1.2 });
+      setSphere(points);
+    } catch (err) {
+      console.error("Failed to generate stars:", err);
+      setError(true);
+    }
+  }, []);
 
   useFrame((_state, delta) => {
     if (ref.current) {
@@ -16,6 +26,20 @@ const Stars = (props: any) => {
       ref.current.rotation.y -= delta / 15;
     }
   });
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-full bg-tertiary rounded-2xl">
+        <p className="text-white text-center p-4">
+          Unable to generate stars effect. Please refresh the page or try again later.
+        </p>
+      </div>
+    );
+  }
+
+  if (!sphere) {
+    return null;
+  }
 
   return (
     <group rotation={[0, 0, Math.PI / 4]}>
@@ -38,9 +62,8 @@ const StarsCanvas = () => {
       <Canvas camera={{ position: [0, 0, 1] }}>
         <Suspense fallback={null}>
           <Stars />
+          <Preload all />
         </Suspense>
-
-        <Preload all />
       </Canvas>
     </div>
   );

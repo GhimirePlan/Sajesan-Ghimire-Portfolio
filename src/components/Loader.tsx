@@ -1,6 +1,26 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 const Loader = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // Add a small delay before showing the loader to prevent flickering
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!isVisible) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center bg-[#0a0a0a]">
+        <div className="w-20 h-20 border-4 border-[#915EFF] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <div className="w-full h-screen flex items-center justify-center bg-[#0a0a0a]">
       <div className="relative">

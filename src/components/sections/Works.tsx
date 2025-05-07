@@ -1,6 +1,6 @@
 import Tilt from "react-parallax-tilt";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useCallback } from "react";
+import { useState, useCallback, memo, useEffect } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 import { researchgate } from "../../assets";
@@ -31,8 +31,8 @@ const ProjectCard: React.FC<{ index: number } & TProject> = ({
         scale={1.02}
         gyroscope={false}
       >
-        <div className="bg-tertiary w-full rounded-2xl p-5 sm:w-[300px]">
-          <div className="relative h-[230px] w-full">
+        <div className="bg-tertiary w-full rounded-2xl p-5 sm:w-[300px] h-[480px] flex flex-col">
+          <div className="relative h-[200px] w-full">
             <img
               src={image}
               alt={name}
@@ -51,16 +51,19 @@ const ProjectCard: React.FC<{ index: number } & TProject> = ({
               </div>
             </div>
           </div>
-          <div className="mt-5">
-            <h3 className="text-[24px] font-bold text-white">{name}</h3>
-            <p className="text-secondary mt-2 text-[14px]">{description}</p>
-          </div>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {tags.map((tag) => (
-              <p key={tag.name} className={`text-[14px] ${tag.color}`}>
-                #{tag.name}
-              </p>
-            ))}
+          <div className="mt-5 flex-1 flex flex-col">
+            <h3 className="text-[24px] font-bold text-white line-clamp-2">{name}</h3>
+            <p className="text-secondary mt-2 text-[14px] line-clamp-4 flex-1">{description}</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {tags.map((tag) => (
+                <span 
+                  key={tag.name} 
+                  className={`text-[14px] px-3 py-1 rounded-full bg-black/20 ${tag.color} backdrop-blur-sm`}
+                >
+                  #{tag.name}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </Tilt>
@@ -68,34 +71,93 @@ const ProjectCard: React.FC<{ index: number } & TProject> = ({
   );
 };
 
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 1000 : -1000,
+    opacity: 0
+  }),
+  center: {
+    zIndex: 1,
+    x: 0,
+    opacity: 1
+  },
+  exit: (direction: number) => ({
+    zIndex: 0,
+    x: direction < 0 ? 1000 : -1000,
+    opacity: 0
+  })
+};
+
+const swipeConfidenceThreshold = 10000;
+const swipePower = (offset: number, velocity: number) => {
+  return Math.abs(offset) * velocity;
+};
+
+const ProjectsWrapper = memo(({ children, direction }: { children: React.ReactNode; direction: number }) => {
+  return (
+    <motion.div
+      custom={direction}
+      variants={slideVariants}
+      initial="enter"
+      animate="center"
+      exit="exit"
+      transition={{
+        x: { type: "spring", stiffness: 300, damping: 30 },
+        opacity: { duration: 0.2 }
+      }}
+      drag="x"
+      dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={1}
+      onDragEnd={(_e, { offset, velocity }) => {
+        const swipe = swipePower(offset.x, velocity.x);
+        if (swipe < -swipeConfidenceThreshold) {
+          // paginate(1);
+        } else if (swipe > swipeConfidenceThreshold) {
+          // paginate(-1);
+        }
+      }}
+      className="mt-20 flex flex-wrap gap-7 absolute w-full"
+    >
+      {children}
+    </motion.div>
+  );
+});
+
+ProjectsWrapper.displayName = 'ProjectsWrapper';
+
 const Works = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [direction, setDirection] = useState(0);
   const projectsPerPage = 3;
   const totalPages = Math.ceil(projects.length / projectsPerPage);
 
-  const handlePrevPage = useCallback(() => {
+  useEffect(() => {
+    setCurrentPage(0);
+    setDirection(0);
+  }, []);
+
+  const handlePageChange = useCallback((newPage: number, newDirection: number) => {
     if (isTransitioning) return;
     setIsTransitioning(true);
-    setCurrentPage((prev) => {
-      const newPage = prev - 1;
-      return newPage < 0 ? totalPages - 1 : newPage;
-    });
+    setDirection(newDirection);
+    setCurrentPage(newPage);
     setTimeout(() => setIsTransitioning(false), 500);
-  }, [isTransitioning, totalPages]);
+  }, [isTransitioning]);
+
+  const handlePrevPage = useCallback(() => {
+    const newPage = currentPage - 1;
+    handlePageChange(newPage < 0 ? totalPages - 1 : newPage, -1);
+  }, [currentPage, totalPages, handlePageChange]);
 
   const handleNextPage = useCallback(() => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentPage((prev) => {
-      const newPage = prev + 1;
-      return newPage >= totalPages ? 0 : newPage;
-    });
-    setTimeout(() => setIsTransitioning(false), 500);
-  }, [isTransitioning, totalPages]);
+    const newPage = currentPage + 1;
+    handlePageChange(newPage >= totalPages ? 0 : newPage, 1);
+  }, [currentPage, totalPages, handlePageChange]);
 
   const startIndex = currentPage * projectsPerPage;
-  const visibleProjects = projects.slice(startIndex, startIndex + projectsPerPage);
+  const endIndex = Math.min(startIndex + projectsPerPage, projects.length);
+  const visibleProjects = projects.slice(startIndex, endIndex);
 
   return (
     <div className="w-full">
@@ -110,11 +172,15 @@ const Works = () => {
         </motion.p>
       </div>
 
-      <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-        <AnimatePresence mode="wait">
-          {visibleProjects.map((project, index) => (
-            <ProjectCard key={`project-${index}`} index={index} {...project} />
-          ))}
+      <div className="relative h-[550px] overflow-hidden">
+        <AnimatePresence initial={false} custom={direction} mode="wait">
+          <ProjectsWrapper key={currentPage} direction={direction}>
+            {visibleProjects.map((project, index) => (
+              <div key={`${currentPage}-${project.name}`} className="sm:w-[360px] w-full">
+                <ProjectCard index={index} {...project} />
+              </div>
+            ))}
+          </ProjectsWrapper>
         </AnimatePresence>
       </div>
 
@@ -154,13 +220,7 @@ const Works = () => {
           {Array.from({ length: totalPages }, (_, i) => (
             <button
               key={i}
-              onClick={() => {
-                if (!isTransitioning) {
-                  setIsTransitioning(true);
-                  setCurrentPage(i);
-                  setTimeout(() => setIsTransitioning(false), 500);
-                }
-              }}
+              onClick={() => handlePageChange(i, i > currentPage ? 1 : -1)}
               disabled={isTransitioning}
               className={`w-3 h-3 rounded-full transition-all ${
                 currentPage === i 
