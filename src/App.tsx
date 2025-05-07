@@ -15,6 +15,7 @@ import {
 import { config } from "./constants/config";
 import Loader from "./components/Loader";
 import ErrorBoundary from "./components/ErrorBoundary";
+import herobg from "./assets/herobg.webp";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -43,7 +44,7 @@ const App = () => {
 
       // Preload hero background
       const heroImage = new Image();
-      heroImage.src = '/src/assets/herobg.webp';
+      heroImage.src = herobg;
       
       // Wait for hero image to load
       await new Promise((resolve, reject) => {
