@@ -48,7 +48,7 @@ const App = () => {
       // Wait for hero image to load
       await new Promise((resolve, reject) => {
         heroImage.onload = resolve;
-        heroImage.onerror = (e) => reject(new Error('Failed to load hero image'));
+        heroImage.onerror = (_e) => reject(new Error('Failed to load hero image'));
       });
 
       setIsHeroLoaded(true);
