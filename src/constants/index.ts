@@ -232,8 +232,11 @@ const experiences: TExperience[] = [
     iconBg: "#E6DEDD",
     date: "Apr 2023 - Jun 2024",
     points: [
-      "As a president, I have successfully organized various programs and Training sessions.",
-      "I have made many improvements in this Society also. ",
+      "Organized and led various student-centered events such as quiz contests, futsal tournaments,welcome/farewell programs, and poetry competitions to enhance campus engagement.", 
+      "Strengthened leadership, communication, and event coordination skills by managing cross functional teams and collaborating with faculty and students.",
+
+
+  
 
 
     ],
@@ -247,24 +250,24 @@ const testimonials: TTestimonial[] = [
     name: "Sanat Poudel",
     designation: "Operations Manager",
     company: "Himal Enginnering Inc.",
-    image: "https://randomuser.me/api/portraits/men/5.jpg",
+    image: "https://cdn.vectorstock.com/i/500p/22/63/a-simple-black-silhouette-of-man-in-suit-vector-55942263.jpg",
   },
   {
     testimonial:
-      "Their designs for electrical systems are top-notch, adhering to all safety standards and delivering exceptional performance.",
-    name: "Sara Lee",
+      "Working closely with the team, they ensured every electrical design was precise and practical, helping us meet tight deadlines without compromising quality.",
+    name: "Ramesh Shrestha",
     designation: "Senior Engineer",
     company: "ElectroTech Solutions",
-    image: "https://randomuser.me/api/portraits/women/4.jpg",
+    image: "https://cdn.vectorstock.com/i/500p/22/63/a-simple-black-silhouette-of-man-in-suit-vector-55942263.jpg",
   },
 
   {
     testimonial:
-      "Their expertise in power distribution and energy optimization significantly reduced our operational costs.",
-    name: "Ghi Wang",
-    designation: "Project Manager",
-    company: "GreenGrid Enterprises",
-    image: "https://randomuser.me/api/portraits/men/1.jpg",
+      "Their attention to detail and strict adherence to safety protocols gave us confidence throughout the project lifecycle.",
+    name: "Bibek Karki",
+    designation: "Site Manager",
+    company: "Lumbini Electrical Contractors",
+    image: "https://cdn.vectorstock.com/i/500p/22/63/a-simple-black-silhouette-of-man-in-suit-vector-55942263.jpg",
   },
 ];
 const projects: TProject[] = [
@@ -350,7 +353,7 @@ const projects: TProject[] = [
       },
     ],
     image: carrent,
-    sourceCodeLink: "https://github.com/yourusername/smart-energy-system",
+    sourceCodeLink: "https://www.researchgate.net/profile/Sajesan-Ghimire",
   },
   {
     name: "Power System Stability Analysis",
@@ -371,7 +374,7 @@ const projects: TProject[] = [
       },
     ],
     image: tripguide,
-    sourceCodeLink: "https://github.com/yourusername/power-stability",
+    sourceCodeLink: "https://www.researchgate.net/profile/Sajesan-Ghimire",
   },
   {
     name: "Renewable Energy Integration Study",
@@ -392,7 +395,7 @@ const projects: TProject[] = [
       },
     ],
     image: jobit,
-    sourceCodeLink: "https://github.com/yourusername/renewable-integration",
+    sourceCodeLink: "https://www.researchgate.net/profile/Sajesan-Ghimire",
   },
   {
     name: "Smart Grid Communication Protocol",
@@ -413,7 +416,7 @@ const projects: TProject[] = [
       },
     ],
     image: carrent,
-    sourceCodeLink: "https://github.com/yourusername/smart-grid-protocol",
+    sourceCodeLink: "https://www.researchgate.net/profile/Sajesan-Ghimire",
   },
   {
     name: "Electric Vehicle Charging Station Design",
@@ -434,7 +437,7 @@ const projects: TProject[] = [
       },
     ],
     image: tripguide,
-    sourceCodeLink: "https://github.com/yourusername/ev-charging",
+    sourceCodeLink: "https://www.researchgate.net/profile/Sajesan-Ghimire",
   },
   {
     name: "Power Quality Monitoring System",
@@ -455,7 +458,7 @@ const projects: TProject[] = [
       },
     ],
     image: jobit,
-    sourceCodeLink: "https://github.com/yourusername/power-quality",
+    sourceCodeLink: "https://www.researchgate.net/profile/Sajesan-Ghimire",
   },
  
 ];
