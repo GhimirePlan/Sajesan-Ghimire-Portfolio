@@ -35,6 +35,7 @@ import {
   egen,
   essotl,
   panchase,
+  advance,
 } from "../assets";
 
 export const navLinks: TNavLink[] = [
@@ -88,6 +89,20 @@ const services: TService[] = [
     experience: "2+ years"
   },
   {
+    title: "PV System Designer",
+    icon: creator,
+    description: "Designing smarter energy systems for a sustainable future.",
+    details: [
+      "PV system design and optimization",
+      "Detailed feasibility study (DFS)",
+      "Solar panel selection and sizing",
+      "Battery storage system design",
+      "Procurement Coordination and Construction Supervision."
+    ],
+    tools: ["PVsyst", "HelioScope", "SketchUp", "AutoCAD","Vitro Solar"],
+    experience: "1+ years"
+  },
+  {
     title: "Robotics & Automation",
     icon: backend,
     description: "Specializing in industrial automation and robotic system integration",
@@ -104,23 +119,7 @@ const services: TService[] = [
     tools: ["Arduino", "Raspberry Pi", "Python", "C++"],
     experience: "2+ years"
   },
-  {
-    title: "Graphics Designer",
-    icon: creator,
-    description: "Creating professional visual content for technical and marketing purposes",
-    details: [
-      "Technical diagram design",
-      "Infographic creation",
-      "Presentation design",
-      "Brand identity development",
-      "Social media graphics",
-      "Technical documentation",
-      "User interface design",
-      "Print material design"
-    ],
-    tools: ["Photoshop", "Illustrator", "Canva", "Figma"],
-    experience: "2+ years"
-  }
+
 ];
 
 const technologies: TTechnology[] = [
@@ -172,6 +171,21 @@ const technologies: TTechnology[] = [
 ];
 
 const experiences: TExperience[] = [
+  {
+    title: "Electrical Design Engineer",
+    companyName: "Advanced Energy Construction Pvt. Ltd.",
+    icon: advance,
+    iconBg: "#383E56",
+    date: "March 2025 – Present",
+    points: [
+      "Designed and optimized rooftop and ground-mounted solar PV systems (on-grid/of f -grid) using PVsyst, Helioscope, SketchUp, AutoCAD, and Vitro Solar. ",
+      "Conducted site surveys, system sizing, and prepared Detailed Feasibility Study (DFS) reports for commercial, industrial, and utility-scale clients.",
+      "Led design and DFS preparation for rooftop solar projects totaling over 20 MW and ground-mounted utility-scale projects exceeding 100 MW. ",
+      "Oversaw procurement, coordinated with vendors, and supervised construction activities to ensure technical accuracy, regulatory compliance, and timely execution.",
+      "Collaborated with stakeholders for grid integration and supported commissioning documentation.",
+     
+    ],
+  },
   {
     title: "Electrical Engineer (Site)",
     companyName: "Panchase Engineering Consultancy",

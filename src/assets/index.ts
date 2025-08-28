@@ -30,6 +30,8 @@ import nea from './company/nea.png';
 import egen from './company/egen.png';
 import essotl from './company/essotl.png';
 import panchase from './company/panchase.png';
+import advance from './company/advance.jpg';  
+
 
 export {
   logo,
@@ -69,4 +71,6 @@ export {
   egen,
   essotl,
   panchase,
+  advance,
+
 };

@@ -67,7 +67,8 @@ export const config: TConfig = {
     about: {
       p: "Introduction",
       h2: "Overview.",
-      content: `Electrical Engineering student at Tribhuvan University, IOE, Pashchimanchal Campus, graduating in April 2025. Proven skills in MATLAB, Simulink, AutoCAD Electrical, and more. Experienced in graphic design and web development. Successful track record in hackathons and project leadership. Seeking opportunities in Electrical Engineering and related fields.`,
+      content: `Electrical Engineer specializing in power distribution, solar PV design, and automation—driven by a passion for building sustainable and efficient energy solutions.
+`,
     },
     experience: {
       p: "What I have done so far",
