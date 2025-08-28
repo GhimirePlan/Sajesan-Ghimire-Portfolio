@@ -176,9 +176,9 @@ const experiences: TExperience[] = [
     companyName: "Advanced Energy Construction Pvt. Ltd.",
     icon: advance,
     iconBg: "#383E56",
-    date: "March 2025 – Present",
+    date: "May 2025 – Present",
     points: [
-      "Designed and optimized rooftop and ground-mounted solar PV systems (on-grid/of f -grid) using PVsyst, Helioscope, SketchUp, AutoCAD, and Vitro Solar. ",
+      "Designed and optimized rooftop and ground-mounted solar PV systems (on-grid/off-grid) using PVsyst, Helioscope, SketchUp, AutoCAD, and Vitro Solar. ",
       "Conducted site surveys, system sizing, and prepared Detailed Feasibility Study (DFS) reports for commercial, industrial, and utility-scale clients.",
       "Led design and DFS preparation for rooftop solar projects totaling over 20 MW and ground-mounted utility-scale projects exceeding 100 MW. ",
       "Oversaw procurement, coordinated with vendors, and supervised construction activities to ensure technical accuracy, regulatory compliance, and timely execution.",
