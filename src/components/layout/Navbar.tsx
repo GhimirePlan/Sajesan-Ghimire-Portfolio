@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { styles } from "../../constants/styles";
 import { navLinks } from "../../constants";
@@ -10,6 +10,7 @@ const Navbar = () => {
   const [active, setActive] = useState<string | null>();
   const [toggle, setToggle] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,6 +49,15 @@ const Navbar = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (location.hash) {
+      const element = document.getElementById(location.hash.substring(1));
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
+
   return (
     <nav
       className={`${
@@ -61,6 +71,7 @@ const Navbar = () => {
           to="/"
           className="flex items-center gap-2"
           onClick={() => {
+            setActive("");
             window.scrollTo(0, 0);
           }}
         >
@@ -77,8 +88,15 @@ const Navbar = () => {
               className={`${
                 active === nav.id ? "text-white" : "text-secondary"
               } cursor-pointer text-[18px] font-medium hover:text-white`}
+              onClick={() => setActive(nav.id)}
             >
-              <a href={`#${nav.id}`}>{nav.title}</a>
+              {nav.link ? (
+                <Link to={nav.link}>{nav.title}</Link>
+              ) : location.pathname === "/" ? (
+                <a href={`#${nav.id}`}>{nav.title}</a>
+              ) : (
+                <Link to={`/#${nav.id}`}>{nav.title}</Link>
+              )}
             </li>
           ))}
         </ul>
@@ -105,9 +123,16 @@ const Navbar = () => {
                   }`}
                   onClick={() => {
                     setToggle(!toggle);
+                    setActive(nav.id);
                   }}
                 >
-                  <a href={`#${nav.id}`}>{nav.title}</a>
+                  {nav.link ? (
+                    <Link to={nav.link}>{nav.title}</Link>
+                  ) : location.pathname === "/" ? (
+                    <a href={`#${nav.id}`}>{nav.title}</a>
+                  ) : (
+                    <Link to={`/#${nav.id}`}>{nav.title}</Link>
+                  )}
                 </li>
               ))}
             </ul>

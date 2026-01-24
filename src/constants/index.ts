@@ -36,6 +36,7 @@ import {
   essotl,
   panchase,
   advance,
+  smart,
 } from "../assets";
 
 export const navLinks: TNavLink[] = [
@@ -46,6 +47,11 @@ export const navLinks: TNavLink[] = [
   {
     id: "work",
     title: "Work",
+  },
+  {
+    id: "projects",
+    title: "Projects",
+    link: "/projects",
   },
   {
     id: "contact",
@@ -172,11 +178,23 @@ const technologies: TTechnology[] = [
 
 const experiences: TExperience[] = [
   {
+    title: "Electrical Engineer (BD & EPC)",
+    companyName: "Smart Solar Nepal Corporation",
+    icon: smart,
+    iconBg: "#383E56",
+    date: "Dec 2025 – Present",
+    points: [
+      "Managed end-to-end design (system sizing, SLDs) and on-site project execution for utility-scale and institutional solar plants, ensuring strict adherence to engineering standards.",
+      "Facilitated seamless client coordination and authored comprehensive technical documentation, including feasibility reports and commissioning manuals for C&I projects.",
+      "rove business development by conducting site surveys and preparing technical-commercial proposals, successfully converting leads into high-scale solar installations.",
+    ],
+  },
+  {
     title: "Electrical Design Engineer",
     companyName: "Advanced Energy Construction Pvt. Ltd.",
     icon: advance,
     iconBg: "#383E56",
-    date: "May 2025 – Present",
+    date: "May 2025 – Dec 2025",
     points: [
       "Designed and optimized rooftop and ground-mounted solar PV systems (on-grid/off-grid) using PVsyst, Helioscope, SketchUp, AutoCAD, and Vitro Solar. ",
       "Conducted site surveys, system sizing, and prepared Detailed Feasibility Study (DFS) reports for commercial, industrial, and utility-scale clients.",

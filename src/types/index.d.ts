@@ -32,6 +32,7 @@ export type TTechnology = Required<Omit<TCommonProps, "title">>;
 
 export type TNavLink = {
   id: string;
+  link?: string;
 } & Required<Pick<TCommonProps, "title">>;
 
 export type TService = {

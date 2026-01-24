@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Tilt from "react-parallax-tilt";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useCallback, memo, useEffect } from "react";
@@ -230,6 +231,14 @@ const Works = () => {
             />
           ))}
         </div>
+
+        <Link
+          to="/projects"
+          className="mt-4 flex items-center gap-2 bg-tertiary text-white px-8 py-3 rounded-xl font-bold text-lg hover:bg-opacity-80 transition-all hover:scale-105 shadow-md shadow-primary"
+        >
+          See More Projects
+          <FiChevronRight className="w-5 h-5" />
+        </Link>
       </div>
     </div>
   );

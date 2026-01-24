@@ -31,6 +31,8 @@ import egen from './company/egen.png';
 import essotl from './company/essotl.png';
 import panchase from './company/panchase.png';
 import advance from './company/advance.jpg';  
+import smart from './company/smart.jpg';  
+
 
 
 export {
@@ -72,5 +74,7 @@ export {
   essotl,
   panchase,
   advance,
+  smart,
+  
 
 };
