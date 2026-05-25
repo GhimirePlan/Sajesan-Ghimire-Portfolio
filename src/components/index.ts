@@ -16,6 +16,7 @@ import Feedbacks from "./sections/Feedbacks";
 import Contact from "./sections/Contact";
 import CanvasLoader from "./layout/Loader";
 import Footer from "./sections/Footer";
+import ScheduleMeeting from "./ScheduleMeeting";
 
 export {
   Hero,
@@ -33,4 +34,5 @@ export {
   ComputersCanvas,
   StarsCanvas,
   Footer,
+  ScheduleMeeting,
 };

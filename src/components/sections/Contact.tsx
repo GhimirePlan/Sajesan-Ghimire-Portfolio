@@ -9,6 +9,7 @@ import { SectionWrapper } from "../../hoc";
 import { slideIn } from "../../utils/motion";
 import { config } from "../../constants/config";
 import { Header } from "../atoms/Header";
+import { ScheduleMeeting } from "..";
 
 const SocialLinks = () => {
   const socialLinks = [
@@ -171,6 +172,7 @@ const Contact = () => {
           </button>
         </form>
         <SocialLinks />
+        <ScheduleMeeting />
       </motion.div>
 
       <motion.div
