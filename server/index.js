@@ -1,20 +1,20 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import blogRoutes from './routes/blogRoutes.js';
 import commentRoutes from './routes/commentRoutes.js';
 
-dotenv.config();
-
 connectDB();
 
 const app = express();
 
 const corsOptions = {
-  origin: true, // Allow all origins in production for simplicity across devices, or keep strict if needed
+  origin: true,
   credentials: true,
   optionsSuccessStatus: 200
 };
@@ -31,7 +31,8 @@ app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'ok', 
     mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
-    env: process.env.NODE_ENV
+    env: process.env.NODE_ENV,
+    port: process.env.PORT || 5000
   });
 });
 
@@ -41,9 +42,10 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-if (process.env.NODE_ENV !== 'production') {
+// Listen if not in production or if explicitly told to (for local testing)
+if (process.env.NODE_ENV !== 'production' || process.env.LISTEN === 'true') {
   app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
   });
 }
 

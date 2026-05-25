@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.route('/').get(getBlogs).post(protect, admin, createBlog);
 router
-  .route('/:id')
+  .route('/:idOrSlug')
   .get(getBlogById)
   .put(protect, admin, updateBlog)
   .delete(protect, admin, deleteBlog);
