@@ -3,11 +3,12 @@ import {
   About,
   Contact,
   Experience,
-  Feedbacks,
   Hero,
   Navbar,
   Tech,
   Works,
+  Blog,
+  Feedbacks,
   StarsCanvas,
   Footer,
 } from "../components";
@@ -135,6 +136,7 @@ const HomePage = () => {
       <Experience />
       <Tech />
       <Works />
+      <Blog />
       <Feedbacks />
       <div className="relative z-0">
         <Contact />

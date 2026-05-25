@@ -14,6 +14,7 @@ import Works from "./sections/Works";
 import Projects from "./sections/Projects";
 import Feedbacks from "./sections/Feedbacks";
 import Contact from "./sections/Contact";
+import Blog from "./sections/Blog";
 import CanvasLoader from "./layout/Loader";
 import Footer from "./sections/Footer";
 import ScheduleMeeting from "./ScheduleMeeting";
@@ -28,6 +29,7 @@ export {
   Projects,
   Feedbacks,
   Contact,
+  Blog,
   CanvasLoader,
   EarthCanvas,
   BallCanvas,

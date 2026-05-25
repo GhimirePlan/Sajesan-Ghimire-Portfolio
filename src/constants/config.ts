@@ -36,9 +36,11 @@ type TConfig = {
     feedbacks: TSection;
     works: Required<TSection>;
   };
+  apiBaseUrl: string;
 };
 
 export const config: TConfig = {
+  apiBaseUrl: import.meta.env.VITE_API_URL || "http://localhost:5000",
   html: {
     title: "Sajesan Ghimire — Portfolio",
     fullName: "Sajesan Ghimire",
