@@ -22,20 +22,27 @@ const getBlogById = async (req, res) => {
     let blog;
     // Check if idOrSlug is a valid MongoDB ObjectId
     if (idOrSlug.match(/^[0-9a-fA-F]{24}$/)) {
-      blog = await Blog.findById(idOrSlug);
+      // Use findOneAndUpdate to increment views atomically and avoid validation issues with missing fields
+      blog = await Blog.findOneAndUpdate(
+        { _id: idOrSlug },
+        { $inc: { views: 1 } },
+        { new: true }
+      );
     } else {
-      blog = await Blog.findOne({ slug: idOrSlug });
+      blog = await Blog.findOneAndUpdate(
+        { slug: idOrSlug },
+        { $inc: { views: 1 } },
+        { new: true }
+      );
     }
 
     if (blog) {
-      blog.views += 1;
-      await blog.save();
       res.json(blog);
     } else {
       res.status(404).json({ message: 'Blog not found' });
     }
   } catch (error) {
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: 'Server Error', error: error.message });
   }
 };
 
