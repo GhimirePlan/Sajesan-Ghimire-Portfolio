@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './config/db.js';
@@ -13,9 +14,8 @@ connectDB();
 const app = express();
 
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://sajesanghimire.com.np', /\.vercel\.app$/] 
-    : '*',
+  origin: true, // Allow all origins in production for simplicity across devices, or keep strict if needed
+  credentials: true,
   optionsSuccessStatus: 200
 };
 
@@ -26,6 +26,14 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use('/api/users', userRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/comments', commentRoutes);
+
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+    env: process.env.NODE_ENV
+  });
+});
 
 app.get('/', (req, res) => {
   res.send('API is running...');

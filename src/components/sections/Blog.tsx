@@ -7,7 +7,9 @@ import { fadeIn, textVariant } from '../../utils/motion';
 import { styles } from '../../constants/styles';
 import { config } from '../../constants/config';
 
-const BlogCard = ({ slug, index, title, description, coverImage, createdAt, tags }: any) => {
+const BlogCard = ({ _id, slug, index, title, description, coverImage, createdAt, tags }: any) => {
+  const linkPath = slug || _id;
+  
   return (
     <motion.div variants={fadeIn('up', 'spring', index * 0.5, 0.75)}>
       <div className="bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full h-full flex flex-col">
@@ -37,7 +39,7 @@ const BlogCard = ({ slug, index, title, description, coverImage, createdAt, tags
             {new Date(createdAt).toLocaleDateString()}
           </span>
           <Link 
-            to={`/blogs/${slug}`}
+            to={`/blogs/${linkPath}`}
             className="text-[#915EFF] font-bold hover:underline"
           >
             Read More

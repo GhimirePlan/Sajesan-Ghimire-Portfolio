@@ -40,7 +40,7 @@ type TConfig = {
 };
 
 export const config: TConfig = {
-  apiBaseUrl: import.meta.env.VITE_API_URL || "http://localhost:5000",
+  apiBaseUrl: import.meta.env.MODE === "production" ? "" : "http://localhost:5000",
   html: {
     title: "Sajesan Ghimire — Portfolio",
     fullName: "Sajesan Ghimire",
