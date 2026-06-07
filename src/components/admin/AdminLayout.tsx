@@ -7,6 +7,7 @@ import {
   HiOutlineLogout,
   HiOutlineHome
 } from 'react-icons/hi';
+import { BsLinkedin } from 'react-icons/bs';
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const { logout } = useAuth();
@@ -22,6 +23,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     { name: 'Dashboard', path: '/admin', icon: <HiOutlineViewGrid size={24} /> },
     { name: 'Blogs', path: '/admin/blogs', icon: <HiOutlineDocumentText size={24} /> },
     { name: 'Comments', path: '/admin/comments', icon: <HiOutlineChatAlt2 size={24} /> },
+    { name: 'LinkedIn', path: '/admin/linkedin', icon: <BsLinkedin size={22} /> },
   ];
 
   return (

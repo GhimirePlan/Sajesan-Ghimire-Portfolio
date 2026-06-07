@@ -8,6 +8,7 @@ import Dashboard from "./pages/admin/Dashboard";
 import BlogList from "./pages/admin/BlogList";
 import BlogEditor from "./pages/admin/BlogEditor";
 import CommentList from "./pages/admin/CommentList";
+import LinkedInList from "./pages/admin/LinkedInList";
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/admin/blogs/create" element={<BlogEditor />} />
           <Route path="/admin/blogs/edit/:id" element={<BlogEditor />} />
           <Route path="/admin/comments" element={<CommentList />} />
+          <Route path="/admin/linkedin" element={<LinkedInList />} />
         </Routes>
         <ToastContainer theme="dark" position="bottom-right" />
       </BrowserRouter>

@@ -8,6 +8,7 @@ import {
   Tech,
   Works,
   Blog,
+  LinkedInSpotlight,
   Feedbacks,
   StarsCanvas,
   Footer,
@@ -136,6 +137,7 @@ const HomePage = () => {
       <Experience />
       <Tech />
       <Works />
+      <LinkedInSpotlight />
       <Blog />
       <Feedbacks />
       <div className="relative z-0">

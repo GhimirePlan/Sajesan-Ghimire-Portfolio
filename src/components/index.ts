@@ -15,6 +15,7 @@ import Projects from "./sections/Projects";
 import Feedbacks from "./sections/Feedbacks";
 import Contact from "./sections/Contact";
 import Blog from "./sections/Blog";
+import LinkedInSpotlight from "./sections/LinkedInSpotlight";
 import CanvasLoader from "./layout/Loader";
 import Footer from "./sections/Footer";
 import ScheduleMeeting from "./ScheduleMeeting";
@@ -30,6 +31,7 @@ export {
   Feedbacks,
   Contact,
   Blog,
+  LinkedInSpotlight,
   CanvasLoader,
   EarthCanvas,
   BallCanvas,

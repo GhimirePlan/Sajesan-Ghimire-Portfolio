@@ -8,6 +8,7 @@ import connectDB from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import blogRoutes from './routes/blogRoutes.js';
 import commentRoutes from './routes/commentRoutes.js';
+import linkedinRoutes from './routes/linkedinRoutes.js';
 
 connectDB();
 
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use('/api/users', userRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/comments', commentRoutes);
+app.use('/api/linkedin', linkedinRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ 
