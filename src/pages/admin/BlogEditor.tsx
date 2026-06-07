@@ -45,8 +45,10 @@ const BlogEditor = () => {
     description: '',
     content: '',
     coverImage: '',
+    pdfUrl: '',
     tags: '',
     isPublished: false,
+    
   });
 
   const generateSlug = (text: string) => {
@@ -95,6 +97,7 @@ const BlogEditor = () => {
         coverImage: formData.coverImage,
         tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag !== ''),
         isPublished: formData.isPublished,
+        pdfUrl: formData.pdfUrl,
       };
 
       if (id) {
@@ -197,6 +200,20 @@ const BlogEditor = () => {
             placeholder="React, ThreeJS, WebDev"
             className="bg-primary py-4 px-6 text-white rounded-lg outline-none border-none font-medium"
           />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <span className="text-white font-medium text-[#915EFF]">Google Drive PDF URL (Optional)</span>
+          <input
+            type="text"
+            value={formData.pdfUrl}
+            onChange={(e) => setFormData({ ...formData, pdfUrl: e.target.value })}
+            placeholder="https://drive.google.com/file/d/.../view"
+            className="bg-primary py-4 px-6 text-white rounded-lg outline-none border-[#915EFF]/30 border font-medium"
+          />
+          <p className="text-[11px] text-secondary italic">
+            Make sure the Google Drive link is set to "Anyone with the link can view".
+          </p>
         </div>
 
         <div className="flex flex-col gap-2">

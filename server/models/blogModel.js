@@ -24,6 +24,10 @@ const blogSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    pdfUrl: {
+      type: String,
+      required: false,
+    },
     tags: [
       {
         type: String,
@@ -34,6 +38,8 @@ const blogSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+    
+
     views: {
       type: Number,
       default: 0,

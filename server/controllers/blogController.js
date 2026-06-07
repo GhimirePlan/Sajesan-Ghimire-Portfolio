@@ -51,7 +51,7 @@ const getBlogById = async (req, res) => {
 // @access  Private/Admin
 const createBlog = async (req, res) => {
   try {
-    const { title, slug, description, content, coverImage, tags, isPublished } = req.body;
+    const { title, slug, description, content, coverImage, tags, isPublished, pdfUrl } = req.body;
 
     const blog = new Blog({
       title,
@@ -61,6 +61,7 @@ const createBlog = async (req, res) => {
       coverImage,
       tags,
       isPublished,
+      pdfUrl,
     });
 
     const createdBlog = await blog.save();
@@ -74,7 +75,7 @@ const createBlog = async (req, res) => {
 // @route   PUT /api/blogs/:idOrSlug
 // @access  Private/Admin
 const updateBlog = async (req, res) => {
-  const { title, slug, description, content, coverImage, tags, isPublished } = req.body;
+  const { title, slug, description, content, coverImage, tags, isPublished, pdfUrl } = req.body;
 
   try {
     const { idOrSlug } = req.params;
@@ -92,8 +93,10 @@ const updateBlog = async (req, res) => {
       blog.description = description !== undefined ? description : blog.description;
       blog.content = content !== undefined ? content : blog.content;
       blog.coverImage = coverImage !== undefined ? coverImage : blog.coverImage;
+      blog.pdfUrl = pdfUrl !== undefined ? pdfUrl : blog.pdfUrl;
       blog.tags = tags !== undefined ? tags : blog.tags;
       blog.isPublished = isPublished !== undefined ? isPublished : blog.isPublished;
+      
 
       const updatedBlog = await blog.save();
       res.json(updatedBlog);

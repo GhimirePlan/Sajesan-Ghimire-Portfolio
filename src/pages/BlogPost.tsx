@@ -8,7 +8,8 @@ import {
   HiOutlineUser, 
   HiOutlineArrowLeft,
   HiOutlineChevronRight,
-  HiOutlineChatAlt2
+  HiOutlineChatAlt2,
+  HiOutlineDocumentDownload
 } from 'react-icons/hi';
 import { Navbar, StarsCanvas, Footer } from '../components';
 import { toast } from 'react-toastify';
@@ -91,6 +92,18 @@ const BlogPost = () => {
     } catch (error) {
       toast.error('Failed to submit comment');
     }
+  };
+
+  const getPdfEmbedUrl = (url: string) => {
+    if (!url) return '';
+    // Convert Google Drive view URL to preview URL
+    // From: https://drive.google.com/file/d/ID/view?usp=sharing
+    // To: https://drive.google.com/file/d/ID/preview
+    const driveMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (driveMatch) {
+      return `https://drive.google.com/file/d/${driveMatch[1]}/preview`;
+    }
+    return url;
   };
 
   if (loading) {
@@ -209,6 +222,39 @@ const BlogPost = () => {
                 className="blog-content text-secondary text-lg leading-relaxed space-y-6"
                 dangerouslySetInnerHTML={{ __html: blog.content }}
               />
+
+              {/* PDF Viewer */}
+              {blog.pdfUrl && (
+                <div className="mt-20">
+                  <h3 className="text-white font-bold text-2xl mb-8 flex items-center gap-3">
+                    <HiOutlineDocumentDownload className="text-[#915EFF]" />
+                    Related Document
+                  </h3>
+                  <div className="relative group w-full aspect-[1/1.4] sm:aspect-video rounded-3xl overflow-hidden bg-tertiary/20 border border-white/10 shadow-2xl">
+                    <iframe
+                      src={getPdfEmbedUrl(blog.pdfUrl)}
+                      className="w-full h-full border-none"
+                      allow="autoplay"
+                    ></iframe>
+                    
+                    {/* Overlay for better integration */}
+                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <a 
+                        href={blog.pdfUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="bg-black/60 backdrop-blur-md text-white p-3 rounded-full hover:bg-[#915EFF] transition-all border border-white/10"
+                        title="Open in New Tab"
+                      >
+                        <HiOutlineDocumentDownload size={24} />
+                      </a>
+                    </div>
+                  </div>
+                  <p className="text-secondary text-xs mt-4 italic text-center">
+                    Having trouble viewing? <a href={blog.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-[#915EFF] underline">Click here to open the PDF directly.</a>
+                  </p>
+                </div>
+              )}
 
               {/* Tags */}
               <div className="mt-16 flex flex-wrap gap-3">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import AdminLayout from '../../components/admin/AdminLayout';
@@ -62,7 +62,7 @@ const LinkedInList = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const userInfoStr = localStorage.getItem('userInfo');

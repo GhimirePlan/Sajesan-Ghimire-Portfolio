@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import { SectionWrapper } from '../../hoc';
-import { textVariant, fadeIn } from '../../utils/motion';
+import { textVariant } from '../../utils/motion';
 import { styles } from '../../constants/styles';
 import { config } from '../../constants/config';
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi';
