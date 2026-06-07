@@ -51,6 +51,7 @@ const getBlogById = async (req, res) => {
 // @access  Private/Admin
 const createBlog = async (req, res) => {
   try {
+    console.log('Creating blog with data:', req.body);
     const { title, slug, description, content, coverImage, tags, isPublished, pdfUrl } = req.body;
 
     const blog = new Blog({
@@ -75,6 +76,7 @@ const createBlog = async (req, res) => {
 // @route   PUT /api/blogs/:idOrSlug
 // @access  Private/Admin
 const updateBlog = async (req, res) => {
+  console.log('Updating blog with data:', req.body);
   const { title, slug, description, content, coverImage, tags, isPublished, pdfUrl } = req.body;
 
   try {

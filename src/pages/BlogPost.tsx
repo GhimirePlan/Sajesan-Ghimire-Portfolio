@@ -147,20 +147,20 @@ const BlogPost = () => {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-12"
+            className="mb-10 text-center max-w-4xl mx-auto"
           >
-            <h1 className="text-white font-black md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px] mb-6 leading-tight">
+            <h1 className="text-white font-black md:text-[50px] sm:text-[40px] xs:text-[30px] text-[26px] mb-6 leading-tight">
               {blog.title}
             </h1>
             
-            <div className="flex flex-wrap items-center gap-6 text-secondary font-medium">
+            <div className="flex flex-wrap items-center justify-center gap-6 text-secondary font-medium text-sm sm:text-base">
               <div className="flex items-center gap-2">
                 <HiOutlineCalendar className="text-[#915EFF]" />
                 {new Date(blog.createdAt).toLocaleDateString('en-US', { 
                   year: 'numeric', month: 'long', day: 'numeric' 
                 })}
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 border-x border-white/10 px-6">
                 <HiOutlineClock className="text-[#915EFF]" />
                 {calculateReadTime(blog.content)} min read
               </div>
@@ -171,18 +171,18 @@ const BlogPost = () => {
             </div>
           </motion.div>
 
-          {/* Cover Image */}
+          {/* Optimized Cover Image */}
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="relative w-full aspect-video rounded-3xl overflow-hidden mb-16 shadow-2xl"
+            className="relative w-full max-w-4xl mx-auto h-[300px] sm:h-[450px] rounded-3xl overflow-hidden mb-16 shadow-2xl border border-white/10"
           >
             <img 
               src={blog.coverImage} 
               alt={blog.title}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent" />
           </motion.div>
 
           <div className="flex flex-col lg:flex-row gap-16">
@@ -373,10 +373,10 @@ const BlogPost = () => {
 
       <style>{`
         .blog-content { color: #aaa6c3; line-height: 1.8; }
-        .blog-content h1 { font-size: 2.5rem; font-weight: 800; color: white; margin-top: 2.5rem; margin-bottom: 1.5rem; }
-        .blog-content h2 { font-size: 2rem; font-weight: 700; color: white; margin-top: 2rem; margin-bottom: 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; }
-        .blog-content h3 { font-size: 1.5rem; font-weight: 600; color: white; margin-top: 1.5rem; margin-bottom: 1rem; }
-        .blog-content p { margin-bottom: 1.5rem; font-size: 1.125rem; }
+        .blog-content h1 { font-size: 2.2rem; font-weight: 800; color: white; margin-top: 2.5rem; margin-bottom: 1.5rem; }
+        .blog-content h2 { font-size: 1.8rem; font-weight: 700; color: white; margin-top: 2rem; margin-bottom: 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; }
+        .blog-content h3 { font-size: 1.4rem; font-weight: 600; color: white; margin-top: 1.5rem; margin-bottom: 1rem; }
+        .blog-content p { margin-bottom: 1.5rem; font-size: 1.1rem; text-align: justify; }
         .blog-content ul { list-style-type: disc; padding-left: 2rem; margin-bottom: 1.5rem; }
         .blog-content ol { list-style-type: decimal; padding-left: 2rem; margin-bottom: 1.5rem; }
         .blog-content li { margin-bottom: 0.5rem; }

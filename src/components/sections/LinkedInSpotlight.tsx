@@ -109,13 +109,14 @@ const LinkedInSpotlight = () => {
               className="w-full max-w-[500px] relative"
             >
               {posts[currentIndex].isFeatured && (
-                <div className="absolute -top-3 -right-3 z-20 bg-gradient-to-r from-[#915EFF] to-[#7b4ed1] text-white px-4 py-1.5 rounded-full text-[12px] font-bold shadow-lg flex items-center gap-1.5 border border-white/20">
+                <div className="absolute -top-3 -right-3 z-20 bg-gradient-to-r from-[#915EFF] to-[#7b4ed1] text-white px-4 py-1.5 rounded-full text-[12px] font-bold shadow-lg flex items-center gap-1.5 border border-white/20 pointer-events-none">
                   FEATURED
                 </div>
               )}
               
-              <div className="absolute top-3 left-3 z-20">
-                <span className="bg-black/70 backdrop-blur-md text-white px-3 py-1 rounded-full text-[12px] font-semibold border border-white/20 shadow-lg">
+              <div className="absolute -top-3 -left-3 z-20 pointer-events-none">
+                <span className="bg-black/80 backdrop-blur-md text-white px-3 py-1.5 rounded-full text-[12px] font-bold border border-white/20 shadow-xl flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 bg-[#915EFF] rounded-full animate-pulse" />
                   #{posts[currentIndex].tag}
                 </span>
               </div>
