@@ -95,8 +95,8 @@ const LinkedInSpotlight = () => {
         </p>
         <div className="flex items-center gap-3">
           <BsLinkedin className="text-[#0A66C2] text-[28px] sm:text-[36px]" />
-          <h2 className={`${styles.sectionHeadText} !text-[30px] sm:!text-[50px]`}>
-            LinkedIn Spotlights.
+          <h2 className={`${styles.sectionHeadText} !text-[30px] sm:!text-[42px]`}>
+            LinkedIn updates
           </h2>
         </div>
       </motion.div>

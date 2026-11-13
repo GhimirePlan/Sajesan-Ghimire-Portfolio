@@ -1,66 +1,41 @@
-import { motion } from "framer-motion";
-
-import { styles } from "../../constants/styles";
-import { fadeIn } from "../../utils/motion";
-import { testimonials } from "../../constants";
-import { Header } from "../atoms/Header";
-import { TTestimonial } from "../../types";
-import { config } from "../../constants/config";
-
-const FeedbackCard: React.FC<{ index: number } & TTestimonial> = ({
-  index,
-  testimonial,
-  name,
-  designation,
-  company,
-  image,
-}) => (
-  <motion.div
-    variants={fadeIn("", "spring", index * 0.5, 0.75)}
-    className="bg-black-200 xs:w-[320px] w-full rounded-3xl p-10"
-  >
-    <p className="text-[48px] font-black text-white">"</p>
-
-    <div className="mt-1">
-      <p className="text-[18px] tracking-wider text-white">{testimonial}</p>
-
-      <div className="mt-7 flex items-center justify-between gap-1">
-        <div className="flex flex-1 flex-col">
-          <p className="text-[16px] font-medium text-white">
-            <span className="blue-text-gradient">@</span> {name}
-          </p>
-          <p className="text-secondary mt-1 text-[12px]">
-            {designation} of {company}
-          </p>
-        </div>
-
-        <img
-          src={image}
-          alt={`feedback_by-${name}`}
-          className="h-10 w-10 rounded-full object-cover"
-        />
-      </div>
-    </div>
-  </motion.div>
-);
-
-const Feedbacks = () => {
+import { testimonials } from '../../constants';
+import { SectionWrapper } from '../../hoc';
+import { Header } from '../atoms/Header';
+import { config } from '../../constants/config';
+function Feedbacks() {
   return (
-    <div className="bg-black-100 mt-12 rounded-[20px]">
-      <div
-        className={`${styles.padding} bg-tertiary min-h-[300px] rounded-2xl`}
-      >
-        <Header useMotion={true} {...config.sections.feedbacks} />
-      </div>
-      <div
-        className={`${styles.paddingX} -mt-20 flex flex-wrap gap-7 pb-14 max-sm:justify-center`}
-      >
-        {testimonials.map((testimonial, index) => (
-          <FeedbackCard key={testimonial.name} index={index} {...testimonial} />
+    <>
+      <Header useMotion={false} {...config.sections.feedbacks} />
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5">
+        {testimonials.map(item => (
+          <figure
+            key={item.name}
+            className="border border-white/10 rounded-2xl bg-tertiary/50 p-6 flex flex-col"
+          >
+            <blockquote className="text-secondary text-sm leading-7 flex-1">
+              “{item.testimonial}”
+            </blockquote>
+            <figcaption className="mt-6 pt-5 border-t border-white/10 flex gap-3 items-center">
+              <span
+                aria-hidden="true"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#915EFF]/15 text-[#c9b5ff] text-xs font-medium"
+              >
+                {item.name
+                  .split(' ')
+                  .map(part => part[0])
+                  .join('')}
+              </span>
+              <div>
+                <p className="text-white text-sm font-medium">{item.name}</p>
+                <p className="text-secondary text-xs mt-1">
+                  {item.designation} · {item.company}
+                </p>
+              </div>
+            </figcaption>
+          </figure>
         ))}
       </div>
-    </div>
+    </>
   );
-};
-
-export default Feedbacks;
+}
+export default SectionWrapper(Feedbacks, 'testimonials');

@@ -22,14 +22,14 @@ interface IServiceCard {
 }
 
 const ServiceCard: React.FC<IServiceCard> = ({ index, title, icon, description, onClick }) => (
-  <Tilt glareEnable tiltEnable tiltMaxAngleX={30} tiltMaxAngleY={30} glareColor="#aaa6c3">
-    <div className="max-w-[250px] w-full xs:w-[250px]">
+  <Tilt glareEnable={false} tiltEnable tiltMaxAngleX={5} tiltMaxAngleY={5} glareColor="#aaa6c3">
+    <div className="h-full w-full">
       <motion.div
-        variants={fadeIn('right', 'spring', index * 0.5, 0.75)}
-        className="green-pink-gradient shadow-card w-full rounded-[20px] p-[1px]"
+        variants={fadeIn('right', 'spring', index * 0.08, 0.3)}
+        className="border border-white/10 w-full rounded-2xl p-[1px]"
       >
         <div
-          className="bg-tertiary flex min-h-[280px] flex-col items-center justify-evenly rounded-[20px] px-12 py-5 cursor-pointer hover:bg-opacity-80 transition-all group"
+          className="bg-tertiary/60 flex min-h-[260px] flex-col items-center justify-evenly rounded-[20px] px-6 py-6 cursor-pointer hover:bg-opacity-80 transition-all group"
           role="button"
           tabIndex={0}
           onKeyDown={event => {
@@ -49,7 +49,7 @@ const ServiceCard: React.FC<IServiceCard> = ({ index, title, icon, description, 
             <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-20 rounded-full transition-opacity duration-300" />
           </div>
 
-          <h3 className="text-center text-[20px] font-bold text-white group-hover:text-[#915EFF] transition-colors duration-300">
+          <h3 className="text-center text-[18px] font-semibold text-white group-hover:text-[#915EFF] transition-colors duration-300">
             {title}
           </h3>
           <p className="text-secondary text-center text-[14px] mt-2 line-clamp-3">{description}</p>
@@ -170,12 +170,12 @@ const About = () => {
 
       <motion.p
         variants={fadeIn('', '', 0.1, 1)}
-        className="text-secondary mt-4 max-w-3xl text-[17px] leading-[30px]"
+        className="text-secondary mt-4 max-w-3xl text-[16px] leading-[28px]"
       >
         {config.sections.about.content}
       </motion.p>
 
-      <div className="mt-20 flex flex-wrap gap-10 max-sm:justify-center">
+      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 max-sm:justify-center">
         {services.map((service, index) => (
           <ServiceCard
             key={service.title}

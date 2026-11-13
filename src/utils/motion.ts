@@ -1,33 +1,33 @@
-import type { TMotion } from "../types";
-import { Variants } from "framer-motion";
+import type { TMotion } from '../types';
+import { Variants } from 'framer-motion';
 
 export const textVariant = () => {
   return {
     hidden: {
-      y: -50,
+      y: -12,
       opacity: 0,
     },
     show: {
       y: 0,
       opacity: 1,
       transition: {
-        type: "spring",
-        duration: 1.25,
+        type: 'spring',
+        duration: 0.35,
       },
     },
   };
 };
 
 export const fadeIn = (
-  direction: TMotion["direction"],
-  type: TMotion["type"],
-  delay: TMotion["delay"],
-  duration: TMotion["duration"]
+  direction: TMotion['direction'],
+  type: TMotion['type'],
+  delay: TMotion['delay'],
+  duration: TMotion['duration']
 ): Variants => {
   return {
     hidden: {
-      x: direction === "left" ? 100 : direction === "right" ? -100 : 0,
-      y: direction === "up" ? 100 : direction === "down" ? -100 : 0,
+      x: direction === 'left' ? 12 : direction === 'right' ? -12 : 0,
+      y: direction === 'up' ? 12 : direction === 'down' ? -12 : 0,
       opacity: 0,
     },
     show: {
@@ -38,16 +38,13 @@ export const fadeIn = (
         type,
         delay,
         duration,
-        ease: "easeOut",
+        ease: 'easeOut',
       },
     },
   };
 };
 
-export const zoomIn = (
-  delay: TMotion["delay"],
-  duration: TMotion["duration"]
-) => {
+export const zoomIn = (delay: TMotion['delay'], duration: TMotion['duration']) => {
   return {
     hidden: {
       scale: 0,
@@ -57,25 +54,25 @@ export const zoomIn = (
       scale: 1,
       opacity: 1,
       transition: {
-        type: "tween",
+        type: 'tween',
         delay,
         duration,
-        ease: "easeOut",
+        ease: 'easeOut',
       },
     },
   };
 };
 
 export const slideIn = (
-  direction: TMotion["direction"],
-  type: TMotion["type"],
-  delay: TMotion["delay"],
-  duration: TMotion["duration"]
+  direction: TMotion['direction'],
+  type: TMotion['type'],
+  delay: TMotion['delay'],
+  duration: TMotion['duration']
 ) => {
   return {
     hidden: {
-      x: direction === "left" ? "-100%" : direction === "right" ? "100%" : 0,
-      y: direction === "up" ? "100%" : direction === "down" ? "100%" : 0,
+      x: direction === 'left' ? '-100%' : direction === 'right' ? '100%' : 0,
+      y: direction === 'up' ? '100%' : direction === 'down' ? '100%' : 0,
     },
     show: {
       x: 0,
@@ -84,7 +81,7 @@ export const slideIn = (
         type,
         delay,
         duration,
-        ease: "easeOut",
+        ease: 'easeOut',
       },
     },
   };

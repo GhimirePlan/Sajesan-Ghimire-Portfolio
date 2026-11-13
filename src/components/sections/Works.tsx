@@ -21,18 +21,18 @@ const ProjectCard: React.FC<{ index: number } & TProject> = ({
   sourceCodeLink,
 }) => {
   return (
-    <motion.div variants={fadeIn('up', 'spring', index * 0.5, 0.75)}>
+    <motion.div variants={fadeIn('up', 'spring', index * 0.08, 0.3)}>
       <Tilt
-        glareEnable
+        glareEnable={false}
         tiltEnable
-        tiltMaxAngleX={30}
-        tiltMaxAngleY={30}
+        tiltMaxAngleX={5}
+        tiltMaxAngleY={5}
         glareColor="#aaa6c3"
         transitionSpeed={1500}
-        scale={1.02}
+        scale={1}
         gyroscope={false}
       >
-        <div className="bg-tertiary w-full rounded-2xl p-5 sm:w-[300px] h-[480px] flex flex-col">
+        <div className="bg-tertiary/60 border border-white/10 w-full rounded-2xl p-5 h-[430px] flex flex-col">
           <div className="relative h-[200px] w-full">
             <img
               loading="lazy"
@@ -54,13 +54,15 @@ const ProjectCard: React.FC<{ index: number } & TProject> = ({
             </div>
           </div>
           <div className="mt-5 flex-1 flex flex-col">
-            <h3 className="text-[24px] font-bold text-white line-clamp-2">{name}</h3>
+            <h3 className="text-[19px] leading-snug font-semibold text-white line-clamp-2">
+              {name}
+            </h3>
             <p className="text-secondary mt-2 text-[14px] line-clamp-4 flex-1">{description}</p>
             <div className="mt-4 flex flex-wrap gap-2">
               {tags.map(tag => (
                 <span
                   key={tag.name}
-                  className={`text-[14px] px-3 py-1 rounded-full bg-black/20 ${tag.color} backdrop-blur-sm`}
+                  className={`text-[11px] px-2.5 py-1 rounded-full bg-[#915EFF]/10 text-[#c9b5ff]`}
                 >
                   #{tag.name}
                 </span>
@@ -75,7 +77,7 @@ const ProjectCard: React.FC<{ index: number } & TProject> = ({
 
 const slideVariants = {
   enter: (direction: number) => ({
-    x: direction > 0 ? 1000 : -1000,
+    x: direction > 0 ? 48 : -48,
     opacity: 0,
   }),
   center: {
@@ -85,7 +87,7 @@ const slideVariants = {
   },
   exit: (direction: number) => ({
     zIndex: 0,
-    x: direction < 0 ? 1000 : -1000,
+    x: direction < 0 ? 48 : -48,
     opacity: 0,
   }),
 };
@@ -96,7 +98,15 @@ const swipePower = (offset: number, velocity: number) => {
 };
 
 const ProjectsWrapper = memo(
-  ({ children, direction }: { children: React.ReactNode; direction: number }) => {
+  ({
+    children,
+    direction,
+    onSwipe,
+  }: {
+    children: React.ReactNode;
+    direction: number;
+    onSwipe: (direction: number) => void;
+  }) => {
     return (
       <motion.div
         custom={direction}
@@ -114,12 +124,12 @@ const ProjectsWrapper = memo(
         onDragEnd={(_e, { offset, velocity }) => {
           const swipe = swipePower(offset.x, velocity.x);
           if (swipe < -swipeConfidenceThreshold) {
-            // paginate(1);
+            onSwipe(1);
           } else if (swipe > swipeConfidenceThreshold) {
-            // paginate(-1);
+            onSwipe(-1);
           }
         }}
-        className="mt-20 flex flex-wrap gap-7 absolute w-full"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 w-full"
       >
         {children}
       </motion.div>
@@ -133,7 +143,22 @@ const Works = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [direction, setDirection] = useState(0);
-  const projectsPerPage = 3;
+  const [projectsPerPage, setProjectsPerPage] = useState(3);
+  useEffect(() => {
+    const mobile = window.matchMedia('(max-width: 639px)');
+    const tablet = window.matchMedia('(max-width: 1023px)');
+    const update = () => {
+      setProjectsPerPage(mobile.matches ? 1 : tablet.matches ? 2 : 3);
+      setCurrentPage(0);
+    };
+    update();
+    mobile.addEventListener('change', update);
+    tablet.addEventListener('change', update);
+    return () => {
+      mobile.removeEventListener('change', update);
+      tablet.removeEventListener('change', update);
+    };
+  }, []);
   const totalPages = Math.ceil(projects.length / projectsPerPage);
 
   useEffect(() => {
@@ -179,11 +204,15 @@ const Works = () => {
         </motion.p>
       </div>
 
-      <div className="relative h-[550px] overflow-hidden">
+      <div className="relative mt-8 overflow-hidden">
         <AnimatePresence initial={false} custom={direction} mode="wait">
-          <ProjectsWrapper key={currentPage} direction={direction}>
+          <ProjectsWrapper
+            key={currentPage}
+            direction={direction}
+            onSwipe={direction => (direction > 0 ? handleNextPage() : handlePrevPage())}
+          >
             {visibleProjects.map((project, index) => (
-              <div key={`${currentPage}-${project.name}`} className="sm:w-[360px] w-full">
+              <div key={`${currentPage}-${project.name}`} className="min-w-0 w-full">
                 <ProjectCard index={index} {...project} />
               </div>
             ))}
@@ -192,11 +221,11 @@ const Works = () => {
       </div>
 
       <div className="mt-10 flex flex-col items-center gap-4">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           <button
             onClick={handlePrevPage}
             disabled={isTransitioning}
-            className={`group flex items-center gap-2 bg-tertiary px-6 py-3 rounded-lg text-white transition-all ${
+            className={`group flex items-center gap-1 sm:gap-2 text-xs sm:text-sm bg-tertiary px-4 py-2.5 rounded-lg text-white transition-all ${
               isTransitioning
                 ? 'opacity-50 cursor-not-allowed'
                 : 'hover:bg-opacity-80 hover:scale-105'
@@ -205,15 +234,15 @@ const Works = () => {
             <FiChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
             Previous
           </button>
-          <span className="text-white flex items-center gap-2">
-            <span className="bg-tertiary px-4 py-2 rounded-lg">
+          <span aria-live="polite" className="text-secondary text-xs flex items-center gap-2">
+            <span className="bg-tertiary px-2 sm:px-4 py-2 rounded-lg">
               Page {currentPage + 1} of {totalPages}
             </span>
           </span>
           <button
             onClick={handleNextPage}
             disabled={isTransitioning}
-            className={`group flex items-center gap-2 bg-tertiary px-6 py-3 rounded-lg text-white transition-all ${
+            className={`group flex items-center gap-1 sm:gap-2 text-xs sm:text-sm bg-tertiary px-4 py-2.5 rounded-lg text-white transition-all ${
               isTransitioning
                 ? 'opacity-50 cursor-not-allowed'
                 : 'hover:bg-opacity-80 hover:scale-105'
@@ -227,9 +256,11 @@ const Works = () => {
           {Array.from({ length: totalPages }, (_, i) => (
             <button
               key={i}
+              aria-label={`Go to project page ${i + 1}`}
+              aria-current={currentPage === i ? 'page' : undefined}
               onClick={() => handlePageChange(i, i > currentPage ? 1 : -1)}
               disabled={isTransitioning}
-              className={`w-3 h-3 rounded-full transition-all ${
+              className={`w-2 h-2 rounded-full transition-all ${
                 currentPage === i ? 'bg-[#915EFF] scale-125' : 'bg-tertiary hover:bg-opacity-80'
               } ${isTransitioning ? 'opacity-50' : ''}`}
             />
@@ -238,9 +269,9 @@ const Works = () => {
 
         <Link
           to="/projects"
-          className="mt-4 flex items-center gap-2 bg-tertiary text-white px-8 py-3 rounded-xl font-bold text-lg hover:bg-opacity-80 transition-all hover:scale-105 shadow-md shadow-primary"
+          className="mt-4 flex items-center gap-2 bg-tertiary text-white px-6 py-3 rounded-xl border border-white/10 font-medium text-sm hover:bg-opacity-80 transition-all hover:scale-105 shadow-md shadow-primary"
         >
-          See More Projects
+          View all projects
           <FiChevronRight className="w-5 h-5" />
         </Link>
       </div>
@@ -248,4 +279,4 @@ const Works = () => {
   );
 };
 
-export default SectionWrapper(Works, '');
+export default SectionWrapper(Works, 'selected-projects');

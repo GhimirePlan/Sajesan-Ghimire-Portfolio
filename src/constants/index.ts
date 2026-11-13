@@ -5,7 +5,7 @@ import type {
   TExperience,
   TTestimonial,
   TProject,
-} from "../types";
+} from '../types';
 
 import {
   mobile,
@@ -14,22 +14,18 @@ import {
   web,
   proteus,
   dialux,
-
   git,
   audrino,
   figma,
-  
   carrent,
   jobit,
   tripguide,
-
   excel,
   Ai,
   Photoshop,
   canva,
   word,
   Matlab,
-
   manipal,
   nea,
   egen,
@@ -37,244 +33,236 @@ import {
   panchase,
   advance,
   smart,
-} from "../assets";
+} from '../assets';
 
 export const navLinks: TNavLink[] = [
   {
-    id: "about",
-    title: "About",
+    id: 'about',
+    title: 'About',
   },
   {
-    id: "work",
-    title: "Work",
+    id: 'work',
+    title: 'Work',
   },
   {
-    id: "projects",
-    title: "Projects",
-    link: "/projects",
+    id: 'projects',
+    title: 'Projects',
+    link: '/projects',
   },
   {
-    id: "blog",
-    title: "Blog",
+    id: 'blog',
+    title: 'Blog',
   },
   {
-    id: "contact",
-    title: "Contact",
+    id: 'contact',
+    title: 'Contact',
   },
 ];
 
 const services: TService[] = [
   {
-    title: "Electrical System Designer",
+    title: 'Electrical System Designer',
     icon: web,
-    description: "Expert in designing comprehensive electrical systems for various applications",
+    description:
+      'Power distribution, lighting, and protection design for buildings and energy projects.',
     details: [
-      "Power distribution system design and optimization",
-      "Load calculation and system sizing",
-      "Single Line Diagram (SLD) development",
-      "Emergency power system design",
-      "Lighting system design and optimization",
-      "Cable sizing and routing",
-      "Protection system coordination",
-      "Compliance with electrical codes and standards"
+      'Power distribution system design and optimization',
+      'Load calculation and system sizing',
+      'Single Line Diagram (SLD) development',
+      'Emergency power system design',
+      'Lighting system design and optimization',
+      'Cable sizing and routing',
+      'Protection system coordination',
+      'Compliance with electrical codes and standards',
     ],
-    tools: ["AutoCAD", "DIALux", "ETAP", "MATLAB"],
-    experience: "3+ years"
+    tools: ['AutoCAD', 'DIALux', 'ETAP', 'MATLAB'],
+    experience: '3+ years',
   },
   {
-    title: "Researcher",
+    title: 'Researcher',
     icon: mobile,
-    description: "Conducting cutting-edge research in electrical engineering and power systems",
+    description:
+      'Modeling and analysis of power systems, control methods, and renewable energy integration.',
     details: [
-      "Power system stability analysis",
-      "Renewable energy integration studies",
-      "Smart grid technology research",
-      "Control system optimization",
-      "Power quality analysis",
-      "Energy efficiency studies",
-      "Published research papers",
-      "Conference presentations"
+      'Power system stability analysis',
+      'Renewable energy integration studies',
+      'Smart grid technology research',
+      'Control system optimization',
+      'Power quality analysis',
+      'Energy efficiency studies',
+      'Published research papers',
+      'Conference presentations',
     ],
-    tools: ["MATLAB", "Simulink", "Python", "ResearchGate"],
-    experience: "2+ years"
+    tools: ['MATLAB', 'Simulink', 'Python', 'ResearchGate'],
+    experience: '2+ years',
   },
   {
-    title: "PV System Designer",
+    title: 'PV System Designer',
     icon: creator,
-    description: "Designing smarter energy systems for a sustainable future.",
+    description: 'Solar PV feasibility, system sizing, layout design, and performance analysis.',
     details: [
-      "PV system design and optimization",
-      "Detailed feasibility study (DFS)",
-      "Solar panel selection and sizing",
-      "Battery storage system design",
-      "Procurement Coordination and Construction Supervision."
+      'PV system design and optimization',
+      'Detailed feasibility study (DFS)',
+      'Solar panel selection and sizing',
+      'Battery storage system design',
+      'Procurement coordination and construction supervision',
     ],
-    tools: ["PVsyst", "HelioScope", "SketchUp", "AutoCAD","Vitro Solar"],
-    experience: "1+ years"
+    tools: ['PVsyst', 'HelioScope', 'SketchUp', 'AutoCAD', 'Vitro Solar'],
+    experience: '1+ years',
   },
   {
-    title: "Robotics & Automation",
+    title: 'Robotics & Automation',
     icon: backend,
-    description: "Specializing in industrial automation and robotic system integration",
+    description: 'Embedded systems, IoT monitoring, and practical automation applications.',
     details: [
-      "PLC programming and implementation",
-      "Industrial automation system design",
-      "Robotic system integration",
-      "Process control optimization",
-      "SCADA system development",
-      "IoT-based automation solutions",
-      "Motion control systems",
-      "Safety system implementation"
+      'PLC programming and implementation',
+      'Industrial automation system design',
+      'Robotic system integration',
+      'Process control optimization',
+      'SCADA system development',
+      'IoT-based automation solutions',
+      'Motion control systems',
+      'Safety system implementation',
     ],
-    tools: ["Arduino", "Raspberry Pi", "Python", "C++"],
-    experience: "2+ years"
+    tools: ['Arduino', 'Raspberry Pi', 'Python', 'C++'],
+    experience: '2+ years',
   },
-
 ];
 
 const technologies: TTechnology[] = [
   {
-    name: "Matlab",
+    name: 'MATLAB',
     icon: Matlab,
   },
   {
-    name: "Ai",
+    name: 'Illustrator',
     icon: Ai,
   },
   {
-    name: "word",
+    name: 'Word',
     icon: word,
   },
   {
-    name: "excel",
+    name: 'Excel',
     icon: excel,
   },
   {
-    name: "canva",
+    name: 'Canva',
     icon: canva,
   },
   {
-    name: "Photoshop",
+    name: 'Photoshop',
     icon: Photoshop,
   },
   {
-    name: "proteus",
+    name: 'Proteus',
     icon: proteus,
   },
   {
-    name: "audrino",
+    name: 'Arduino',
     icon: audrino,
   },
   {
-    name: "dialux",
+    name: 'DIALux',
     icon: dialux,
   },
   {
-    name: "git",
+    name: 'Git',
     icon: git,
   },
   {
-    name: "figma",
+    name: 'Figma',
     icon: figma,
   },
-
 ];
 
 const experiences: TExperience[] = [
   {
-    title: "Electrical Engineer (BD & EPC)",
-    companyName: "Smart Solar Nepal Corporation",
+    title: 'Electrical Engineer (BD & EPC)',
+    companyName: 'Smart Solar Nepal Corporation',
     icon: smart,
-    iconBg: "#383E56",
-    date: "Dec 2025 – Present",
+    iconBg: '#383E56',
+    date: 'Dec 2025 – Present',
     points: [
-      "Managed end-to-end design (system sizing, SLDs) and on-site project execution for utility-scale and institutional solar plants, ensuring strict adherence to engineering standards.",
-      "Facilitated seamless client coordination and authored comprehensive technical documentation, including feasibility reports and commissioning manuals for C&I projects.",
-      "Drove business development by conducting site surveys and preparing technical-commercial proposals, successfully converting leads into high-scale solar installations.",
+      'Design solar PV systems and support site execution, including system sizing and single-line diagrams.',
+      'Coordinate with clients and prepare feasibility reports, technical documentation, and commissioning manuals.',
+      'Conduct site surveys and prepare technical and commercial proposals for solar installations.',
     ],
   },
   {
-    title: "Electrical Design Engineer",
-    companyName: "Advanced Energy Construction Pvt. Ltd.",
+    title: 'Electrical Design Engineer',
+    companyName: 'Advanced Energy Construction Pvt. Ltd.',
     icon: advance,
-    iconBg: "#383E56",
-    date: "May 2025 – Dec 2025",
+    iconBg: '#383E56',
+    date: 'May 2025 – Dec 2025',
     points: [
-      "Designed and optimized rooftop and ground-mounted solar PV systems (on-grid/off-grid) using PVsyst, Helioscope, SketchUp, AutoCAD, and Vitro Solar. ",
-      "Conducted site surveys, system sizing, and prepared Detailed Feasibility Study (DFS) reports for commercial, industrial, and utility-scale clients.",
-      "Led design and DFS preparation for rooftop solar projects totaling over 20 MW and ground-mounted utility-scale projects exceeding 100 MW. ",
-      "Oversaw procurement, coordinated with vendors, and supervised construction activities to ensure technical accuracy, regulatory compliance, and timely execution.",
-      "Collaborated with stakeholders for grid integration and supported commissioning documentation.",
-     
+      'Designed grid-connected and off-grid solar PV systems using PVsyst, HelioScope, SketchUp, AutoCAD, and Vitro Solar.',
+      'Conducted site surveys, sized systems, and prepared detailed feasibility studies for commercial, industrial, and utility-scale projects.',
+      'Led design and feasibility studies for more than 20 MW of rooftop solar and 100 MW of ground-mounted projects.',
+      'Coordinated procurement, vendors, and construction supervision to meet project requirements.',
+      'Supported grid integration and commissioning documentation.',
     ],
   },
   {
-    title: "Electrical Engineer (Site)",
-    companyName: "Panchase Engineering Consultancy",
+    title: 'Electrical Engineer (Site)',
+    companyName: 'Panchase Engineering Consultancy',
     icon: panchase,
-    iconBg: "#383E56",
-    date: "Nov 2024 – jan 2025",
+    iconBg: '#383E56',
+    date: 'Nov 2024 – Jan 2025',
     points: [
-      "Supervised and executed MEP electrical works, ensuring design compliance and site safety.",
-      "Implemented, revised, and optimized electrical designs as per field conditions.",
-      "Managed measurements, billing, testing, and commissioning of electrical systems.",
-     
+      'Supervised electrical works for building services, with attention to design compliance and site safety.',
+      'Revised electrical layouts to reflect site conditions and installation requirements.',
+      'Prepared measurements and billing records and supported testing and commissioning.',
     ],
   },
   {
-    title: "Electrical Engineering Internship",
-    companyName: "Nepal Manipal Teaching Hospital",
+    title: 'Electrical Engineering Internship',
+    companyName: 'Nepal Manipal Teaching Hospital',
     icon: manipal,
-    iconBg: "#383E56",
-    date: "September 2024 - November 2024",
+    iconBg: '#383E56',
+    date: 'Sep 2024 – Nov 2024',
     points: [
-      "Designed and analyzed comprehensive electrical systems for power distribution, lighting layouts, and biomedical equipment supply systems.",
-      "Developed and reviewed detailed Single Line Diagrams (SLDs) for the hospital and hostel, incorporating load calculations, cable sizing, and safety measures.",
-      "Observed and gained insights into low-voltage systems, including CCTV, PA systems, Ethernet, and telephone networks.",
-      "Supervised and reported on MEP works for critical units such as ICU, MOT, and Oncology.",
-      "Developed designs for biomedical equipment power systems and studied emergency systems like fire alarms, firefighting, UPS, and earthing.",
+      'Supported power distribution, lighting, and biomedical equipment supply design.',
+      'Prepared and reviewed single-line diagrams, load calculations, and cable sizing for the hospital and hostel.',
+      'Reviewed low-voltage services, including CCTV, public address, Ethernet, and telephone systems.',
+      'Monitored and reported on electrical works in intensive care, operating theatre, and oncology facilities.',
+      'Studied emergency power, fire alarm, UPS, and earthing requirements for clinical facilities.',
     ],
   },
   {
-    title: "Engineering Intern",
-    companyName: "Nepal Electricity Authority, Nepal",
+    title: 'Engineering Intern',
+    companyName: 'Nepal Electricity Authority, Nepal',
     icon: nea,
-    iconBg: "#E6DEDD",
-    date: "Nov 2023 - Dec 2023",
+    iconBg: '#E6DEDD',
+    date: 'Nov 2023 – Dec 2023',
     points: [
-      "Learned the ropes of hydropower – from how turbines work to making electricity. Practical stuff that goes beyond textbooks!",
-      "Explored Nepal's electricity scene, understanding the ups and downs. It's fascinating to see how power impacts our country.",
-      "Got the lowdown on Nepal Electricity Authority (NEA) – the powerhouse behind the scenes. Explored how rules and policies shape our energy world.",
-      "More than just technical skills – this internship was about solving problems, paying attention to details, and becoming a better team player.",
+      'Studied hydropower generation, turbine operation, and electrical plant systems.',
+      'Gained practical exposure to Nepal’s power generation and electricity supply infrastructure.',
+      'Reviewed NEA operations and the regulatory context for electricity supply.',
+      'Developed technical observation, problem-solving, and teamwork skills in a plant environment.',
     ],
   },
   {
-    title: "Secretary",
-    companyName: "Electrical Generation Club (E-GEN)",
+    title: 'Secretary',
+    companyName: 'Electrical Generation Club (E-GEN)',
     icon: egen,
-    iconBg: "#383E56",
-    date: "Jan 2022 - Jan 2023",
+    iconBg: '#383E56',
+    date: 'Jan 2022 – Jan 2023',
     points: [
-      "As a club secretary, I have played a crucial role in successfully organizing various programs and Training sessions.",
-      "Successfully completed ELECTRO-MELA 2.0 as a main coordinator. (ELECTRO-MELA 2.0  is biggest electrical festival in Pokhara )",
-      " I have made many improvements in this club also. ",
-      
+      'Coordinated engineering programmes, training sessions, and club administration.',
+      'Served as a lead coordinator for ELECTRO-MELA 2.0 in Pokhara.',
+      'Supported improvements to club coordination and member activities.',
     ],
   },
   {
-    title: "President",
-    companyName: "Engineering Student Society of Tanahun and Lamjung (ESSOTL)",
+    title: 'President',
+    companyName: 'Engineering Student Society of Tanahun and Lamjung (ESSOTL)',
     icon: essotl,
-    iconBg: "#E6DEDD",
-    date: "Apr 2023 - Jun 2024",
+    iconBg: '#E6DEDD',
+    date: 'Apr 2023 – Jun 2024',
     points: [
-      "Organized and led various student-centered events such as quiz contests, futsal tournaments,welcome/farewell programs, and poetry competitions to enhance campus engagement.", 
-      "Strengthened leadership, communication, and event coordination skills by managing cross functional teams and collaborating with faculty and students.",
-
-
-  
-
-
+      'Led student events, including academic competitions, sports tournaments, and cultural programmes.',
+      'Coordinated student teams and worked with faculty on event planning and delivery.',
     ],
   },
 ];
@@ -282,222 +270,224 @@ const experiences: TExperience[] = [
 const testimonials: TTestimonial[] = [
   {
     testimonial:
-      "Working on-site, I ensured electrical designs were not just implemented but optimized in real-time, overcoming challenges to enhance efficiency and project success.",
-    name: "Sanat Poudel",
-    designation: "Operations Manager",
-    company: "Himal Enginnering Inc.",
-    image: "https://cdn.vectorstock.com/i/500p/22/63/a-simple-black-silhouette-of-man-in-suit-vector-55942263.jpg",
+      'Working on-site, I ensured electrical designs were not just implemented but optimized in real-time, overcoming challenges to enhance efficiency and project success.',
+    name: 'Sanat Poudel',
+    designation: 'Operations Manager',
+    company: 'Himal Engineering Inc.',
+    image:
+      'https://cdn.vectorstock.com/i/500p/22/63/a-simple-black-silhouette-of-man-in-suit-vector-55942263.jpg',
   },
   {
     testimonial:
-      "Working closely with the team, they ensured every electrical design was precise and practical, helping us meet tight deadlines without compromising quality.",
-    name: "Ramesh Shrestha",
-    designation: "Senior Engineer",
-    company: "ElectroTech Solutions",
-    image: "https://cdn.vectorstock.com/i/500p/22/63/a-simple-black-silhouette-of-man-in-suit-vector-55942263.jpg",
+      'Working closely with the team, they ensured every electrical design was precise and practical, helping us meet tight deadlines without compromising quality.',
+    name: 'Ramesh Shrestha',
+    designation: 'Senior Engineer',
+    company: 'ElectroTech Solutions',
+    image:
+      'https://cdn.vectorstock.com/i/500p/22/63/a-simple-black-silhouette-of-man-in-suit-vector-55942263.jpg',
   },
 
   {
     testimonial:
-      "Their attention to detail and strict adherence to safety protocols gave us confidence throughout the project lifecycle.",
-    name: "Bibek Karki",
-    designation: "Site Manager",
-    company: "Lumbini Electrical Contractors",
-    image: "https://cdn.vectorstock.com/i/500p/22/63/a-simple-black-silhouette-of-man-in-suit-vector-55942263.jpg",
+      'Their attention to detail and strict adherence to safety protocols gave us confidence throughout the project lifecycle.',
+    name: 'Bibek Karki',
+    designation: 'Site Manager',
+    company: 'Lumbini Electrical Contractors',
+    image:
+      'https://cdn.vectorstock.com/i/500p/22/63/a-simple-black-silhouette-of-man-in-suit-vector-55942263.jpg',
   },
 ];
 const projects: TProject[] = [
   {
-    name: "Comparative Assessment of PID and ANFIS Controllers in an AVR",
+    name: 'PID & ANFIS Control for Voltage Regulation',
     description:
-      "This research analyzes PID and ANFIS controllers in AVR systems using MATLAB-SIMULINK, revealing ANFIS's superior performance with a 1.7277s settling time and 1.8716% overshoot, validating its efficiency for power sector applications.",
+      'A MATLAB/Simulink comparison of PID and ANFIS control for an automatic voltage regulator, evaluating settling time and overshoot.',
     tags: [
       {
-        name: "matlab",
-        color: "blue-text-gradient",
+        name: 'matlab',
+        color: 'blue-text-gradient',
       },
       {
-        name: "simulink",
-        color: "green-text-gradient",
+        name: 'simulink',
+        color: 'green-text-gradient',
       },
       {
-        name: "ANFIS",
-        color: "pink-text-gradient",
+        name: 'ANFIS',
+        color: 'pink-text-gradient',
       },
     ],
     image: carrent,
-    sourceCodeLink: "https://www.researchgate.net/publication/389150640_Comparative_Assessment_of_PID_and_ANFIS_Controllers_in_an_Automatic_Voltage_Regulator",
+    sourceCodeLink:
+      'https://www.researchgate.net/publication/389150640_Comparative_Assessment_of_PID_and_ANFIS_Controllers_in_an_Automatic_Voltage_Regulator',
   },
   {
-    name: "ANN-based UPFC for Power Flow & Voltage Enhancement",
+    name: 'ANN-based UPFC for Power Flow & Voltage Enhancement',
     description:
-      "This research proposes an ANN-based UPFC for enhanced power flow and voltage regulation in modern power systems, achieving faster response, improved stability, and reduced faults compared to PID-based control, as validated by MATLAB/Simulink simulations.",
+      'An ANN-based unified power flow controller modeled in MATLAB/Simulink to study power flow, voltage regulation, and control response.',
     tags: [
       {
-        name: "matlab",
-        color: "blue-text-gradient",
+        name: 'matlab',
+        color: 'blue-text-gradient',
       },
       {
-        name: "UPFC",
-        color: "green-text-gradient",
+        name: 'UPFC',
+        color: 'green-text-gradient',
       },
       {
-        name: "ANN",
-        color: "pink-text-gradient",
+        name: 'ANN',
+        color: 'pink-text-gradient',
       },
     ],
     image: tripguide,
-    sourceCodeLink: "https://www.linkedin.com/in/sajesan/",
+    sourceCodeLink: 'https://www.linkedin.com/in/sajesan/',
   },
   {
-    name: "IoT-Based Complete Home Automation System",
+    name: 'IoT-Based Home Automation',
     description:
-      "This project presents an advanced IoT-powered home automation system integrating Arduino, Python, and NodeMCU, enabling seamless remote control of appliances and security, revolutionizing smart living with efficiency and convenience.",
+      'An Arduino, Python, and NodeMCU system for remote appliance control and home monitoring.',
     tags: [
       {
-        name: "iot",
-        color: "blue-text-gradient",
+        name: 'iot',
+        color: 'blue-text-gradient',
       },
       {
-        name: "arduino",
-        color: "green-text-gradient",
+        name: 'arduino',
+        color: 'green-text-gradient',
       },
       {
-        name: "python",
-        color: "pink-text-gradient",
+        name: 'python',
+        color: 'pink-text-gradient',
       },
     ],
     image: jobit,
-    sourceCodeLink: "https://www.linkedin.com/posts/sajesan_teamurja-hardwarehackathon-activity-7155555264052486144-Or6Z?utm_source=share&utm_medium=member_desktop&rcm=ACoAADk4wCsBjLFTlUqsTlcQrGPSo3T73aeu9Is",
+    sourceCodeLink:
+      'https://www.linkedin.com/posts/sajesan_teamurja-hardwarehackathon-activity-7155555264052486144-Or6Z?utm_source=share&utm_medium=member_desktop&rcm=ACoAADk4wCsBjLFTlUqsTlcQrGPSo3T73aeu9Is',
   },
   {
-    name: "Smart Energy Management System",
+    name: 'Smart Energy Management System',
     description:
-      "Developed an intelligent energy management system that optimizes power consumption using machine learning algorithms and real-time monitoring, resulting in 30% energy savings.",
+      'A study of energy consumption management using machine learning and real-time monitoring.',
     tags: [
       {
-        name: "ML",
-        color: "blue-text-gradient",
+        name: 'ML',
+        color: 'blue-text-gradient',
       },
       {
-        name: "IoT",
-        color: "green-text-gradient",
+        name: 'IoT',
+        color: 'green-text-gradient',
       },
       {
-        name: "Python",
-        color: "pink-text-gradient",
+        name: 'Python',
+        color: 'pink-text-gradient',
       },
     ],
     image: carrent,
-    sourceCodeLink: "https://www.researchgate.net/profile/Sajesan-Ghimire",
+    sourceCodeLink: 'https://www.researchgate.net/profile/Sajesan-Ghimire',
   },
   {
-    name: "Power System Stability Analysis",
+    name: 'Power System Stability Analysis',
     description:
-      "Conducted comprehensive stability analysis of power systems using MATLAB, focusing on transient stability and voltage regulation under various fault conditions.",
+      'MATLAB analysis of transient stability and voltage regulation under different fault conditions.',
     tags: [
       {
-        name: "matlab",
-        color: "blue-text-gradient",
+        name: 'matlab',
+        color: 'blue-text-gradient',
       },
       {
-        name: "power-systems",
-        color: "green-text-gradient",
+        name: 'power-systems',
+        color: 'green-text-gradient',
       },
       {
-        name: "analysis",
-        color: "pink-text-gradient",
+        name: 'analysis',
+        color: 'pink-text-gradient',
       },
     ],
     image: tripguide,
-    sourceCodeLink: "https://www.researchgate.net/profile/Sajesan-Ghimire",
+    sourceCodeLink: 'https://www.researchgate.net/profile/Sajesan-Ghimire',
   },
   {
-    name: "Renewable Energy Integration Study",
+    name: 'Renewable Energy Integration Study',
     description:
-      "Analyzed and implemented strategies for integrating renewable energy sources into existing power grids, focusing on grid stability and efficiency.",
+      'Analysis of renewable energy integration, with a focus on grid stability and operating efficiency.',
     tags: [
       {
-        name: "renewable",
-        color: "blue-text-gradient",
+        name: 'renewable',
+        color: 'blue-text-gradient',
       },
       {
-        name: "grid",
-        color: "green-text-gradient",
+        name: 'grid',
+        color: 'green-text-gradient',
       },
       {
-        name: "analysis",
-        color: "pink-text-gradient",
+        name: 'analysis',
+        color: 'pink-text-gradient',
       },
     ],
     image: jobit,
-    sourceCodeLink: "https://www.researchgate.net/profile/Sajesan-Ghimire",
+    sourceCodeLink: 'https://www.researchgate.net/profile/Sajesan-Ghimire',
   },
   {
-    name: "Smart Grid Communication Protocol",
+    name: 'Smart Grid Communication Protocol',
     description:
-      "Designed and implemented a secure communication protocol for smart grid applications, ensuring reliable data transmission and system security.",
+      'A smart grid communication project focused on reliable data transfer and system security.',
     tags: [
       {
-        name: "smart-grid",
-        color: "blue-text-gradient",
+        name: 'smart-grid',
+        color: 'blue-text-gradient',
       },
       {
-        name: "security",
-        color: "green-text-gradient",
+        name: 'security',
+        color: 'green-text-gradient',
       },
       {
-        name: "protocol",
-        color: "pink-text-gradient",
+        name: 'protocol',
+        color: 'pink-text-gradient',
       },
     ],
     image: carrent,
-    sourceCodeLink: "https://www.researchgate.net/profile/Sajesan-Ghimire",
+    sourceCodeLink: 'https://www.researchgate.net/profile/Sajesan-Ghimire',
   },
   {
-    name: "Electric Vehicle Charging Station Design",
+    name: 'Electric Vehicle Charging Station Design',
     description:
-      "Developed a comprehensive design for EV charging infrastructure, including load management and grid integration solutions.",
+      'EV charging infrastructure design covering load management and grid connection requirements.',
     tags: [
       {
-        name: "EV",
-        color: "blue-text-gradient",
+        name: 'EV',
+        color: 'blue-text-gradient',
       },
       {
-        name: "charging",
-        color: "green-text-gradient",
+        name: 'charging',
+        color: 'green-text-gradient',
       },
       {
-        name: "design",
-        color: "pink-text-gradient",
+        name: 'design',
+        color: 'pink-text-gradient',
       },
     ],
     image: tripguide,
-    sourceCodeLink: "https://www.researchgate.net/profile/Sajesan-Ghimire",
+    sourceCodeLink: 'https://www.researchgate.net/profile/Sajesan-Ghimire',
   },
   {
-    name: "Power Quality Monitoring System",
-    description:
-      "Created a real-time power quality monitoring system using Arduino and IoT technologies to detect and analyze power quality issues.",
+    name: 'Power Quality Monitoring System',
+    description: 'An Arduino and IoT system for real-time power quality monitoring and analysis.',
     tags: [
       {
-        name: "arduino",
-        color: "blue-text-gradient",
+        name: 'arduino',
+        color: 'blue-text-gradient',
       },
       {
-        name: "IoT",
-        color: "green-text-gradient",
+        name: 'IoT',
+        color: 'green-text-gradient',
       },
       {
-        name: "monitoring",
-        color: "pink-text-gradient",
+        name: 'monitoring',
+        color: 'pink-text-gradient',
       },
     ],
     image: jobit,
-    sourceCodeLink: "https://www.researchgate.net/profile/Sajesan-Ghimire",
+    sourceCodeLink: 'https://www.researchgate.net/profile/Sajesan-Ghimire',
   },
- 
 ];
-
 
 export { services, technologies, experiences, testimonials, projects };

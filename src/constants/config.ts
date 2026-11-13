@@ -48,45 +48,42 @@ export const config: TConfig = {
   },
   hero: {
     name: 'Sajesan Ghimire',
-    p: ['An Electrical Engineer | Researcher ', 'from Nepal'],
+    p: ['Electrical Engineer · Solar PV & Power Systems', 'Based in Nepal'],
   },
   contact: {
-    p: 'Get in touch',
-    h2: 'Contact.',
+    p: 'Contact',
+    h2: 'Get in touch',
     form: {
       name: {
         span: 'Your Name',
-        placeholder: "What's your name?",
+        placeholder: 'Your full name',
       },
-      email: { span: 'Your Email', placeholder: "What's your email?" },
+      email: { span: 'Your Email', placeholder: 'you@example.com' },
       message: {
         span: 'Your Message',
-        placeholder: 'What do you want to say?',
+        placeholder: 'Tell me about your project or enquiry.',
       },
     },
   },
   sections: {
     about: {
       p: 'Introduction',
-      h2: 'Overview.',
-      content: `Electrical Engineer specializing in power distribution, solar PV design, and automation—driven by a passion for building sustainable and efficient energy solutions.
+      h2: 'About me',
+      content: `I am an electrical engineer working in solar PV design, power distribution, and automation. My experience covers feasibility studies, system design, technical documentation, and site supervision.
 `,
     },
     experience: {
-      p: 'What I have done so far',
-      h2: 'Work Experience.',
+      p: 'Professional background',
+      h2: 'Experience',
     },
     feedbacks: {
-      p: 'What others say',
-      h2: 'Testimonials.',
+      p: 'Professional feedback',
+      h2: 'Testimonials',
     },
     works: {
       p: 'My work',
-      h2: 'Projects.',
-      content: `Following projects showcases my skills and experience through
-    real-world examples of my work. Each project is briefly described. It reflects my
-    ability to solve complex problems, work with different technologies,
-    and manage projects effectively.`,
+      h2: 'Selected projects',
+      content: `Selected work in solar energy, power system control, and automation. Explore the engineering approach, tools, and project scope.`,
     },
   },
 };

@@ -159,7 +159,7 @@ const BlogPost = () => {
             animate={{ opacity: 1, y: 0 }}
             className="mb-10 text-center max-w-4xl mx-auto"
           >
-            <h1 className="text-white font-black md:text-[50px] sm:text-[40px] xs:text-[30px] text-[26px] mb-6 leading-tight">
+            <h1 className="text-white font-semibold tracking-tight md:text-[42px] sm:text-[36px] text-[28px] mb-6 leading-tight">
               {blog.title}
             </h1>
 
@@ -187,7 +187,7 @@ const BlogPost = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="relative w-full max-w-4xl mx-auto h-[300px] sm:h-[450px] rounded-3xl overflow-hidden mb-16 shadow-2xl border border-white/10"
+            className="relative w-full max-w-4xl mx-auto h-[300px] sm:h-[450px] rounded-2xl overflow-hidden mb-16 shadow-none border border-white/10"
           >
             <img src={blog.coverImage} alt={blog.title} className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent" />
@@ -224,7 +224,7 @@ const BlogPost = () => {
             <article className="flex-1 max-w-4xl">
               <div
                 ref={contentRef}
-                className="blog-content text-secondary text-lg leading-relaxed space-y-6"
+                className="blog-content text-secondary text-base leading-8 space-y-6"
                 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.content) }}
               />
 
@@ -235,7 +235,7 @@ const BlogPost = () => {
                     <HiOutlineDocumentDownload className="text-[#915EFF]" />
                     Related Document
                   </h3>
-                  <div className="relative group w-full aspect-[1/1.4] sm:aspect-video rounded-3xl overflow-hidden bg-tertiary/20 border border-white/10 shadow-2xl">
+                  <div className="relative group w-full aspect-[1/1.4] sm:aspect-video rounded-2xl overflow-hidden bg-tertiary/20 border border-white/10 shadow-none">
                     <iframe
                       src={getPdfEmbedUrl(blog.pdfUrl)}
                       className="w-full h-full border-none"
@@ -282,7 +282,7 @@ const BlogPost = () => {
               </div>
 
               {/* Author Card */}
-              <div className="mt-20 bg-tertiary/40 border border-white/10 rounded-3xl p-8 flex flex-col sm:flex-row items-center gap-8">
+              <div className="mt-20 bg-tertiary/40 border border-white/10 rounded-2xl p-8 flex flex-col sm:flex-row items-center gap-8">
                 <div className="w-24 h-24 rounded-full overflow-hidden flex-shrink-0 ring-4 ring-[#915EFF]/20">
                   <img
                     src={portrait}
@@ -323,7 +323,7 @@ const BlogPost = () => {
                 {/* Comment Form */}
                 <form
                   onSubmit={handleCommentSubmit}
-                  className="bg-tertiary/20 p-8 rounded-3xl border border-white/10 mb-12"
+                  className="bg-tertiary/20 p-8 rounded-2xl border border-white/10 mb-12"
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div className="flex flex-col gap-2">

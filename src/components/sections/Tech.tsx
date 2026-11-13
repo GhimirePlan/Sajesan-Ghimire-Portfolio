@@ -16,9 +16,9 @@ const Tech = () => {
           {interactive ? 'Use lightweight view' : 'Enable interactive 3D'}
         </button>
       </div>
-      <div className="flex flex-row flex-wrap justify-center gap-10">
+      <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4">
         {technologies.map(technology => (
-          <div className="h-28 w-28" key={technology.name}>
+          <div className="min-w-0" key={technology.name}>
             {interactive ? (
               <Suspense fallback={<span className="text-secondary">{technology.name}</span>}>
                 <BallCanvas icon={technology.icon} />
@@ -34,7 +34,7 @@ const Tech = () => {
                   alt=""
                   className="h-12 w-12 object-contain"
                 />
-                <span className="text-secondary text-xs">{technology.name}</span>
+                <span className="text-secondary text-xs text-center">{technology.name}</span>
               </div>
             )}
           </div>

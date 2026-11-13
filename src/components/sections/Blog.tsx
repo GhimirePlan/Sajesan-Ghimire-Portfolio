@@ -12,7 +12,7 @@ const BlogCard = ({ _id, slug, index, title, description, coverImage, createdAt,
 
   return (
     <motion.div variants={fadeIn('up', 'spring', index * 0.5, 0.75)}>
-      <div className="bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full h-full flex flex-col">
+      <div className="bg-tertiary/60 border border-white/10 p-5 rounded-2xl sm:w-[360px] w-full h-full flex flex-col">
         <div className="relative w-full h-[230px]">
           <img
             loading="lazy"
@@ -24,7 +24,7 @@ const BlogCard = ({ _id, slug, index, title, description, coverImage, createdAt,
         </div>
 
         <div className="mt-5 flex-1">
-          <h3 className="text-white font-bold text-[24px] line-clamp-2">{title}</h3>
+          <h3 className="text-white font-semibold text-[20px] line-clamp-2">{title}</h3>
           <p className="mt-2 text-secondary text-[14px] line-clamp-3">{description}</p>
         </div>
 
@@ -40,7 +40,7 @@ const BlogCard = ({ _id, slug, index, title, description, coverImage, createdAt,
           <span className="text-secondary text-[12px]">
             {new Date(createdAt).toLocaleDateString()}
           </span>
-          <Link to={`/blogs/${linkPath}`} className="text-[#915EFF] font-bold hover:underline">
+          <Link to={`/blogs/${linkPath}`} className="text-[#915EFF] font-semibold hover:underline">
             Read More
           </Link>
         </div>
@@ -71,8 +71,8 @@ const Blog = () => {
   return (
     <>
       <motion.div variants={textVariant()}>
-        <p className={styles.sectionSubText}>My thoughts</p>
-        <h2 className={styles.sectionHeadText}>Blog.</h2>
+        <p className={styles.sectionSubText}>Writing & research</p>
+        <h2 className={styles.sectionHeadText}>Articles</h2>
       </motion.div>
 
       <div className="w-full flex">
@@ -80,7 +80,7 @@ const Blog = () => {
           variants={fadeIn('', '', 0.1, 1)}
           className="mt-3 text-secondary text-[17px] max-w-3xl leading-[30px]"
         >
-          Sharing my experiences, insights, and technical guides. Here are some of my recent posts.
+          Engineering notes, research, and practical lessons from solar PV and power systems.
         </motion.p>
       </div>
 

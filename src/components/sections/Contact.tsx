@@ -6,7 +6,7 @@ import { SiResearchgate } from 'react-icons/si';
 
 const EarthCanvas = lazy(() => import('../canvas/Earth'));
 import { SectionWrapper } from '../../hoc';
-import { slideIn } from '../../utils/motion';
+import { fadeIn } from '../../utils/motion';
 import { config } from '../../constants/config';
 import { Header } from '../atoms/Header';
 import ScheduleMeeting from '../ScheduleMeeting';
@@ -41,13 +41,14 @@ const SocialLinks = () => {
 
   return (
     <div className="w-full flex flex-col items-center mt-10">
-      <h3 className="text-white font-medium mb-10 text-[20px]">Connect With Me</h3>
-      <div className="flex gap-6">
+      <h3 className="text-white font-medium mb-5 text-[16px]">Connect with me</h3>
+      <div className="flex gap-4">
         {socialLinks.map(link => (
           <a
             key={link.name}
             href={link.url}
             aria-label={link.name}
+            title={link.name}
             target="_blank"
             rel="noopener noreferrer"
             className={`
@@ -57,7 +58,7 @@ const SocialLinks = () => {
               bg-tertiary
               text-white
               transition-all duration-300 ease-in-out
-              transform hover:scale-110
+              transform hover:scale-105
               ${link.color}
               hover:shadow-lg hover:shadow-primary
               group
@@ -66,22 +67,6 @@ const SocialLinks = () => {
           >
             <span className="group-hover:scale-110 transition-transform duration-300">
               {link.icon}
-            </span>
-
-            <span
-              className="
-              absolute -bottom-10
-              bg-black/80
-              text-white
-              text-sm
-              px-3 py-1
-              rounded-full
-              opacity-0 group-hover:opacity-100
-              transition-opacity duration-300
-              whitespace-nowrap
-            "
-            >
-              {link.name}
             </span>
           </a>
         ))}
@@ -124,8 +109,8 @@ const Contact = () => {
   return (
     <div className="xl:mt-12 xl:flex-row flex-col-reverse flex gap-10 overflow-hidden">
       <motion.div
-        variants={slideIn('left', 'tween', 0.2, 1)}
-        className="flex-[0.75] bg-black-100 p-8 rounded-2xl"
+        variants={fadeIn('', 'tween', 0, 0.3)}
+        className="flex-[0.75] bg-tertiary/50 border border-white/10 p-6 sm:p-8 rounded-2xl"
       >
         <Header useMotion={false} {...config.contact} />
 
@@ -133,44 +118,42 @@ const Contact = () => {
           action="https://formsubmit.co/contact@sajesanghimire.com.np"
           method="POST"
           onSubmit={handleSubmit}
-          className="mt-12 flex flex-col gap-8"
+          className="mt-8 flex flex-col gap-5"
         >
           {/* Honeypot to prevent spam */}
           <input type="text" name="_honey" style={{ display: 'none' }} />
 
-          {/* Disable Captcha */}
-
-          {/* Specify redirect after submission */}
-
           <label className="flex flex-col">
-            <span className="text-white font-medium mb-4">Your Name</span>
+            <span className="text-white text-sm font-medium mb-2">Your name</span>
             <input
               type="text"
               name="name"
-              placeholder="What's your name?"
-              className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outlined-none border-none font-medium"
-              maxLength={5000}
+              autoComplete="name"
+              placeholder="Your full name"
+              className="bg-primary/60 border border-white/10 py-3 px-4 placeholder:text-secondary text-white rounded-lg outline-none font-medium"
+              maxLength={100}
               required
             />
           </label>
           <label className="flex flex-col">
-            <span className="text-white font-medium mb-4">Your Email</span>
+            <span className="text-white text-sm font-medium mb-2">Email address</span>
             <input
               type="email"
               name="email"
-              placeholder="What's your email?"
-              className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outlined-none border-none font-medium"
-              maxLength={5000}
+              autoComplete="email"
+              placeholder="you@example.com"
+              className="bg-primary/60 border border-white/10 py-3 px-4 placeholder:text-secondary text-white rounded-lg outline-none font-medium"
+              maxLength={254}
               required
             />
           </label>
           <label className="flex flex-col">
-            <span className="text-white font-medium mb-4">Your Message</span>
+            <span className="text-white text-sm font-medium mb-2">Message</span>
             <textarea
-              rows={7}
+              rows={5}
               name="message"
-              placeholder="What do you want to say?"
-              className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outlined-none border-none font-medium"
+              placeholder="Tell me about your project or enquiry."
+              className="bg-primary/60 border border-white/10 py-3 px-4 placeholder:text-secondary text-white rounded-lg outline-none font-medium"
               maxLength={5000}
               required
             />
@@ -190,7 +173,7 @@ const Contact = () => {
           <button
             type="submit"
             disabled={loading}
-            className="bg-tertiary py-3 px-8 outline-none w-fit text-white font-bold shadow-md shadow-primary rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-opacity-80 transition-all"
+            className="bg-[#915EFF] py-3 px-6 outline-none w-fit text-white font-medium rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-opacity-80 transition-all"
           >
             {loading ? 'Sending...' : 'Send Message'}
           </button>
@@ -200,7 +183,7 @@ const Contact = () => {
       </motion.div>
 
       <motion.div
-        variants={slideIn('right', 'tween', 0.2, 1)}
+        variants={fadeIn('', 'tween', 0, 0.3)}
         className="xl:flex-1 xl:h-auto md:h-[550px] h-[350px]"
       >
         {showEarth ? (
@@ -213,9 +196,9 @@ const Contact = () => {
               ◎
             </span>
             <h3 className="text-white text-2xl font-semibold text-center">
-              Good engineering starts
+              Discuss your next
               <br />
-              with a conversation.
+              engineering project.
             </h3>
             <a
               className="text-secondary underline text-sm break-all"

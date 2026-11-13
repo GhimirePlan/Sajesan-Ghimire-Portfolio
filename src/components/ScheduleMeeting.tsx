@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { HiOutlineCalendar } from "react-icons/hi";
-import { FiX } from "react-icons/fi";
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { HiOutlineCalendar } from 'react-icons/hi';
+import { FiX } from 'react-icons/fi';
 
 const ScheduleMeeting = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,25 +10,27 @@ const ScheduleMeeting = () => {
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsOpen(false);
+      if (e.key === 'Escape') setIsOpen(false);
     };
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
   }, []);
 
   const getCalendarUrl = () => {
     const now = new Date();
     const start = new Date(now.getTime() + 5 * 60000); // 5 min from now
     const end = new Date(start.getTime() + 30 * 60000); // 30 min duration
-    const fmt = (d: Date) => d.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
-    return `https://calendar.google.com/calendar/u/0/r/eventedit?text=Meeting+with+Sajesan+Ghimire&details=Discuss+project+opportunities+and+collaboration&location=Google+Meet&dates=${fmt(start)}/${fmt(end)}&add=sajesan031@gmail.com&sendUpdates=required`;
+    const fmt = (d: Date) => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    return `https://calendar.google.com/calendar/u/0/r/eventedit?text=Meeting+with+Sajesan+Ghimire&details=Discuss+project+opportunities+and+collaboration&location=Google+Meet&dates=${fmt(
+      start
+    )}/${fmt(end)}&add=sajesan031@gmail.com&sendUpdates=required`;
   };
 
   return (
     <div className="w-full mt-10">
       <button
         onClick={toggleModal}
-        className="w-full py-4 px-8 rounded-full bg-gradient-to-r from-[#4F46E5] to-[#6366F1] text-white font-bold flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(79,70,229,0.4)] hover:shadow-[0_0_25px_rgba(79,70,229,0.6)] transition-all duration-300 transform hover:scale-[1.02]"
+        className="w-full py-4 px-8 rounded-full bg-[#915EFF] text-white font-medium flex items-center justify-center gap-3 border border-white/10 hover:bg-[#8050e0] transition-all duration-300 transform hover:scale-[1.02]"
       >
         <HiOutlineCalendar className="text-2xl" />
         <span>Schedule a meeting</span>
@@ -53,8 +55,8 @@ const ScheduleMeeting = () => {
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               className="relative w-full max-w-md bg-[#1a1f2e] rounded-2xl p-8 shadow-2xl border border-white/10"
             >
-              <h2 className="text-2xl font-bold text-white text-center mb-8">
-                Meeting with Sajesan Ghimire
+              <h2 className="text-2xl font-medium text-white text-center mb-8">
+                Schedule a conversation
               </h2>
 
               <div className="flex flex-col gap-4">
@@ -62,15 +64,15 @@ const ScheduleMeeting = () => {
                   href={getCalendarUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 bg-[#22c55e] hover:bg-[#16a34a] text-white font-bold rounded-xl transition-colors duration-300"
+                  className="flex items-center justify-center gap-3 w-full py-4 bg-[#915EFF] hover:bg-[#8050e0] text-white font-medium rounded-xl transition-colors duration-300"
                 >
                   <HiOutlineCalendar className="text-xl" />
-                  Schedule via Google
+                  Open Google Calendar
                 </a>
 
                 <button
                   onClick={toggleModal}
-                  className="w-full py-4 bg-transparent border border-white/20 hover:bg-white/5 text-white font-bold rounded-xl transition-colors duration-300"
+                  className="w-full py-4 bg-transparent border border-white/20 hover:bg-white/5 text-white font-medium rounded-xl transition-colors duration-300"
                 >
                   Close
                 </button>
