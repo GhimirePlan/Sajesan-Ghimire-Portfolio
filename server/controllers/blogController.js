@@ -5,7 +5,11 @@ import Blog from '../models/blogModel.js';
 // @access  Public
 const getBlogs = async (req, res) => {
   try {
-    const blogs = await Blog.find({}).sort({ createdAt: -1 });
+    const blogs = await Blog.find(req.user?.isAdmin ? {} : { isPublished: true })
+      .select('-content')
+      .sort({ createdAt: -1 })
+      .limit(100)
+      .lean();
     res.json(blogs);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching blogs', error: error.message });
@@ -17,20 +21,20 @@ const getBlogs = async (req, res) => {
 // @access  Public
 const getBlogById = async (req, res) => {
   const { idOrSlug } = req.params;
-  
+
   try {
     let blog;
     // Check if idOrSlug is a valid MongoDB ObjectId
     if (idOrSlug.match(/^[0-9a-fA-F]{24}$/)) {
       // Use findOneAndUpdate to increment views atomically and avoid validation issues with missing fields
       blog = await Blog.findOneAndUpdate(
-        { _id: idOrSlug },
+        { _id: idOrSlug, ...(req.user?.isAdmin ? {} : { isPublished: true }) },
         { $inc: { views: 1 } },
         { new: true }
       );
     } else {
       blog = await Blog.findOneAndUpdate(
-        { slug: idOrSlug },
+        { slug: idOrSlug, ...(req.user?.isAdmin ? {} : { isPublished: true }) },
         { $inc: { views: 1 } },
         { new: true }
       );
@@ -51,7 +55,6 @@ const getBlogById = async (req, res) => {
 // @access  Private/Admin
 const createBlog = async (req, res) => {
   try {
-    console.log('Creating blog with data:', req.body);
     const { title, slug, description, content, coverImage, tags, isPublished, pdfUrl } = req.body;
 
     const blog = new Blog({
@@ -76,13 +79,12 @@ const createBlog = async (req, res) => {
 // @route   PUT /api/blogs/:idOrSlug
 // @access  Private/Admin
 const updateBlog = async (req, res) => {
-  console.log('Updating blog with data:', req.body);
   const { title, slug, description, content, coverImage, tags, isPublished, pdfUrl } = req.body;
 
   try {
     const { idOrSlug } = req.params;
     let blog;
-    
+
     if (idOrSlug.match(/^[0-9a-fA-F]{24}$/)) {
       blog = await Blog.findById(idOrSlug);
     } else {
@@ -98,7 +100,6 @@ const updateBlog = async (req, res) => {
       blog.pdfUrl = pdfUrl !== undefined ? pdfUrl : blog.pdfUrl;
       blog.tags = tags !== undefined ? tags : blog.tags;
       blog.isPublished = isPublished !== undefined ? isPublished : blog.isPublished;
-      
 
       const updatedBlog = await blog.save();
       res.json(updatedBlog);

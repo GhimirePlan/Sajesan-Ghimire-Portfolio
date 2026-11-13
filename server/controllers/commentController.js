@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+import Blog from '../models/blogModel.js';
 import Comment from '../models/commentModel.js';
 
 // @desc    Add a comment
@@ -7,6 +9,21 @@ const addComment = async (req, res) => {
   try {
     const { blogId, name, email, comment } = req.body;
 
+    if (
+      !mongoose.isValidObjectId(blogId) ||
+      typeof name !== 'string' ||
+      !name.trim() ||
+      name.length > 100 ||
+      typeof email !== 'string' ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
+      email.length > 254 ||
+      typeof comment !== 'string' ||
+      !comment.trim() ||
+      comment.length > 5000
+    )
+      return res.status(400).json({ message: 'Please provide a valid name, email, and comment.' });
+    if (!(await Blog.exists({ _id: blogId, isPublished: true })))
+      return res.status(404).json({ message: 'Blog not found' });
     const newComment = new Comment({
       blog: blogId,
       name,
@@ -15,7 +32,7 @@ const addComment = async (req, res) => {
     });
 
     const createdComment = await newComment.save();
-    res.status(201).json(createdComment);
+    res.status(201).json({ _id: createdComment._id, message: 'Comment submitted for approval' });
   } catch (error) {
     res.status(400).json({ message: 'Error adding comment', error: error.message });
   }
@@ -26,7 +43,13 @@ const addComment = async (req, res) => {
 // @access  Public
 const getCommentsByBlog = async (req, res) => {
   try {
-    const comments = await Comment.find({ blog: req.params.blogId, isApproved: true });
+    if (!mongoose.isValidObjectId(req.params.blogId))
+      return res.status(400).json({ message: 'Invalid blog ID' });
+    const comments = await Comment.find({ blog: req.params.blogId, isApproved: true })
+      .select('-email')
+      .sort({ createdAt: -1 })
+      .limit(100)
+      .lean();
     res.json(comments);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching comments', error: error.message });
@@ -82,10 +105,4 @@ const deleteComment = async (req, res) => {
   }
 };
 
-export {
-  addComment,
-  getCommentsByBlog,
-  getAllComments,
-  updateCommentStatus,
-  deleteComment,
-};
+export { addComment, getCommentsByBlog, getAllComments, updateCommentStatus, deleteComment };

@@ -11,7 +11,11 @@ const BlogList = () => {
 
   const fetchBlogs = async () => {
     try {
-      const { data } = await axios.get(`${config.apiBaseUrl}/api/blogs`);
+      const { data } = await axios.get(`${config.apiBaseUrl}/api/blogs/manage`, {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem('userInfo') || 'null')?.token}`,
+        },
+      });
       setBlogs(data);
     } catch (error) {
       toast.error('Failed to fetch blogs');
@@ -65,9 +69,13 @@ const BlogList = () => {
               <tr key={blog._id} className="hover:bg-white/5 transition-all">
                 <td className="px-6 py-4 font-medium">{blog.title}</td>
                 <td className="px-6 py-4">
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                    blog.isPublished ? 'bg-green-500/20 text-green-500' : 'bg-yellow-500/20 text-yellow-500'
-                  }`}>
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-bold ${
+                      blog.isPublished
+                        ? 'bg-green-500/20 text-green-500'
+                        : 'bg-yellow-500/20 text-yellow-500'
+                    }`}
+                  >
                     {blog.isPublished ? 'Published' : 'Draft'}
                   </span>
                 </td>
@@ -76,10 +84,16 @@ const BlogList = () => {
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex gap-4">
-                    <Link to={`/admin/blogs/edit/${blog._id}`} className="text-blue-500 hover:text-blue-400">
+                    <Link
+                      to={`/admin/blogs/edit/${blog._id}`}
+                      className="text-blue-500 hover:text-blue-400"
+                    >
                       <HiOutlinePencil size={20} />
                     </Link>
-                    <button onClick={() => deleteHandler(blog._id)} className="text-red-500 hover:text-red-400">
+                    <button
+                      onClick={() => deleteHandler(blog._id)}
+                      className="text-red-500 hover:text-red-400"
+                    >
                       <HiOutlineTrash size={20} />
                     </button>
                   </div>

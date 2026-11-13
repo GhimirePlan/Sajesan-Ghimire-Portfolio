@@ -1,152 +1,52 @@
-import { useEffect, useState, useCallback } from "react";
-import {
-  About,
-  Contact,
-  Experience,
-  Hero,
-  Navbar,
-  Tech,
-  Works,
-  Blog,
-  LinkedInSpotlight,
-  Feedbacks,
-  StarsCanvas,
-  Footer,
-} from "../components";
-import { config } from "../constants/config";
-import Loader from "../components/Loader";
-import herobg from "../assets/herobg.webp";
-
-const HomePage = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isHeroLoaded, setIsHeroLoaded] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
-  const [webglError, setWebglError] = useState(false);
-  const [initError, setInitError] = useState<Error | null>(null);
-
-  const handleContextLost = useCallback((event: Event) => {
-    event.preventDefault();
-    setWebglError(true);
-    console.warn('WebGL context lost. Attempting to recover...');
-  }, []);
-
-  const handleContextRestored = useCallback(() => {
-    setWebglError(false);
-    console.log('WebGL context restored');
-  }, []);
-
-  const initializeApp = useCallback(async () => {
-    try {
-      // Set document title
-      if (document.title !== config.html.title) {
-        document.title = config.html.title;
-      }
-
-      // Preload hero background
-      const heroImage = new Image();
-      heroImage.src = herobg;
-      
-      // Wait for hero image to load
-      await new Promise((resolve, reject) => {
-        heroImage.onload = resolve as () => void;
-        heroImage.onerror = () => reject(new Error('Failed to load hero image'));
-      });
-
-      setIsHeroLoaded(true);
-      
-      // Add a small delay to ensure smooth transition
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      setIsInitialized(true);
-      setIsLoading(false);
-    } catch (error) {
-      console.error('Error initializing app:', error);
-      setInitError(error instanceof Error ? error : new Error('Unknown initialization error'));
-      // Even if there's an error, we should show the app
-      setIsInitialized(true);
-      setIsLoading(false);
-    }
-  }, []);
-
+import { lazy, Suspense, useEffect, useState } from 'react';
+import Navbar from '../components/layout/Navbar';
+import Hero from '../components/sections/Hero';
+import About from '../components/sections/About';
+import Experience from '../components/sections/Experience';
+import Tech from '../components/sections/Tech';
+import Works from '../components/sections/Works';
+import LinkedInSpotlight from '../components/sections/LinkedInSpotlight';
+import Blog from '../components/sections/Blog';
+import Feedbacks from '../components/sections/Feedbacks';
+import Contact from '../components/sections/Contact';
+import Footer from '../components/sections/Footer';
+import { config } from '../constants/config';
+const StarsCanvas = lazy(() => import('../components/canvas/Stars'));
+export default function HomePage() {
+  const [stars, setStars] = useState(false);
   useEffect(() => {
-    const canvas = document.querySelector('canvas');
-    if (canvas) {
-      canvas.addEventListener('webglcontextlost', handleContextLost);
-      canvas.addEventListener('webglcontextrestored', handleContextRestored);
-    }
-
-    initializeApp();
-
-    return () => {
-      if (canvas) {
-        canvas.removeEventListener('webglcontextlost', handleContextLost);
-        canvas.removeEventListener('webglcontextrestored', handleContextRestored);
-      }
-    };
-  }, [handleContextLost, handleContextRestored, initializeApp]);
-
-  if (isLoading || !isInitialized) {
-    return <Loader />;
-  }
-
-  if (webglError) {
-    return (
-      <div className="w-full h-screen flex items-center justify-center bg-[#0a0a0a] text-white">
-        <div className="text-center p-8">
-          <h1 className="text-2xl font-bold mb-4">WebGL Error</h1>
-          <p className="text-gray-400 mb-4">There was an issue with the 3D rendering. Please try refreshing the page.</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-[#915EFF] rounded-md hover:bg-[#7b4ed1] transition-colors"
-          >
-            Refresh Page
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  if (initError) {
-    return (
-      <div className="w-full h-screen flex items-center justify-center bg-[#0a0a0a] text-white">
-        <div className="text-center p-8">
-          <h1 className="text-2xl font-bold mb-4">Initialization Error</h1>
-          <p className="text-gray-400 mb-4">{initError.message}</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-[#915EFF] rounded-md hover:bg-[#7b4ed1] transition-colors"
-          >
-            Refresh Page
-          </button>
-        </div>
-      </div>
-    );
-  }
-
+    document.title = config.html.title;
+  }, []);
   return (
-    <div className="bg-primary relative z-0 min-h-screen">
-      <div 
-        className={`bg-hero-pattern bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${
-          isHeroLoaded ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
+    <div className="bg-primary relative z-0 min-h-screen portfolio-shell">
+      <a href="#about" className="skip-to-content">
+        Skip to content
+      </a>
+      <div className="bg-hero-pattern bg-cover bg-center bg-no-repeat">
         <Navbar />
         <Hero />
       </div>
-      <About />
-      <Experience />
-      <Tech />
-      <Works />
-      <LinkedInSpotlight />
-      <Blog />
-      <Feedbacks />
-      <div className="relative z-0">
+      <main>
+        <About />
+        <Experience />
+        <Tech />
+        <Works />
+        <LinkedInSpotlight />
+        <Blog />
+        <Feedbacks />
         <Contact />
-        <StarsCanvas />
+      </main>
+      <div className="max-w-7xl mx-auto px-6 pb-8">
         <Footer />
+        <button className="text-secondary text-xs mt-4" onClick={() => setStars(!stars)}>
+          {stars ? 'Disable animated background' : 'Enable animated background'}
+        </button>
       </div>
+      {stars && (
+        <Suspense fallback={null}>
+          <StarsCanvas />
+        </Suspense>
+      )}
     </div>
   );
-};
-
-export default HomePage;
+}

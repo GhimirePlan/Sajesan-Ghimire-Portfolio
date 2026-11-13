@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import Tilt from "react-parallax-tilt";
-import { motion, AnimatePresence } from "framer-motion";
-import { FiX } from "react-icons/fi";
+import React, { useState, useEffect } from 'react';
+import Tilt from 'react-parallax-tilt';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiX } from 'react-icons/fi';
 
-import { services } from "../../constants";
-import { SectionWrapper } from "../../hoc";
-import { fadeIn } from "../../utils/motion";
-import { config } from "../../constants/config";
-import { Header } from "../atoms/Header";
-import { TService } from "../../types";
+import { services } from '../../constants';
+import { SectionWrapper } from '../../hoc';
+import { fadeIn } from '../../utils/motion';
+import { config } from '../../constants/config';
+import { Header } from '../atoms/Header';
+import { TService } from '../../types';
 
 interface IServiceCard {
   index: number;
@@ -21,33 +21,29 @@ interface IServiceCard {
   onClick: () => void;
 }
 
-const ServiceCard: React.FC<IServiceCard> = ({ 
-  index, 
-  title, 
-  icon, 
-  description,
-  onClick 
-}) => (
-  <Tilt
-    glareEnable
-    tiltEnable
-    tiltMaxAngleX={30}
-    tiltMaxAngleY={30}
-    glareColor="#aaa6c3"
-  >
+const ServiceCard: React.FC<IServiceCard> = ({ index, title, icon, description, onClick }) => (
+  <Tilt glareEnable tiltEnable tiltMaxAngleX={30} tiltMaxAngleY={30} glareColor="#aaa6c3">
     <div className="max-w-[250px] w-full xs:w-[250px]">
       <motion.div
-        variants={fadeIn("right", "spring", index * 0.5, 0.75)}
+        variants={fadeIn('right', 'spring', index * 0.5, 0.75)}
         className="green-pink-gradient shadow-card w-full rounded-[20px] p-[1px]"
       >
-        <div 
+        <div
           className="bg-tertiary flex min-h-[280px] flex-col items-center justify-evenly rounded-[20px] px-12 py-5 cursor-pointer hover:bg-opacity-80 transition-all group"
+          role="button"
+          tabIndex={0}
+          onKeyDown={event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              onClick();
+            }
+          }}
           onClick={onClick}
         >
           <div className="relative">
             <img
               src={icon}
-              alt="web-development"
+              alt={title}
               className="h-16 w-16 object-contain transition-transform duration-300 group-hover:scale-110"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-20 rounded-full transition-opacity duration-300" />
@@ -56,9 +52,7 @@ const ServiceCard: React.FC<IServiceCard> = ({
           <h3 className="text-center text-[20px] font-bold text-white group-hover:text-[#915EFF] transition-colors duration-300">
             {title}
           </h3>
-          <p className="text-secondary text-center text-[14px] mt-2 line-clamp-3">
-            {description}
-          </p>
+          <p className="text-secondary text-center text-[14px] mt-2 line-clamp-3">{description}</p>
         </div>
       </motion.div>
     </div>
@@ -71,11 +65,17 @@ const ServiceModal: React.FC<{
 }> = ({ service, onClose }) => {
   // Prevent body scroll when modal is open
   useEffect(() => {
+    const previous = document.body.style.overflow;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', closeOnEscape);
     document.body.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = previous;
+      window.removeEventListener('keydown', closeOnEscape);
     };
-  }, []);
+  }, [onClose]);
 
   return (
     <motion.div
@@ -89,9 +89,12 @@ const ServiceModal: React.FC<{
         initial={{ scale: 0.9, opacity: 0, y: 20 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.9, opacity: 0, y: 20 }}
-        transition={{ type: "spring", duration: 0.5 }}
+        transition={{ type: 'spring', duration: 0.5 }}
+        role="dialog"
+        aria-modal="true"
+        aria-label={service.title}
         className="bg-tertiary rounded-[20px] p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
       >
         {/* Close button */}
         <button
@@ -105,11 +108,7 @@ const ServiceModal: React.FC<{
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <div className="relative">
-            <img
-              src={service.icon}
-              alt={service.title}
-              className="h-16 w-16 object-contain"
-            />
+            <img src={service.icon} alt={service.title} className="h-16 w-16 object-contain" />
             <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-20 rounded-full" />
           </div>
           <div>
@@ -130,8 +129,8 @@ const ServiceModal: React.FC<{
             </h4>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {service.details.map((detail, index) => (
-                <li 
-                  key={index} 
+                <li
+                  key={index}
                   className="text-secondary text-[14px] bg-black-100/50 p-3 rounded-lg hover:bg-black-100 transition-colors duration-300"
                 >
                   {detail}
@@ -170,7 +169,7 @@ const About = () => {
       <Header useMotion={true} {...config.sections.about} />
 
       <motion.p
-        variants={fadeIn("", "", 0.1, 1)}
+        variants={fadeIn('', '', 0.1, 1)}
         className="text-secondary mt-4 max-w-3xl text-[17px] leading-[30px]"
       >
         {config.sections.about.content}
@@ -178,10 +177,10 @@ const About = () => {
 
       <div className="mt-20 flex flex-wrap gap-10 max-sm:justify-center">
         {services.map((service, index) => (
-          <ServiceCard 
-            key={service.title} 
-            index={index} 
-            {...service} 
+          <ServiceCard
+            key={service.title}
+            index={index}
+            {...service}
             onClick={() => setSelectedService(service)}
           />
         ))}
@@ -189,14 +188,11 @@ const About = () => {
 
       <AnimatePresence>
         {selectedService && (
-          <ServiceModal
-            service={selectedService}
-            onClose={() => setSelectedService(null)}
-          />
+          <ServiceModal service={selectedService} onClose={() => setSelectedService(null)} />
         )}
       </AnimatePresence>
     </>
   );
 };
 
-export default SectionWrapper(About, "about");
+export default SectionWrapper(About, 'about');

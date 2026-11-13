@@ -10,6 +10,9 @@ import { protect, admin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
+router.get('/manage', protect, admin, getBlogs);
+router.get('/manage/:idOrSlug', protect, admin, getBlogById);
+
 router.route('/').get(getBlogs).post(protect, admin, createBlog);
 router
   .route('/:idOrSlug')

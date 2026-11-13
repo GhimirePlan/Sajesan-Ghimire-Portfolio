@@ -36,11 +36,11 @@ const LinkedInSpotlight = () => {
   }, []);
 
   const nextSlide = useCallback(() => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % posts.length);
+    setCurrentIndex(prevIndex => (prevIndex + 1) % posts.length);
   }, [posts.length]);
 
   const prevSlide = useCallback(() => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + posts.length) % posts.length);
+    setCurrentIndex(prevIndex => (prevIndex - 1 + posts.length) % posts.length);
   }, [posts.length]);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const LinkedInSpotlight = () => {
     // Handle standard LinkedIn post URLs
     // Format 1 (Activity): https://www.linkedin.com/posts/username_activity-7200155208451837952-abcd
     // Format 2 (UGC Post): https://www.linkedin.com/posts/username_ugcPost-7462566842079887360-abcd
-    
+
     const activityMatch = url.match(/activity-([0-9]+)/);
     const ugcPostMatch = url.match(/ugcPost-([0-9]+)/);
     const urnMatch = url.match(/activity:([0-9]+)/);
@@ -90,10 +90,14 @@ const LinkedInSpotlight = () => {
   return (
     <>
       <motion.div variants={textVariant()}>
-        <p className={`${styles.sectionSubText} !text-[14px] sm:!text-[18px]`}>Professional Updates</p>
+        <p className={`${styles.sectionSubText} !text-[14px] sm:!text-[18px]`}>
+          Professional Updates
+        </p>
         <div className="flex items-center gap-3">
           <BsLinkedin className="text-[#0A66C2] text-[28px] sm:text-[36px]" />
-          <h2 className={`${styles.sectionHeadText} !text-[30px] sm:!text-[50px]`}>LinkedIn Spotlights.</h2>
+          <h2 className={`${styles.sectionHeadText} !text-[30px] sm:!text-[50px]`}>
+            LinkedIn Spotlights.
+          </h2>
         </div>
       </motion.div>
 
@@ -113,16 +117,17 @@ const LinkedInSpotlight = () => {
                   FEATURED
                 </div>
               )}
-              
+
               <div className="absolute -top-3 -left-3 z-20 pointer-events-none">
                 <span className="bg-black/80 backdrop-blur-md text-white px-3 py-1.5 rounded-full text-[12px] font-bold border border-white/20 shadow-xl flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 bg-[#915EFF] rounded-full animate-pulse" />
-                  #{posts[currentIndex].tag}
+                  <span className="w-1.5 h-1.5 bg-[#915EFF] rounded-full animate-pulse" />#
+                  {posts[currentIndex].tag}
                 </span>
               </div>
 
               <div className="w-full bg-white rounded-xl overflow-hidden shadow-2xl border border-white/5">
                 <iframe
+                  loading="lazy"
                   src={getEmbedUrl(posts[currentIndex].url)}
                   height="500"
                   width="100%"

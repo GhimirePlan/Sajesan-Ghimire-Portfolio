@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/userModel.js';
 
-const generateToken = (id) => {
+const generateToken = id => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '30d',
+    expiresIn: '8h',
   });
 };
 
@@ -14,7 +14,14 @@ const authUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    if (
+      typeof email !== 'string' ||
+      typeof password !== 'string' ||
+      email.length > 254 ||
+      password.length > 1024
+    )
+      return res.status(400).json({ message: 'Invalid credentials' });
+    const user = await User.findOne({ email: email.trim().toLowerCase() });
 
     if (user && (await user.matchPassword(password))) {
       res.json({

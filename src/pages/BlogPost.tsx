@@ -1,17 +1,20 @@
+import DOMPurify from 'dompurify';
+import portrait from '../assets/profile.webp';
 import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { 
-  HiOutlineClock, 
-  HiOutlineCalendar, 
-  HiOutlineUser, 
+import {
+  HiOutlineClock,
+  HiOutlineCalendar,
+  HiOutlineUser,
   HiOutlineArrowLeft,
   HiOutlineChevronRight,
   HiOutlineChatAlt2,
-  HiOutlineDocumentDownload
+  HiOutlineDocumentDownload,
 } from 'react-icons/hi';
-import { Navbar, StarsCanvas, Footer } from '../components';
+import Navbar from '../components/layout/Navbar';
+import Footer from '../components/sections/Footer';
 import { toast } from 'react-toastify';
 import { config } from '../constants/config';
 
@@ -31,6 +34,8 @@ const BlogPost = () => {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
+    setLoading(true);
+    setBlog(null);
     const fetchBlog = async () => {
       try {
         const { data } = await axios.get(`${config.apiBaseUrl}/api/blogs/${slug}`);
@@ -57,7 +62,7 @@ const BlogPost = () => {
   useEffect(() => {
     if (blog) {
       document.title = `${blog.title} | Sajesan Ghimire`;
-      
+
       if (contentRef.current) {
         const headings = contentRef.current.querySelectorAll('h1, h2, h3');
         const tocItems: TOCItem[] = Array.from(headings).map((heading: any, index) => {
@@ -85,7 +90,7 @@ const BlogPost = () => {
     try {
       await axios.post(`${config.apiBaseUrl}/api/comments`, {
         ...commentData,
-        blogId: blog._id
+        blogId: blog._id,
       });
       toast.success('Comment submitted for approval!');
       setCommentData({ name: '', email: '', comment: '' });
@@ -128,23 +133,28 @@ const BlogPost = () => {
   return (
     <div className="bg-primary relative z-0">
       <Navbar />
-      
+
       <div className="relative pt-24 pb-20">
         <div className="max-w-7xl mx-auto px-6">
           {/* Breadcrumbs */}
           <nav className="flex items-center justify-between text-secondary text-sm mb-8">
             <div className="flex items-center gap-2">
-              <Link to="/" className="hover:text-white transition-colors">Home</Link>
+              <Link to="/" className="hover:text-white transition-colors">
+                Home
+              </Link>
               <HiOutlineChevronRight />
               <span className="text-white truncate max-w-[200px]">{blog.title}</span>
             </div>
-            <Link to="/" className="flex items-center gap-2 text-[#915EFF] hover:underline font-bold">
+            <Link
+              to="/"
+              className="flex items-center gap-2 text-[#915EFF] hover:underline font-bold"
+            >
               <HiOutlineArrowLeft /> Back to Home
             </Link>
           </nav>
 
           {/* Hero Section */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="mb-10 text-center max-w-4xl mx-auto"
@@ -152,12 +162,14 @@ const BlogPost = () => {
             <h1 className="text-white font-black md:text-[50px] sm:text-[40px] xs:text-[30px] text-[26px] mb-6 leading-tight">
               {blog.title}
             </h1>
-            
+
             <div className="flex flex-wrap items-center justify-center gap-6 text-secondary font-medium text-sm sm:text-base">
               <div className="flex items-center gap-2">
                 <HiOutlineCalendar className="text-[#915EFF]" />
-                {new Date(blog.createdAt).toLocaleDateString('en-US', { 
-                  year: 'numeric', month: 'long', day: 'numeric' 
+                {new Date(blog.createdAt).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
                 })}
               </div>
               <div className="flex items-center gap-2 border-x border-white/10 px-6">
@@ -172,16 +184,12 @@ const BlogPost = () => {
           </motion.div>
 
           {/* Optimized Cover Image */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             className="relative w-full max-w-4xl mx-auto h-[300px] sm:h-[450px] rounded-3xl overflow-hidden mb-16 shadow-2xl border border-white/10"
           >
-            <img 
-              src={blog.coverImage} 
-              alt={blog.title}
-              className="w-full h-full object-cover"
-            />
+            <img src={blog.coverImage} alt={blog.title} className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent" />
           </motion.div>
 
@@ -194,15 +202,12 @@ const BlogPost = () => {
                   Table of Contents
                 </h4>
                 <ul className="space-y-3">
-                  {toc.map((item) => (
-                    <li 
-                      key={item.id}
-                      style={{ paddingLeft: `${(item.level - 1) * 12}px` }}
-                    >
-                      <a 
+                  {toc.map(item => (
+                    <li key={item.id} style={{ paddingLeft: `${(item.level - 1) * 12}px` }}>
+                      <a
                         href={`#${item.id}`}
                         className="text-secondary hover:text-[#915EFF] text-sm transition-all duration-300 block"
-                        onClick={(e) => {
+                        onClick={e => {
                           e.preventDefault();
                           document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
                         }}
@@ -217,10 +222,10 @@ const BlogPost = () => {
 
             {/* Main Content */}
             <article className="flex-1 max-w-4xl">
-              <div 
+              <div
                 ref={contentRef}
                 className="blog-content text-secondary text-lg leading-relaxed space-y-6"
-                dangerouslySetInnerHTML={{ __html: blog.content }}
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.content) }}
               />
 
               {/* PDF Viewer */}
@@ -234,14 +239,14 @@ const BlogPost = () => {
                     <iframe
                       src={getPdfEmbedUrl(blog.pdfUrl)}
                       className="w-full h-full border-none"
-                      allow="autoplay"
+                      title="Related engineering document"
                     ></iframe>
-                    
+
                     {/* Overlay for better integration */}
                     <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <a 
-                        href={blog.pdfUrl} 
-                        target="_blank" 
+                      <a
+                        href={blog.pdfUrl}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="bg-black/60 backdrop-blur-md text-white p-3 rounded-full hover:bg-[#915EFF] transition-all border border-white/10"
                         title="Open in New Tab"
@@ -251,7 +256,15 @@ const BlogPost = () => {
                     </div>
                   </div>
                   <p className="text-secondary text-xs mt-4 italic text-center">
-                    Having trouble viewing? <a href={blog.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-[#915EFF] underline">Click here to open the PDF directly.</a>
+                    Having trouble viewing?{' '}
+                    <a
+                      href={blog.pdfUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#915EFF] underline"
+                    >
+                      Click here to open the PDF directly.
+                    </a>
                   </p>
                 </div>
               )}
@@ -259,7 +272,7 @@ const BlogPost = () => {
               {/* Tags */}
               <div className="mt-16 flex flex-wrap gap-3">
                 {blog.tags.map((tag: string) => (
-                  <span 
+                  <span
                     key={tag}
                     className="bg-white/5 border border-white/10 px-4 py-1 rounded-full text-sm text-secondary"
                   >
@@ -271,12 +284,16 @@ const BlogPost = () => {
               {/* Author Card */}
               <div className="mt-20 bg-tertiary/40 border border-white/10 rounded-3xl p-8 flex flex-col sm:flex-row items-center gap-8">
                 <div className="w-24 h-24 rounded-full overflow-hidden flex-shrink-0 ring-4 ring-[#915EFF]/20">
-                  <img src="/profile11.png" alt="Sajesan Ghimire" className="w-full h-full object-cover" />
+                  <img
+                    src={portrait}
+                    alt="Sajesan Ghimire"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div className="text-center sm:text-left flex-1">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-2">
                     <h4 className="text-white font-bold text-xl">Sajesan Ghimire</h4>
-                    <button 
+                    <button
                       onClick={() => {
                         navigator.clipboard.writeText(window.location.href);
                         toast.success('Link copied to clipboard!');
@@ -287,7 +304,8 @@ const BlogPost = () => {
                     </button>
                   </div>
                   <p className="text-secondary text-sm mb-4 leading-relaxed">
-                    Electrical System Designer & Researcher passionate about sustainable energy solutions and modern web technologies.
+                    Electrical System Designer & Researcher passionate about sustainable energy
+                    solutions and modern web technologies.
                   </p>
                   <Link to="/" className="text-[#915EFF] font-bold text-sm hover:underline">
                     View Portfolio
@@ -303,24 +321,27 @@ const BlogPost = () => {
                 </h3>
 
                 {/* Comment Form */}
-                <form onSubmit={handleCommentSubmit} className="bg-tertiary/20 p-8 rounded-3xl border border-white/10 mb-12">
+                <form
+                  onSubmit={handleCommentSubmit}
+                  className="bg-tertiary/20 p-8 rounded-3xl border border-white/10 mb-12"
+                >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div className="flex flex-col gap-2">
                       <span className="text-white text-sm font-medium">Name</span>
-                      <input 
+                      <input
                         type="text"
                         value={commentData.name}
-                        onChange={(e) => setCommentData({ ...commentData, name: e.target.value })}
+                        onChange={e => setCommentData({ ...commentData, name: e.target.value })}
                         required
                         className="bg-primary/50 border border-white/10 rounded-xl py-3 px-4 text-white outline-none focus:border-[#915EFF] transition-colors"
                       />
                     </div>
                     <div className="flex flex-col gap-2">
                       <span className="text-white text-sm font-medium">Email</span>
-                      <input 
+                      <input
                         type="email"
                         value={commentData.email}
-                        onChange={(e) => setCommentData({ ...commentData, email: e.target.value })}
+                        onChange={e => setCommentData({ ...commentData, email: e.target.value })}
                         required
                         className="bg-primary/50 border border-white/10 rounded-xl py-3 px-4 text-white outline-none focus:border-[#915EFF] transition-colors"
                       />
@@ -328,15 +349,15 @@ const BlogPost = () => {
                   </div>
                   <div className="flex flex-col gap-2 mb-8">
                     <span className="text-white text-sm font-medium">Comment</span>
-                    <textarea 
+                    <textarea
                       rows={4}
                       value={commentData.comment}
-                      onChange={(e) => setCommentData({ ...commentData, comment: e.target.value })}
+                      onChange={e => setCommentData({ ...commentData, comment: e.target.value })}
                       required
                       className="bg-primary/50 border border-white/10 rounded-xl py-3 px-4 text-white outline-none focus:border-[#915EFF] transition-colors"
                     />
                   </div>
-                  <button 
+                  <button
                     type="submit"
                     className="bg-[#915EFF] hover:bg-[#7b4ed1] text-white font-bold py-3 px-10 rounded-xl transition-all shadow-lg shadow-[#915EFF]/20"
                   >
@@ -347,16 +368,17 @@ const BlogPost = () => {
                 {/* Comments List */}
                 <div className="space-y-8">
                   {comments.map((comment: any) => (
-                    <div key={comment._id} className="bg-white/5 p-6 rounded-2xl border border-white/10">
+                    <div
+                      key={comment._id}
+                      className="bg-white/5 p-6 rounded-2xl border border-white/10"
+                    >
                       <div className="flex justify-between items-center mb-4">
                         <span className="text-white font-bold">{comment.name}</span>
                         <span className="text-secondary text-xs">
                           {new Date(comment.createdAt).toLocaleDateString()}
                         </span>
                       </div>
-                      <p className="text-secondary text-sm leading-relaxed">
-                        {comment.comment}
-                      </p>
+                      <p className="text-secondary text-sm leading-relaxed">{comment.comment}</p>
                     </div>
                   ))}
                 </div>
@@ -367,7 +389,6 @@ const BlogPost = () => {
       </div>
 
       <div className="relative z-0">
-        <StarsCanvas />
         <Footer />
       </div>
 

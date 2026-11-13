@@ -40,49 +40,49 @@ type TConfig = {
 };
 
 export const config: TConfig = {
-  apiBaseUrl: import.meta.env.MODE === "production" ? "" : "http://localhost:5000",
+  apiBaseUrl: import.meta.env.VITE_API_BASE_URL || '',
   html: {
-    title: "Sajesan Ghimire — Portfolio",
-    fullName: "Sajesan Ghimire",
-    email: "contact@sajesanghimire.com.np",
+    title: 'Sajesan Ghimire — Portfolio',
+    fullName: 'Sajesan Ghimire',
+    email: 'contact@sajesanghimire.com.np',
   },
   hero: {
-    name: "Sajesan Ghimire",
-    p: ["An Electrical Engineer | Researcher ", "from Nepal"],
+    name: 'Sajesan Ghimire',
+    p: ['An Electrical Engineer | Researcher ', 'from Nepal'],
   },
   contact: {
-    p: "Get in touch",
-    h2: "Contact.",
+    p: 'Get in touch',
+    h2: 'Contact.',
     form: {
       name: {
-        span: "Your Name",
+        span: 'Your Name',
         placeholder: "What's your name?",
       },
-      email: { span: "Your Email", placeholder: "What's your email?" },
+      email: { span: 'Your Email', placeholder: "What's your email?" },
       message: {
-        span: "Your Message",
-        placeholder: "What do you want to say?",
+        span: 'Your Message',
+        placeholder: 'What do you want to say?',
       },
     },
   },
   sections: {
     about: {
-      p: "Introduction",
-      h2: "Overview.",
+      p: 'Introduction',
+      h2: 'Overview.',
       content: `Electrical Engineer specializing in power distribution, solar PV design, and automation—driven by a passion for building sustainable and efficient energy solutions.
 `,
     },
     experience: {
-      p: "What I have done so far",
-      h2: "Work Experience.",
+      p: 'What I have done so far',
+      h2: 'Work Experience.',
     },
     feedbacks: {
-      p: "What others say",
-      h2: "Testimonials.",
+      p: 'What others say',
+      h2: 'Testimonials.',
     },
     works: {
-      p: "My work",
-      h2: "Projects.",
+      p: 'My work',
+      h2: 'Projects.',
       content: `Following projects showcases my skills and experience through
     real-world examples of my work. Each project is briefly described. It reflects my
     ability to solve complex problems, work with different technologies,

@@ -5,7 +5,7 @@ import LinkedInPost from '../models/linkedinModel.js';
 // @access  Public
 const getLinkedInPosts = async (req, res) => {
   try {
-    const posts = await LinkedInPost.find({}).sort({ createdAt: -1 });
+    const posts = await LinkedInPost.find({}).sort({ createdAt: -1 }).limit(100).lean();
     res.json(posts);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching LinkedIn posts', error: error.message });
@@ -17,7 +17,6 @@ const getLinkedInPosts = async (req, res) => {
 // @access  Private/Admin
 const addLinkedInPost = async (req, res) => {
   try {
-    console.log('Received LinkedIn post data:', req.body);
     const { url, tag, isFeatured } = req.body;
 
     const post = new LinkedInPost({
@@ -38,7 +37,6 @@ const addLinkedInPost = async (req, res) => {
 // @access  Private/Admin
 const updateLinkedInPost = async (req, res) => {
   try {
-    console.log('Updating LinkedIn post:', req.params.id, req.body);
     const { url, tag, isFeatured } = req.body;
     const post = await LinkedInPost.findById(req.params.id);
 

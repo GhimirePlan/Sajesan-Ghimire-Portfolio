@@ -1,6 +1,6 @@
-import { Suspense, memo } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
+import { Suspense, memo } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, Preload, useGLTF } from '@react-three/drei';
 
 const LoadingFallback = memo(() => {
   return (
@@ -14,11 +14,9 @@ const LoadingFallback = memo(() => {
 LoadingFallback.displayName = 'LoadingFallback';
 
 const Earth = memo(() => {
-  const earth = useGLTF("./planet/scene.gltf");
+  const earth = useGLTF(`${import.meta.env.BASE_URL}planet/scene.gltf`);
 
-  return (
-    <primitive object={earth.scene} scale={2.5} position-y={0} rotation-y={0} />
-  );
+  return <primitive object={earth.scene} scale={2.5} position-y={0} rotation-y={0} />;
 });
 
 Earth.displayName = 'Earth';
@@ -30,10 +28,10 @@ const EarthCanvas = memo(() => {
         shadows
         frameloop="demand"
         dpr={[1, 2]}
-        gl={{ 
+        gl={{
           preserveDrawingBuffer: true,
           antialias: true,
-          powerPreference: "high-performance"
+          powerPreference: 'high-performance',
         }}
         camera={{
           fov: 45,

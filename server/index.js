@@ -1,54 +1,89 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
+import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import helmet from 'helmet';
+import { rateLimit } from 'express-rate-limit';
+import { pathToFileURL } from 'node:url';
 import connectDB from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import blogRoutes from './routes/blogRoutes.js';
 import commentRoutes from './routes/commentRoutes.js';
 import linkedinRoutes from './routes/linkedinRoutes.js';
 
-connectDB();
-
 const app = express();
-
-const corsOptions = {
-  origin: true,
-  credentials: true,
-  optionsSuccessStatus: 200
-};
-
-app.use(cors(corsOptions));
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
-
+app.disable('x-powered-by');
+// Vercel supplies the client address through one trusted proxy hop.
+if (process.env.VERCEL) app.set('trust proxy', 1);
+app.use(helmet());
+const origins = (process.env.CORS_ORIGINS || 'http://localhost:5173')
+  .split(',')
+  .map(origin => origin.trim());
+app.use(
+  cors({
+    origin(origin, callback) {
+      callback(null, !origin || origins.includes(origin));
+    },
+  })
+);
+app.use(express.json({ limit: '1mb' }));
+app.use(express.urlencoded({ limit: '1mb', extended: false }));
+app.use('/api', (req, res, next) => {
+  res.set('Cache-Control', 'no-store');
+  next();
+});
+app.get('/api/health', (req, res) => {
+  const connected = mongoose.connection.readyState === 1;
+  res
+    .status(connected ? 200 : 503)
+    .json({
+      status: connected ? 'ok' : 'degraded',
+      mongodb: connected ? 'connected' : 'disconnected',
+    });
+});
+app.use(
+  '/api',
+  rateLimit({ windowMs: 60_000, limit: 120, standardHeaders: 'draft-7', legacyHeaders: false })
+);
+const writeLimiter = rateLimit({
+  windowMs: 15 * 60_000,
+  limit: 10,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+  skip: req => req.method !== 'POST',
+});
+app.use('/api/users/login', writeLimiter);
+app.use('/api/comments', writeLimiter);
+app.use('/api', async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch {
+    res
+      .status(503)
+      .json({ message: 'Content service is temporarily unavailable. Please try again later.' });
+  }
+});
 app.use('/api/users', userRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/linkedin', linkedinRoutes);
-
-app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'ok', 
-    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
-    env: process.env.NODE_ENV,
-    port: process.env.PORT || 5000
-  });
+app.use((req, res) => res.status(404).json({ message: 'Endpoint not found' }));
+app.use((error, req, res, next) => {
+  if (res.headersSent) return next(error);
+  const status = error.status || 500;
+  res
+    .status(status)
+    .json({
+      message:
+        status === 413
+          ? 'Request is too large'
+          : status === 400
+            ? 'Invalid request'
+            : 'An unexpected error occurred',
+    });
 });
-
-app.get('/', (req, res) => {
-  res.send('API is running...');
-});
-
-const PORT = process.env.PORT || 5000;
-
-// Listen if not in production or if explicitly told to (for local testing)
-if (process.env.NODE_ENV !== 'production' || process.env.LISTEN === 'true') {
-  app.listen(PORT, () => {
-    console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
-  });
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  app.listen(process.env.PORT || 5000, () => console.log('Portfolio API is running'));
 }
-
 export default app;

@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import AdminLayout from '../../components/admin/AdminLayout';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 import { toast } from 'react-toastify';
 import { config } from '../../constants/config';
 
@@ -24,14 +24,24 @@ const modules = {
 
 const formats = [
   'header',
-  'bold', 'italic', 'underline', 'strike',
-  'list', 'bullet',
-  'script', 'super', 'sub',
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'list',
+  'bullet',
+  'script',
+  'super',
+  'sub',
   'indent',
   'direction',
-  'color', 'background',
-  'blockquote', 'code-block',
-  'link', 'image', 'video',
+  'color',
+  'background',
+  'blockquote',
+  'code-block',
+  'link',
+  'image',
+  'video',
 ];
 
 const BlogEditor = () => {
@@ -48,7 +58,6 @@ const BlogEditor = () => {
     pdfUrl: '',
     tags: '',
     isPublished: false,
-    
   });
 
   const generateSlug = (text: string) => {
@@ -71,7 +80,12 @@ const BlogEditor = () => {
     if (id) {
       const fetchBlog = async () => {
         try {
-          const { data } = await axios.get(`${config.apiBaseUrl}/api/blogs/${id}`);
+          const { data } = await axios.get(`${config.apiBaseUrl}/api/blogs/manage/${id}`, {
+            headers: {
+              Authorization: `Bearer ${JSON.parse(localStorage.getItem('userInfo') || 'null')
+                ?.token}`,
+            },
+          });
           setFormData({
             ...data,
             tags: data.tags.join(', '),
@@ -95,7 +109,10 @@ const BlogEditor = () => {
         description: formData.description,
         content: formData.content,
         coverImage: formData.coverImage,
-        tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag !== ''),
+        tags: formData.tags
+          .split(',')
+          .map(tag => tag.trim())
+          .filter(tag => tag !== ''),
         isPublished: formData.isPublished,
         pdfUrl: formData.pdfUrl,
       };
@@ -122,8 +139,11 @@ const BlogEditor = () => {
   return (
     <AdminLayout>
       <h2 className="text-3xl font-bold mb-8">{id ? 'Edit Blog' : 'Create New Blog'}</h2>
-      
-      <form onSubmit={handleSubmit} className="bg-tertiary p-8 rounded-2xl border border-white/10 flex flex-col gap-6">
+
+      <form
+        onSubmit={handleSubmit}
+        className="bg-tertiary p-8 rounded-2xl border border-white/10 flex flex-col gap-6"
+      >
         <style>{`
           .ql-container {
             font-size: 16px;
@@ -161,7 +181,7 @@ const BlogEditor = () => {
           <input
             type="text"
             value={formData.slug}
-            onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+            onChange={e => setFormData({ ...formData, slug: e.target.value })}
             className="bg-primary py-4 px-6 text-white rounded-lg outline-none border-none font-medium"
             placeholder="my-blog-post-title"
             required
@@ -172,7 +192,7 @@ const BlogEditor = () => {
           <span className="text-white font-medium">Short Description</span>
           <textarea
             value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+            onChange={e => setFormData({ ...formData, description: e.target.value })}
             className="bg-primary py-4 px-6 text-white rounded-lg outline-none border-none font-medium"
             rows={3}
             required
@@ -184,7 +204,7 @@ const BlogEditor = () => {
           <input
             type="text"
             value={formData.coverImage}
-            onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
+            onChange={e => setFormData({ ...formData, coverImage: e.target.value })}
             placeholder="https://example.com/image.jpg"
             className="bg-primary py-4 px-6 text-white rounded-lg outline-none border-none font-medium"
             required
@@ -196,18 +216,20 @@ const BlogEditor = () => {
           <input
             type="text"
             value={formData.tags}
-            onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+            onChange={e => setFormData({ ...formData, tags: e.target.value })}
             placeholder="React, ThreeJS, WebDev"
             className="bg-primary py-4 px-6 text-white rounded-lg outline-none border-none font-medium"
           />
         </div>
 
         <div className="flex flex-col gap-2">
-          <span className="text-white font-medium text-[#915EFF]">Google Drive PDF URL (Optional)</span>
+          <span className="text-white font-medium text-[#915EFF]">
+            Google Drive PDF URL (Optional)
+          </span>
           <input
             type="text"
             value={formData.pdfUrl}
-            onChange={(e) => setFormData({ ...formData, pdfUrl: e.target.value })}
+            onChange={e => setFormData({ ...formData, pdfUrl: e.target.value })}
             placeholder="https://drive.google.com/file/d/.../view"
             className="bg-primary py-4 px-6 text-white rounded-lg outline-none border-[#915EFF]/30 border font-medium"
           />
@@ -219,10 +241,10 @@ const BlogEditor = () => {
         <div className="flex flex-col gap-2">
           <span className="text-white font-medium">Content</span>
           <div className="bg-white text-black rounded-lg overflow-hidden min-h-[400px]">
-            <ReactQuill 
-              theme="snow" 
-              value={formData.content} 
-              onChange={(val) => setFormData({ ...formData, content: val })} 
+            <ReactQuill
+              theme="snow"
+              value={formData.content}
+              onChange={val => setFormData({ ...formData, content: val })}
               modules={modules}
               formats={formats}
               className="h-[350px]"
@@ -235,7 +257,7 @@ const BlogEditor = () => {
             type="checkbox"
             id="isPublished"
             checked={formData.isPublished}
-            onChange={(e) => setFormData({ ...formData, isPublished: e.target.checked })}
+            onChange={e => setFormData({ ...formData, isPublished: e.target.checked })}
             className="w-5 h-5 accent-[#915EFF]"
           />
           <label htmlFor="isPublished" className="text-white font-medium cursor-pointer">

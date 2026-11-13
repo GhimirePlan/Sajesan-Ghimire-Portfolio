@@ -1,10 +1,13 @@
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
 
-import { styles } from "../../constants/styles";
-import { ComputersCanvas } from "../canvas";
-import { config } from "../../constants/config";
+import { styles } from '../../constants/styles';
+import { lazy, Suspense, useState } from 'react';
+const ComputersCanvas = lazy(() => import('../canvas/Computers'));
+import desktopPreview from '../../assets/desktop-preview.webp';
+import { config } from '../../constants/config';
 
 const Hero = () => {
+  const [showScene, setShowScene] = useState(false);
   return (
     <section className={`relative mx-auto h-screen w-full`}>
       <div
@@ -26,10 +29,42 @@ const Hero = () => {
         </div>
       </div>
 
-      <ComputersCanvas />
+      <div className="absolute inset-x-6 top-[46%] bottom-28 sm:top-[43%]">
+        {showScene ? (
+          <Suspense
+            fallback={<p className="text-secondary text-center">Loading interactive scene…</p>}
+          >
+            <ComputersCanvas />
+          </Suspense>
+        ) : (
+          <div className="h-full max-w-6xl mx-auto relative flex items-end justify-center pb-12">
+            <img
+              src={desktopPreview}
+              width={1100}
+              height={362}
+              alt="Preview of the original interactive desktop scene"
+              className="absolute inset-0 h-full w-full object-contain"
+            />
+            <div className="relative z-10 flex gap-4">
+              <a
+                href="#work"
+                className="rounded-full bg-[#915EFF] px-5 py-3 text-white text-sm font-medium"
+              >
+                Explore my work
+              </a>
+              <button
+                onClick={() => setShowScene(true)}
+                className="rounded-full border border-white/20 bg-primary/80 px-5 py-3 text-secondary text-sm hover:text-white"
+              >
+                Explore in 3D
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
 
       <div className="xs:bottom-10 absolute bottom-32 flex w-full items-center justify-center">
-        <a href="#about">
+        <a href="#about" aria-label="Scroll to about">
           <div className="border-secondary flex h-[64px] w-[35px] items-start justify-center rounded-3xl border-4 p-2">
             <motion.div
               animate={{
@@ -38,7 +73,7 @@ const Hero = () => {
               transition={{
                 duration: 1.5,
                 repeat: Infinity,
-                repeatType: "loop",
+                repeatType: 'loop',
               }}
               className="bg-secondary mb-1 h-3 w-3 rounded-full"
             />

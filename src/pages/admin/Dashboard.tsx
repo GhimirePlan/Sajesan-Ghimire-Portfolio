@@ -14,9 +14,16 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const { data: blogs } = await axios.get(`${config.apiBaseUrl}/api/blogs`);
+        const { data: blogs } = await axios.get(`${config.apiBaseUrl}/api/blogs/manage`, {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem('userInfo') || 'null')
+              ?.token}`,
+          },
+        });
         const { data: comments } = await axios.get(`${config.apiBaseUrl}/api/comments`, {
-          headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('userInfo')!).token}` }
+          headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem('userInfo')!).token}`,
+          },
         });
 
         setStats({
@@ -32,18 +39,33 @@ const Dashboard = () => {
   }, []);
 
   const cards = [
-    { name: 'Total Blogs', value: stats.totalBlogs, icon: <HiOutlineDocumentText className="text-blue-500" size={40} /> },
-    { name: 'Total Comments', value: stats.totalComments, icon: <HiOutlineChatAlt2 className="text-green-500" size={40} /> },
-    { name: 'Total Views', value: stats.totalViews, icon: <HiOutlineEye className="text-purple-500" size={40} /> },
+    {
+      name: 'Total Blogs',
+      value: stats.totalBlogs,
+      icon: <HiOutlineDocumentText className="text-blue-500" size={40} />,
+    },
+    {
+      name: 'Total Comments',
+      value: stats.totalComments,
+      icon: <HiOutlineChatAlt2 className="text-green-500" size={40} />,
+    },
+    {
+      name: 'Total Views',
+      value: stats.totalViews,
+      icon: <HiOutlineEye className="text-purple-500" size={40} />,
+    },
   ];
 
   return (
     <AdminLayout>
       <h2 className="text-3xl font-bold mb-8">Dashboard Overview</h2>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {cards.map((card) => (
-          <div key={card.name} className="bg-tertiary p-8 rounded-2xl border border-white/10 flex items-center justify-between">
+        {cards.map(card => (
+          <div
+            key={card.name}
+            className="bg-tertiary p-8 rounded-2xl border border-white/10 flex items-center justify-between"
+          >
             <div>
               <p className="text-secondary font-medium mb-2">{card.name}</p>
               <h3 className="text-4xl font-bold">{card.value}</h3>

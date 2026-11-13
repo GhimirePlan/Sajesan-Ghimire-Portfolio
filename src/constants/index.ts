@@ -190,7 +190,7 @@ const experiences: TExperience[] = [
     points: [
       "Managed end-to-end design (system sizing, SLDs) and on-site project execution for utility-scale and institutional solar plants, ensuring strict adherence to engineering standards.",
       "Facilitated seamless client coordination and authored comprehensive technical documentation, including feasibility reports and commissioning manuals for C&I projects.",
-      "rove business development by conducting site surveys and preparing technical-commercial proposals, successfully converting leads into high-scale solar installations.",
+      "Drove business development by conducting site surveys and preparing technical-commercial proposals, successfully converting leads into high-scale solar installations.",
     ],
   },
   {
@@ -321,7 +321,7 @@ const projects: TProject[] = [
         color: "green-text-gradient",
       },
       {
-        name: "ANFS",
+        name: "ANFIS",
         color: "pink-text-gradient",
       },
     ],
@@ -329,7 +329,7 @@ const projects: TProject[] = [
     sourceCodeLink: "https://www.researchgate.net/publication/389150640_Comparative_Assessment_of_PID_and_ANFIS_Controllers_in_an_Automatic_Voltage_Regulator",
   },
   {
-    name: "ANN-BASED UPFC FOR ENHANCEMENT OF POWER FLOW AND VOLTAGE PROFILE",
+    name: "ANN-based UPFC for Power Flow & Voltage Enhancement",
     description:
       "This research proposes an ANN-based UPFC for enhanced power flow and voltage regulation in modern power systems, achieving faster response, improved stability, and reduced faults compared to PID-based control, as validated by MATLAB/Simulink simulations.",
     tags: [

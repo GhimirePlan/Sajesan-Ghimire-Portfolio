@@ -1,14 +1,14 @@
-import { Suspense, useEffect, useState } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
-import { extend } from "@react-three/fiber";
-import * as THREE from "three";
+import { Suspense, useEffect, useState } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, Preload, useGLTF } from '@react-three/drei';
+import { extend } from '@react-three/fiber';
+import * as THREE from 'three';
 
 // Extend Three.js namespace
 extend(THREE);
 
 const Computers = () => {
-  const computer = useGLTF("./desktop_pc/scene.gltf");
+  const computer = useGLTF(`${import.meta.env.BASE_URL}desktop_pc/scene.gltf`);
 
   return (
     <mesh>
@@ -45,36 +45,26 @@ const ComputersCanvas = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 500px)");
+    const mediaQuery = window.matchMedia('(max-width: 500px)');
     setIsMobile(mediaQuery.matches);
 
     const handleMediaQueryChange = (event: MediaQueryListEvent) => {
       setIsMobile(event.matches);
     };
 
-    mediaQuery.addEventListener("change", handleMediaQueryChange);
+    mediaQuery.addEventListener('change', handleMediaQueryChange);
 
     return () => {
-      mediaQuery.removeEventListener("change", handleMediaQueryChange);
+      mediaQuery.removeEventListener('change', handleMediaQueryChange);
     };
   }, []);
-
-  if (isMobile) {
-    return (
-      <div className="flex h-full w-full items-center justify-center">
-        <p className="text-center text-white">
-          
-        </p>
-      </div>
-    );
-  }
 
   return (
     <div className="h-full w-full">
       <Canvas
         frameloop="demand"
         shadows
-        dpr={[1, 2]}
+        dpr={isMobile ? 1 : [1, 1.5]}
         camera={{ position: [20, 3, 5], fov: 25 }}
         gl={{ preserveDrawingBuffer: true }}
       >

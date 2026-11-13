@@ -9,12 +9,14 @@ import { config } from '../../constants/config';
 
 const BlogCard = ({ _id, slug, index, title, description, coverImage, createdAt, tags }: any) => {
   const linkPath = slug || _id;
-  
+
   return (
     <motion.div variants={fadeIn('up', 'spring', index * 0.5, 0.75)}>
       <div className="bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full h-full flex flex-col">
         <div className="relative w-full h-[230px]">
           <img
+            loading="lazy"
+            decoding="async"
             src={coverImage}
             alt={title}
             className="w-full h-full object-cover rounded-2xl"
@@ -38,10 +40,7 @@ const BlogCard = ({ _id, slug, index, title, description, coverImage, createdAt,
           <span className="text-secondary text-[12px]">
             {new Date(createdAt).toLocaleDateString()}
           </span>
-          <Link 
-            to={`/blogs/${linkPath}`}
-            className="text-[#915EFF] font-bold hover:underline"
-          >
+          <Link to={`/blogs/${linkPath}`} className="text-[#915EFF] font-bold hover:underline">
             Read More
           </Link>
         </div>
@@ -52,6 +51,8 @@ const BlogCard = ({ _id, slug, index, title, description, coverImage, createdAt,
 
 const Blog = () => {
   const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -59,7 +60,9 @@ const Blog = () => {
         const { data } = await axios.get(`${config.apiBaseUrl}/api/blogs`);
         setBlogs(data.filter((b: any) => b.isPublished).slice(0, 3));
       } catch (error) {
-        console.error('Failed to fetch blogs');
+        setError(true);
+      } finally {
+        setLoading(false);
       }
     };
     fetchBlogs();
@@ -81,7 +84,16 @@ const Blog = () => {
         </motion.p>
       </div>
 
-      <div className="mt-20 flex flex-wrap gap-7">
+      {!blogs.length && (
+        <p role="status" className="text-secondary mt-8">
+          {loading
+            ? 'Loading articles…'
+            : error
+              ? 'Articles are temporarily unavailable. Please check back soon.'
+              : 'New engineering articles are on their way.'}
+        </p>
+      )}
+      <div className="mt-10 flex flex-wrap gap-7">
         {blogs.map((blog: any, index: number) => (
           <BlogCard key={blog._id} index={index} {...blog} />
         ))}

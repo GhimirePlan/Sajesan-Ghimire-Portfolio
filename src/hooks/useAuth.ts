@@ -3,7 +3,12 @@ import { useState } from 'react';
 export const useAuth = () => {
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem('userInfo');
-    return savedUser ? JSON.parse(savedUser) : null;
+    try {
+      return savedUser ? JSON.parse(savedUser) : null;
+    } catch {
+      localStorage.removeItem('userInfo');
+      return null;
+    }
   });
 
   const login = (userInfo: any) => {
