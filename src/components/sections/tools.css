@@ -1,0 +1,70 @@
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  list-style: none;
+}
+.tool-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 13px;
+  min-width: 0;
+  padding: 20px 8px 16px;
+  border: 1px solid #ffffff10;
+  border-radius: 15px;
+  background: #15103066;
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+.tool-logo-frame {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  padding: 6px;
+  border-radius: 12px;
+  background: #f5f4fa;
+}
+.tool-logo-dark { background: #30283e; }
+.tool-logo-frame img {
+  display: block;
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+.tool-name {
+  max-width: 100%;
+  color: #c1b9d3;
+  font-size: 11px;
+  line-height: 1.65;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.tools-more > summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  min-height: 44px;
+  color: #aaa6c3;
+  font-size: 12px;
+  cursor: pointer;
+  list-style: none;
+}
+.tools-more > summary::-webkit-details-marker { display: none; }
+.tools-more[open] > summary svg { transform: rotate(180deg); }
+@media (hover: hover) {
+  .tool-card:hover { border-color: #b79aff40; background: #21183d80; }
+}
+@media (min-width: 640px) {
+  .tools-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  .tool-name { font-size: 12px; }
+}
+@media (min-width: 1024px) {
+  .tools-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tool-card { transition: none; }
+}

@@ -1,32 +1,24 @@
 import { SectionWrapper } from '../../hoc';
-import { technologies } from '../../constants';
-
-const Tech = () => {
-  return (
-    <>
-      <div className="flex justify-between items-center gap-4 mb-8">
-        <h2 className="text-white text-2xl font-semibold">Tools & technologies</h2>
-      </div>
-      <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4">
-        {technologies.map(technology => (
-          <div className="min-w-0" key={technology.name}>
-            <div className="flex flex-col items-center gap-3 surface-interaction rounded-2xl border border-white/10 bg-tertiary/40 p-4">
-              <img
-                src={technology.icon}
-                width={48}
-                height={48}
-                loading="lazy"
-                decoding="async"
-                alt=""
-                className="h-12 w-12 object-contain"
-              />
-              <span className="text-secondary text-xs text-center">{technology.name}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-    </>
-  );
-};
-
+import { technologies, additionalTechnologies } from '../../constants';
+import type { TTechnology } from '../../types';
+import { FiChevronDown } from 'react-icons/fi';
+import './tools.css';
+function ToolGrid({ tools }: { tools: TTechnology[] }) {
+  return <ul className="tools-grid">
+    {tools.map(tool => <li className="tool-card" key={tool.name}>
+      <span className={`tool-logo-frame${tool.name === 'Storlytics' ? ' tool-logo-dark' : ''}`} aria-hidden="true">
+        <img src={tool.icon} width={36} height={36} loading="lazy" decoding="async" alt="" />
+      </span>
+      <span className="tool-name">{tool.name}</span>
+    </li>)}
+  </ul>;
+}
+const Tech = () => <>
+  <h2 className="text-white text-2xl font-semibold mb-7">Tools & technologies</h2>
+  <ToolGrid tools={technologies} />
+  <details className="tools-more mt-5">
+    <summary>More tools <FiChevronDown size={14} aria-hidden="true" /></summary>
+    <div className="pt-4"><ToolGrid tools={additionalTechnologies} /></div>
+  </details>
+</>;
 export default SectionWrapper(Tech, 'tech');

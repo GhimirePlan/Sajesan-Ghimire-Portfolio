@@ -13,19 +13,16 @@ import {
   creator,
   web,
   proteus,
-  dialux,
   git,
   audrino,
   figma,
   carrent,
   jobit,
   tripguide,
-  excel,
   Ai,
   Photoshop,
   canva,
   word,
-  Matlab,
   manipal,
   nea,
   egen,
@@ -34,6 +31,25 @@ import {
   advance,
   smart,
 } from '../assets';
+
+import pvsystTool from '../assets/tech/tools/pvsyst.webp';
+import helioscopeTool from '../assets/tech/tools/helioscope.webp';
+import matlabTool from '../assets/tech/tools/matlab.webp';
+import etapTool from '../assets/tech/tools/etap.webp';
+import autocadTool from '../assets/tech/tools/autocad.webp';
+import homerTool from '../assets/tech/tools/homer.webp';
+import scadaTool from '../assets/tech/tools/scada.webp';
+import revitTool from '../assets/tech/tools/revit.webp';
+import sketchupTool from '../assets/tech/tools/sketchup.webp';
+import primaveraTool from '../assets/tech/tools/primavera.webp';
+import dialuxTool from '../assets/tech/tools/dialux.webp';
+import storlyticsTool from '../assets/tech/tools/storlytics.webp';
+import pythonTool from '../assets/tech/tools/python.webp';
+import cplusplusTool from '../assets/tech/tools/cplusplus.webp';
+import excelTool from '../assets/tech/tools/excel.webp';
+import virtoTool from '../assets/tech/tools/virto.webp';
+import chatgptTool from '../assets/tech/tools/chatgpt.webp';
+import notionTool from '../assets/tech/tools/notion.webp';
 
 export const navLinks: TNavLink[] = [
   {
@@ -107,7 +123,7 @@ const services: TService[] = [
       'Battery storage system design',
       'Procurement coordination and construction supervision',
     ],
-    tools: ['PVsyst', 'HelioScope', 'SketchUp', 'AutoCAD', 'Vitro Solar'],
+    tools: ['PVsyst', 'HelioScope', 'SketchUp', 'AutoCAD', 'Virto Solar'],
     experience: '1+ years',
   },
   {
@@ -130,10 +146,27 @@ const services: TService[] = [
 ];
 
 const technologies: TTechnology[] = [
-  {
-    name: 'MATLAB',
-    icon: Matlab,
-  },
+  { name: 'PVsyst', icon: pvsystTool },
+  { name: 'HelioScope', icon: helioscopeTool },
+  { name: 'MATLAB/Simulink', icon: matlabTool },
+  { name: 'ETAP', icon: etapTool },
+  { name: 'AutoCAD', icon: autocadTool },
+  { name: 'HOMER', icon: homerTool },
+  { name: 'SCADA', icon: scadaTool },
+  { name: 'Revit', icon: revitTool },
+  { name: 'SketchUp', icon: sketchupTool },
+  { name: 'Primavera P6', icon: primaveraTool },
+  { name: 'DIALux evo', icon: dialuxTool },
+  { name: 'Storlytics', icon: storlyticsTool },
+  { name: 'Python', icon: pythonTool },
+  { name: 'C/C++', icon: cplusplusTool },
+  { name: 'MS Excel', icon: excelTool },
+  { name: 'Virto Solar', icon: virtoTool },
+  { name: 'ChatGPT', icon: chatgptTool },
+  { name: 'Notion', icon: notionTool },
+];
+
+const additionalTechnologies: TTechnology[] = [
   {
     name: 'Illustrator',
     icon: Ai,
@@ -141,10 +174,6 @@ const technologies: TTechnology[] = [
   {
     name: 'Word',
     icon: word,
-  },
-  {
-    name: 'Excel',
-    icon: excel,
   },
   {
     name: 'Canva',
@@ -161,10 +190,6 @@ const technologies: TTechnology[] = [
   {
     name: 'Arduino',
     icon: audrino,
-  },
-  {
-    name: 'DIALux',
-    icon: dialux,
   },
   {
     name: 'Git',
@@ -490,4 +515,4 @@ const projects: TProject[] = [
   },
 ];
 
-export { services, technologies, experiences, testimonials, projects };
+export { services, technologies, additionalTechnologies, experiences, testimonials, projects };
