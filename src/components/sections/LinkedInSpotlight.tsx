@@ -58,7 +58,9 @@ function LinkedInSpotlight() {
   return (
     <>
       <div className="linkedin-section-heading">
-        <Header useMotion={false} p="Professional updates" h2="On LinkedIn" />
+        <div>
+          <Header useMotion={false} p="Professional updates" h2="On LinkedIn" />
+        </div>
         <a
           className="linkedin-profile-link"
           href="https://www.linkedin.com/in/sajesan/"
