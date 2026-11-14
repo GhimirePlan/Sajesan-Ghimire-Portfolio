@@ -94,7 +94,6 @@ export default function LoginPage() {
             {busy ? 'Signing in…' : 'Sign in'}
           </button>
         </form>
-        <p className="admin-help mt-6">Your existing administrator account is unchanged.</p>
       </div>
     </main>
   );
