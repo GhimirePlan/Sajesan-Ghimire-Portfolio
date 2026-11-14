@@ -47,11 +47,19 @@ export default function Hero() {
             <FiArrowUpRight size={14} aria-hidden="true" />
           </a>
         </div>
-        <div className="flex flex-wrap gap-x-6 gap-y-2 mt-10 pt-5 border-t border-white/10 text-xs text-secondary">
-          <span>Solar PV design</span>
-          <span>Power distribution</span>
-          <span>Research & automation</span>
-        </div>
+        <ul
+          aria-label="Areas of focus"
+          className="flex flex-wrap gap-2 mt-8 pt-5 border-t border-white/10"
+        >
+          {['Solar PV', 'Renewable Energy', 'Energy Storage & BESS', 'Energy Management', 'Project Management'].map(area => (
+            <li
+              key={area}
+              className="rounded-full border border-white/10 bg-white/[0.025] px-3 py-1.5 text-[11px] leading-5 text-secondary"
+            >
+              {area}
+            </li>
+          ))}
+        </ul>
       </motion.div>
       <motion.div
         initial={{ opacity: 0, y: 12 }}
