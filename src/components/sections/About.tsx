@@ -29,16 +29,16 @@ const ServiceCard: React.FC<IServiceCard> = ({ index, title, description, onClic
       variants={fadeIn('up', 'tween', index * 0.05, 0.3)}
       onClick={onClick}
       aria-haspopup="dialog"
-      className="expertise-card text-left group"
+      className="expertise-row text-left group"
     >
-      <span className="expertise-icon">
-        <Icon size={20} aria-hidden="true" />
+      <span className="expertise-row-icon">
+        <Icon size={17} aria-hidden="true" />
       </span>
-      <span className="expertise-title">{title}</span>
-      <span className="expertise-description">{description}</span>
-      <span className="expertise-action">
-        Explore expertise <FiArrowUpRight size={15} aria-hidden="true" />
+      <span className="expertise-row-copy">
+        <span className="expertise-row-title">{title}</span>
+        <span className="expertise-row-description">{description}</span>
       </span>
+      <FiArrowUpRight className="expertise-row-arrow" size={16} aria-hidden="true" />
     </motion.button>
   );
 };
@@ -171,33 +171,29 @@ const About = () => {
     <>
       <div className="about-intro-card">
         <div className="about-card-heading">
-          <span className="about-card-symbol" aria-hidden="true">
-            <FiZap size={23} />
-          </span>
           <Header useMotion={false} {...config.sections.about} />
-          <p className="text-[#c9b5ff] text-sm mt-4">Design. Analyse. Deliver.</p>
+          <p className="text-secondary text-sm mt-4">
+            Electrical engineer & researcher
+            <br />
+            <span className="text-secondary/70">Based in Nepal</span>
+          </p>
         </div>
         <div className="about-card-copy">
           <p className="text-secondary text-[15px] leading-7">{config.sections.about.content}</p>
-          <div className="about-focus-list">
-            <span>Solar PV systems</span>
-            <span>Electrical design</span>
-            <span>Applied research</span>
-          </div>
           <a href="#work" className="about-experience-link">
-            Explore my experience <FiArrowUpRight size={16} aria-hidden="true" />
+            View experience <FiArrowUpRight size={16} aria-hidden="true" />
           </a>
         </div>
-      </div>
-      <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        {services.map((service, index) => (
-          <ServiceCard
-            key={service.title}
-            index={index}
-            {...service}
-            onClick={() => setSelectedService(service)}
-          />
-        ))}
+        <div className="about-specialties">
+          {services.map((service, index) => (
+            <ServiceCard
+              key={service.title}
+              index={index}
+              {...service}
+              onClick={() => setSelectedService(service)}
+            />
+          ))}
+        </div>
       </div>
 
       <AnimatePresence>
