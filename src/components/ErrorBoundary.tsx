@@ -38,14 +38,9 @@ class ErrorBoundary extends React.Component<Props, State> {
         <div className="w-full h-screen flex items-center justify-center bg-[#0a0a0a] text-white">
           <div className="text-center p-8 max-w-2xl">
             <h1 className="text-2xl font-bold mb-4">Something went wrong</h1>
-            <div className="bg-[#1a1a1a] p-4 rounded-lg mb-4 text-left overflow-auto max-h-60">
-              <p className="text-red-400 mb-2">Error: {this.state.error?.message}</p>
-              {this.state.errorInfo && (
-                <pre className="text-sm text-gray-400 whitespace-pre-wrap">
-                  {this.state.errorInfo.componentStack}
-                </pre>
-              )}
-            </div>
+            <p className="text-gray-400 mb-6">
+              Please try again or refresh the page.
+            </p>
             <div className="space-x-4">
               <button
                 onClick={this.handleReset}
@@ -69,4 +64,4 @@ class ErrorBoundary extends React.Component<Props, State> {
   }
 }
 
-export default ErrorBoundary; 
+export default ErrorBoundary;
