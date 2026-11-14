@@ -71,7 +71,7 @@ export const config: TConfig = {
     about: {
       p: 'Introduction',
       h2: 'About me',
-      content: `I am an electrical engineer working in solar PV design, power distribution, and automation. My experience covers feasibility studies, system design, technical documentation, and site supervision.
+      content: `I am a registered Electrical Engineer at Smart Solar Nepal Corporation, working in solar PV EPC, project engineering, feasibility studies, electrical design and execution planning. My experience spans C&I and utility-scale solar, power distribution and MEP systems, with research interests in smart grids and intelligent control.
 `,
     },
     experience: {
