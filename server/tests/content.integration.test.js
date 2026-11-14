@@ -223,6 +223,22 @@ test(
           assert.equal((await request('/api/media/' + image._id, 'DELETE')).status, 200);
         }
       );
+      await t.test('password changes require current credentials and invalidate existing sessions', async () => {
+        const nextPassword = 'temporary-replacement-password';
+        assert.equal((await request('/api/users/password', 'PUT', { currentPassword: 'temporary-integration-password', newPassword: nextPassword }, false)).status, 401);
+        assert.equal((await request('/api/users/password', 'PUT', { currentPassword: 'wrong-password', newPassword: nextPassword })).status, 401);
+        assert.equal((await request('/api/users/password', 'PUT', { currentPassword: 'temporary-integration-password', newPassword: 'short' })).status, 400);
+        assert.equal((await request('/api/users/password', 'PUT', { currentPassword: 'temporary-integration-password', newPassword: nextPassword })).status, 200);
+        assert.equal((await request('/api/experience/manage')).status, 401);
+        const saved = await User.findOne({ email: 'content-test@example.invalid' });
+        assert.notEqual(saved.password, nextPassword);
+        assert.equal(await saved.matchPassword(nextPassword), true);
+        assert.equal(await saved.matchPassword('temporary-integration-password'), false);
+        const login = await request('/api/users/login', 'POST', { email: saved.email, password: nextPassword }, false);
+        assert.equal(login.status, 200);
+        token = login.data.token;
+        assert.equal((await request('/api/experience/manage')).status, 200);
+      });
     } finally {
       await new Promise(resolve => server.close(resolve));
       if (mongoose.connection.name.startsWith('portfolio_test_'))

@@ -16,6 +16,7 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    tokenVersion: { type: Number, default: 0 },
     isAdmin: {
       type: Boolean,
       required: true,

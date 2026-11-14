@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/userModel.js';
 
-const generateToken = id => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
+const generateToken = (id, tokenVersion = 0) => {
+  return jwt.sign({ id, tokenVersion }, process.env.JWT_SECRET, {
     expiresIn: '8h',
   });
 };
@@ -29,7 +29,7 @@ const authUser = async (req, res) => {
         name: user.name,
         email: user.email,
         isAdmin: user.isAdmin,
-        token: generateToken(user._id),
+        token: generateToken(user._id, user.tokenVersion),
       });
     } else {
       res.status(401).json({ message: 'Invalid email or password' });
@@ -39,4 +39,20 @@ const authUser = async (req, res) => {
   }
 };
 
-export { authUser };
+const changePassword = async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  if (typeof currentPassword !== 'string' || currentPassword.length > 1024 ||
+      typeof newPassword !== 'string' || newPassword.length < 12 || newPassword.length > 128)
+    return res.status(400).json({ message: 'Choose a password between 12 and 128 characters.' });
+  const user = await User.findById(req.user._id);
+  if (!user || !(await user.matchPassword(currentPassword)))
+    return res.status(401).json({ message: 'Current password is incorrect.' });
+  if (currentPassword === newPassword)
+    return res.status(400).json({ message: 'Choose a different password.' });
+  user.password = newPassword;
+  user.tokenVersion = (user.tokenVersion || 0) + 1;
+  await user.save();
+  res.json({ message: 'Password changed. Sign in again with your new password.' });
+};
+
+export { authUser, changePassword };
