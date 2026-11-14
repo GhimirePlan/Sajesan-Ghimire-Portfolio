@@ -1,3 +1,4 @@
+import './blog-post.css';
 import RichContent from '../components/content/RichContent';
 import CopyLinkButton from '../components/content/CopyLinkButton';
 import portrait from '../assets/profile.webp';
@@ -71,7 +72,7 @@ const BlogPost = () => {
           heading.id = id;
           return {
             id,
-            text: heading.innerText,
+            text: heading.textContent.replace(/\s+/g, ' ').trim(),
             level: parseInt(heading.tagName[1]),
           };
         });
@@ -198,23 +199,23 @@ const BlogPost = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent" />
           </motion.div>
 
-          <div className="flex flex-col lg:flex-row gap-16">
+          <div className="blog-reading-layout">
             {/* Sidebar - Table of Contents */}
-            <aside className="lg:w-64 flex-shrink-0">
-              <div className="sticky top-32 bg-tertiary/30 backdrop-blur-md border border-white/10 rounded-2xl p-6">
-                <h4 className="text-white font-bold mb-4 flex items-center gap-2">
+            {toc.length > 0 && <aside className="blog-toc" aria-labelledby="blog-toc-title">
+              <nav className="blog-toc-panel" aria-label="Article contents">
+                <h2 id="blog-toc-title" className="text-white font-semibold mb-4 flex items-center gap-2 text-sm">
                   <span className="w-1 h-6 bg-[#915EFF] rounded-full" />
-                  Table of Contents
-                </h4>
-                <ul className="space-y-3">
+                  Table of contents
+                </h2>
+                <ul className="blog-toc-list">
                   {toc.map(item => (
-                    <li key={item.id} style={{ paddingLeft: `${(item.level - 1) * 12}px` }}>
+                    <li key={item.id} style={{ paddingLeft: `${(item.level - Math.min(...toc.map(heading => heading.level))) * 12}px` }}>
                       <a
                         href={`#${item.id}`}
-                        className="text-secondary hover:text-[#915EFF] text-sm transition-all duration-300 block"
+                        className="blog-toc-link"
                         onClick={e => {
                           e.preventDefault();
-                          document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
+                          document.getElementById(item.id)?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
                         }}
                       >
                         {item.text}
@@ -222,11 +223,11 @@ const BlogPost = () => {
                     </li>
                   ))}
                 </ul>
-              </div>
-            </aside>
+              </nav>
+            </aside>}
 
             {/* Main Content */}
-            <article className="flex-1 max-w-4xl">
+            <article className="blog-article">
               <div className="flex justify-end mb-5">
                 <CopyLinkButton
                   url={`${window.location.origin}${import.meta.env.BASE_URL}blogs/${
