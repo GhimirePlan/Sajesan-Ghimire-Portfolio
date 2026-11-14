@@ -113,16 +113,16 @@ const Contact = () => {
         <Header useMotion={false} {...config.contact} />
 
         <a
-          href="https://wa.me/9779806543925"
+          href="https://wa.me/9779865464147"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Chat on WhatsApp at +977 9806543925 (opens in a new tab)"
+          aria-label="Chat on WhatsApp at +977 9865464147 (opens in a new tab)"
           className="mt-6 flex items-center gap-3 rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-emerald-300 transition-colors duration-200 hover:border-emerald-400/60 hover:bg-emerald-400/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
         >
           <FaWhatsapp size={26} className="shrink-0" aria-hidden="true" />
           <span className="min-w-0">
             <span className="block text-sm font-semibold">Chat on WhatsApp</span>
-            <span className="block text-xs text-emerald-100/80">+977 9806543925</span>
+            <span className="block text-xs text-emerald-100/80">+977 9865464147</span>
           </span>
           <span className="ml-auto text-lg" aria-hidden="true">↗</span>
         </a>
