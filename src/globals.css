@@ -471,3 +471,12 @@ section[id] {
     transform: none;
   }
 }
+@media (max-width: 639px) {
+  .portrait-decoration {
+    inset: 8px 6px 40px 16px;
+    transform: rotate(2deg);
+  }
+}
+.portrait-composition {
+  overflow: clip;
+}
