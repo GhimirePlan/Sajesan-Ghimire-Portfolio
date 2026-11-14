@@ -21,8 +21,32 @@ const LinkedInList = lazy(() => import('./pages/admin/LinkedInList'));
 function RouteScroll() {
   const { pathname, hash } = useLocation();
   useEffect(() => {
-    if (hash) document.getElementById(hash.slice(1))?.scrollIntoView();
-    else window.scrollTo(0, 0);
+    // Wait until route content mounts and any project dialog releases its scroll lock.
+    let observer: MutationObserver | undefined;
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+    const frame = requestAnimationFrame(() => {
+      if (!hash) {
+        window.scrollTo(0, 0);
+        return;
+      }
+      const scrollToTarget = () => {
+        const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+        if (!target) return false;
+        target.scrollIntoView({ block: 'start' });
+        return true;
+      };
+      if (scrollToTarget()) return;
+      observer = new MutationObserver(() => {
+        if (scrollToTarget()) observer?.disconnect();
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+      timeout = setTimeout(() => observer?.disconnect(), 5000);
+    });
+    return () => {
+      cancelAnimationFrame(frame);
+      observer?.disconnect();
+      clearTimeout(timeout);
+    };
   }, [pathname, hash]);
   return null;
 }

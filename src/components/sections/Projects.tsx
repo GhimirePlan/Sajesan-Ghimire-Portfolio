@@ -149,7 +149,7 @@ function ProjectDetails({ project, onClose }: { project: ManagedProject; onClose
           <div className="project-detail-actions">
             <Link
               to="/#contact"
-              className="portfolio-button rounded-full bg-[#915EFF] text-white px-5 py-3 text-xs font-medium"
+              className="project-discuss-button"
             >
               Discuss this project <FiArrowUpRight size={15} aria-hidden="true" />
             </Link>
