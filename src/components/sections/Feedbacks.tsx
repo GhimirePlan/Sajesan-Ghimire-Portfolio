@@ -1,9 +1,12 @@
-import { testimonials } from '../../constants';
+import { useState } from 'react';
+import useTestimonials from '../../hooks/useTestimonials';
 import { FiChevronDown } from 'react-icons/fi';
 function Feedbacks() {
+  const [open, setOpen] = useState(false);
+  const testimonials = useTestimonials(open);
   return (
     <section id="testimonials" className="max-w-7xl mx-auto px-6 sm:px-16 py-6 sm:py-8">
-      <details className="testimonials-disclosure">
+      <details className="testimonials-disclosure" onToggle={event => setOpen(event.currentTarget.open)}>
         <summary role="button" className="testimonials-toggle" aria-label="Toggle testimonials">
           <div>
             <h2 className="text-white text-base sm:text-lg font-medium">Testimonials</h2>
@@ -16,9 +19,10 @@ function Feedbacks() {
           </span>
         </summary>
         <div className="testimonials-content grid grid-cols-1 md:grid-cols-3 gap-4">
-          {testimonials.map(item => (
+          {!testimonials.length && <p className="text-secondary text-sm">Feedback will be shared here.</p>}
+          {testimonials.map((item, index) => (
             <figure
-              key={item.name}
+              key={`${item.name}-${index}`}
               className="border border-white/10 rounded-2xl bg-tertiary/50 p-6 flex flex-col"
             >
               <blockquote className="text-secondary text-sm leading-7 flex-1">
@@ -37,7 +41,7 @@ function Feedbacks() {
                 <div>
                   <p className="text-white text-sm font-medium">{item.name}</p>
                   <p className="text-secondary text-xs mt-1">
-                    {item.designation} · {item.company}
+                    {[item.designation, item.company].filter(Boolean).join(' · ')}
                   </p>
                 </div>
               </figcaption>

@@ -12,6 +12,7 @@ import commentRoutes from './routes/commentRoutes.js';
 import projectRoutes from './routes/projectRoutes.js';
 import mediaRoutes from './routes/mediaRoutes.js';
 import seoRoutes from './routes/seoRoutes.js';
+import testimonialRoutes, { publicTestimonials } from './routes/testimonialRoutes.js';
 import linkedinRoutes from './routes/linkedinRoutes.js';
 import experienceRoutes, { publicExperience } from './routes/experienceRoutes.js';
 
@@ -57,6 +58,7 @@ const writeLimiter = rateLimit({
 app.use('/api/users/login', writeLimiter);
 app.use('/api/comments', writeLimiter);
 app.get('/api/experience', publicExperience);
+app.get('/api/testimonials', publicTestimonials);
 app.use('/api', async (req, res, next) => {
   try {
     await connectDB();
@@ -75,6 +77,7 @@ app.use('/api/linkedin', linkedinRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/media', mediaRoutes);
 app.use('/api/experience', experienceRoutes);
+app.use('/api/testimonials', testimonialRoutes);
 app.use((req, res) => res.status(404).json({ message: 'Endpoint not found' }));
 app.use((error, req, res, next) => {
   if (res.headersSent) return next(error);

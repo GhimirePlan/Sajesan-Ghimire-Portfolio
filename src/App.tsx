@@ -18,6 +18,7 @@ const ProjectEditor = lazy(() => import('./pages/admin/ProjectEditor'));
 const MediaLibrary = lazy(() => import('./pages/admin/MediaLibrary'));
 const BlogEditor = lazy(() => import('./pages/admin/BlogEditor'));
 const CommentList = lazy(() => import('./pages/admin/CommentList'));
+const TestimonialList = lazy(() => import('./pages/admin/TestimonialList'));
 const ExperienceList = lazy(() => import('./pages/admin/ExperienceList'));
 const LinkedInList = lazy(() => import('./pages/admin/LinkedInList'));
 function RouteScroll() {
@@ -159,6 +160,7 @@ const App = () => {
                   </AdminRoute>
                 }
               />
+              <Route path="/admin/testimonials" element={<AdminRoute><TestimonialList /></AdminRoute>} />
               <Route path="/admin/experience" element={<AdminRoute><ExperienceList /></AdminRoute>} />
               <Route
                 path="/admin/linkedin"

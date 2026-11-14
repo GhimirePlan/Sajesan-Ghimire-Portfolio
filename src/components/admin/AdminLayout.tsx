@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import {
   FiGrid,
   FiClock,
+  FiMessageCircle,
   FiFileText,
   FiBriefcase,
   FiMessageSquare,
@@ -39,6 +40,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     ['Articles', '/admin/blogs', FiFileText],
     ['Projects', '/admin/projects', FiBriefcase],
     ['Experience', '/admin/experience', FiClock],
+    ['Testimonials', '/admin/testimonials', FiMessageCircle],
     ['Media library', '/admin/media', FiImage],
     ['Comments', '/admin/comments', FiMessageSquare],
     ['LinkedIn', '/admin/linkedin', FiLinkedin],

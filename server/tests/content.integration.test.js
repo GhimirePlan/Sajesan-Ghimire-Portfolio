@@ -74,6 +74,34 @@ test(
         await request('/api/experience', 'PUT', { entries: [] });
         assert.deepEqual((await request('/api/experience', 'GET', undefined, false)).data.entries, []);
       });
+      await t.test('testimonials enforce authentication, filter hidden entries, and cache reads', async () => {
+        const entry = { name: 'Test Engineer', designation: 'Engineer', company: 'Solar Company', testimonial: 'Thoughtful engineering and clear communication.', isPublished: true };
+        assert.equal((await request('/api/testimonials/manage', 'GET', undefined, false)).status, 401);
+        assert.equal((await request('/api/testimonials', 'PUT', { entries: [entry] }, false)).status, 401);
+        assert.equal((await request('/api/testimonials', 'PUT', { entries: [{ ...entry, name: '' }] })).status, 400);
+        assert.equal((await request('/api/testimonials', 'PUT', { entries: [{ ...entry, testimonial: 'a'.repeat(2001) }] })).status, 400);
+        assert.equal((await request('/api/testimonials', 'PUT', { entries: [entry, { ...entry, name: 'Hidden', isPublished: false }] })).status, 200);
+        const Catalog = mongoose.model('TestimonialCatalog');
+        const original = Catalog.findOne; let reads = 0;
+        Catalog.findOne = function (...args) { reads++; return original.apply(this, args); };
+        try {
+          const responses = await Promise.all(Array.from({ length: 5 }, () => fetch(base + '/api/testimonials')));
+          for (const response of responses) {
+            assert.equal(response.status, 200);
+            assert.match(response.headers.get('cache-control'), /s-maxage=60/);
+            const { entries } = await response.json();
+            assert.equal(entries.length, 1); assert.equal(entries[0].name, entry.name);
+          }
+          assert.equal(reads, 1);
+          await fetch(base + '/api/testimonials'); assert.equal(reads, 1);
+        } finally { Catalog.findOne = original; }
+        const managed = (await request('/api/testimonials/manage')).data.entries;
+        assert.equal(managed.length, 2);
+        await request('/api/testimonials', 'PUT', { entries: managed.reverse() });
+        assert.equal((await request('/api/testimonials/manage')).data.entries[0].name, 'Hidden');
+        await request('/api/testimonials', 'PUT', { entries: [] });
+        assert.deepEqual((await request('/api/testimonials', 'GET', undefined, false)).data.entries, []);
+      });
       await t.test('image binary persists and is served with immutable cache headers', async () => {
         const buffer = Buffer.from(
           'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aV1sAAAAASUVORK5CYII=',
