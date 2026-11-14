@@ -1,7 +1,6 @@
 import { SectionWrapper } from '../../hoc';
-import { technologies, additionalTechnologies } from '../../constants';
+import { technologies } from '../../constants';
 import type { TTechnology } from '../../types';
-import { FiChevronDown } from 'react-icons/fi';
 import './tools.css';
 function ToolGrid({ tools }: { tools: TTechnology[] }) {
   return <ul className="tools-grid">
@@ -16,9 +15,5 @@ function ToolGrid({ tools }: { tools: TTechnology[] }) {
 const Tech = () => <>
   <h2 className="text-white text-2xl font-semibold mb-7">Tools & technologies</h2>
   <ToolGrid tools={technologies} />
-  <details className="tools-more mt-5">
-    <summary>More tools <FiChevronDown size={14} aria-hidden="true" /></summary>
-    <div className="pt-4"><ToolGrid tools={additionalTechnologies} /></div>
-  </details>
 </>;
 export default SectionWrapper(Tech, 'tech');

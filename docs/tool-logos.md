@@ -18,4 +18,4 @@ Sources:
 - ChatGPT: https://chatgpt.com/cdn/assets/favicon-180x180.9e0103ce69.png
 - SCADA is a technology category, not a single product: its generic monitoring icon is custom SVG geometry rasterized to WebP.
 
-Primary tools are defined in `technologies` in `src/constants/index.ts`; previous non-overlapping tools are retained in `additionalTechnologies` and revealed through a native details element. The official solar software brand spelling is Virto Solar.
+The 18 displayed tools are defined in `technologies` in `src/constants/index.ts`. The official solar software brand spelling is Virto Solar.

@@ -12,17 +12,9 @@ import {
   backend,
   creator,
   web,
-  proteus,
-  git,
-  audrino,
-  figma,
   carrent,
   jobit,
   tripguide,
-  Ai,
-  Photoshop,
-  canva,
-  word,
   manipal,
   nea,
   egen,
@@ -164,41 +156,6 @@ const technologies: TTechnology[] = [
   { name: 'Virto Solar', icon: virtoTool },
   { name: 'ChatGPT', icon: chatgptTool },
   { name: 'Notion', icon: notionTool },
-];
-
-const additionalTechnologies: TTechnology[] = [
-  {
-    name: 'Illustrator',
-    icon: Ai,
-  },
-  {
-    name: 'Word',
-    icon: word,
-  },
-  {
-    name: 'Canva',
-    icon: canva,
-  },
-  {
-    name: 'Photoshop',
-    icon: Photoshop,
-  },
-  {
-    name: 'Proteus',
-    icon: proteus,
-  },
-  {
-    name: 'Arduino',
-    icon: audrino,
-  },
-  {
-    name: 'Git',
-    icon: git,
-  },
-  {
-    name: 'Figma',
-    icon: figma,
-  },
 ];
 
 const experiences: TExperience[] = [
@@ -515,4 +472,4 @@ const projects: TProject[] = [
   },
 ];
 
-export { services, technologies, additionalTechnologies, experiences, testimonials, projects };
+export { services, technologies, experiences, testimonials, projects };

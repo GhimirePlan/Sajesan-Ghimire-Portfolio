@@ -42,19 +42,6 @@
   text-align: center;
   overflow-wrap: anywhere;
 }
-.tools-more > summary {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: fit-content;
-  min-height: 44px;
-  color: #aaa6c3;
-  font-size: 12px;
-  cursor: pointer;
-  list-style: none;
-}
-.tools-more > summary::-webkit-details-marker { display: none; }
-.tools-more[open] > summary svg { transform: rotate(180deg); }
 @media (hover: hover) {
   .tool-card:hover { border-color: #b79aff40; background: #21183d80; }
 }
