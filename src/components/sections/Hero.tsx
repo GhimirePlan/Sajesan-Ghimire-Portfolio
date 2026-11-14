@@ -1,4 +1,6 @@
 import { motion } from 'framer-motion';
+import { BsLinkedin } from 'react-icons/bs';
+import { FiArrowUpRight } from 'react-icons/fi';
 import { config } from '../../constants/config';
 import portrait from '../../assets/profile.webp';
 
@@ -32,6 +34,17 @@ export default function Hero() {
             className="portfolio-button rounded-full border border-white/20 px-6 py-3 text-secondary text-sm hover:text-white"
           >
             Get in touch
+          </a>
+          <a
+            href="https://www.linkedin.com/in/sajesan/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Connect with Sajesan Ghimire on LinkedIn (opens in a new tab)"
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[#915EFF]/25 bg-[#915EFF]/5 px-4 py-3 text-xs font-medium text-[#c9b5ff] transition-colors hover:border-[#915EFF]/50 hover:bg-[#915EFF]/15 hover:text-white"
+          >
+            <BsLinkedin size={15} aria-hidden="true" />
+            LinkedIn
+            <FiArrowUpRight size={14} aria-hidden="true" />
           </a>
         </div>
         <div className="flex flex-wrap gap-x-6 gap-y-2 mt-10 pt-5 border-t border-white/10 text-xs text-secondary">

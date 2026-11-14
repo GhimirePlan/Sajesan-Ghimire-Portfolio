@@ -94,11 +94,16 @@ function LinkedInSpotlight() {
                 <p className="text-white text-sm font-medium">Sajesan Ghimire</p>
                 <p className="text-secondary text-xs mt-1">Electrical engineer & researcher</p>
               </div>
-              <BsLinkedin
-                size={20}
-                className="text-[#c9b5ff] ml-auto shrink-0"
-                aria-label="LinkedIn"
-              />
+              <a
+                href="https://www.linkedin.com/in/sajesan/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open Sajesan Ghimire’s LinkedIn profile (opens in a new tab)"
+                title="View LinkedIn profile"
+                className="ml-auto shrink-0 inline-flex h-11 w-11 items-center justify-center rounded-xl text-[#c9b5ff] transition-colors hover:bg-[#915EFF]/10 hover:text-white"
+              >
+                <BsLinkedin size={20} aria-hidden="true" />
+              </a>
             </div>
             <div className="linkedin-post-labels">
               {post.isFeatured && <span className="linkedin-featured-label">Featured update</span>}
