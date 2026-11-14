@@ -74,3 +74,9 @@ The portfolio contains no WebGL scenes, 3D libraries, model assets, or pointer-t
 Entrance animations run once with small opacity/transform changes; hover effects use short CSS
 transitions. Motion respects the visitor’s reduced-motion setting. Existing project galleries,
 service details, articles, testimonials, scheduling, and contact flows remain available.
+
+The projects page uses `src/constants/projectCatalog.ts` for its catalog. Search, project type, and
+discipline filters are stored in the URL. Each project has a shareable details URL; the full card
+supports pointer and keyboard activation. The details dialog supports Escape, browser Back, focus
+restoration, and a persistent close toolbar. Copying a link falls back to a selectable URL when
+clipboard access is unavailable.
