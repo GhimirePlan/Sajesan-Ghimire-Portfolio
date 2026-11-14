@@ -20,12 +20,40 @@
   ],
   "rewrites": [
     {
+      "source": "/sitemap.xml",
+      "destination": "server/handler.cjs"
+    },
+    {
+      "source": "/blogs/(.*)",
+      "destination": "server/handler.cjs"
+    },
+    {
       "source": "/api/(.*)",
       "destination": "server/handler.cjs"
     },
     {
       "source": "/(.*)",
       "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/login",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/admin/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
     }
   ]
 }

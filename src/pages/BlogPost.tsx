@@ -1,4 +1,5 @@
 import './blog-post.css';
+import useSeo, { SITE_URL, PERSON } from '../hooks/useSeo';
 import RichContent from '../components/content/RichContent';
 import CopyLinkButton from '../components/content/CopyLinkButton';
 import portrait from '../assets/profile.webp';
@@ -35,6 +36,18 @@ const BlogPost = () => {
   const [commentData, setCommentData] = useState({ name: '', email: '', comment: '' });
   const [comments, setComments] = useState([]);
 
+  useSeo({
+    title: blog ? `${blog.title} | Sajesan Ghimire` : 'Article | Sajesan Ghimire',
+    description: blog?.description || 'Engineering articles and research by Sajesan Ghimire.',
+    path: `/blogs/${encodeURIComponent(blog?.slug || slug || '')}`,
+    image: blog?.coverImage, type: 'article', noindex: !loading && !blog,
+    schema: blog ? { '@context': 'https://schema.org', '@type': 'BlogPosting',
+      headline: blog.title, description: blog.description,
+      image: blog.coverImage ? new URL(blog.coverImage, SITE_URL).href : undefined,
+      datePublished: blog.createdAt, dateModified: blog.updatedAt || blog.createdAt,
+      author: PERSON, mainEntityOfPage: `${SITE_URL}/blogs/${encodeURIComponent(blog.slug || blog._id)}`,
+    } : undefined,
+  });
   useEffect(() => {
     setLoading(true);
     setBlog(null);
@@ -63,7 +76,6 @@ const BlogPost = () => {
 
   useEffect(() => {
     if (blog) {
-      document.title = `${blog.title} | Sajesan Ghimire`;
 
       if (contentRef.current) {
         const headings = contentRef.current.querySelectorAll('h1, h2, h3');

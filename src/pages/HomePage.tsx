@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import useSeo, { SITE_URL, SITE_DESCRIPTION, PERSON } from '../hooks/useSeo';
 import Navbar from '../components/layout/Navbar';
 import Hero from '../components/sections/Hero';
 import About from '../components/sections/About';
@@ -10,11 +10,8 @@ import Blog from '../components/sections/Blog';
 import Feedbacks from '../components/sections/Feedbacks';
 import Contact from '../components/sections/Contact';
 import Footer from '../components/sections/Footer';
-import { config } from '../constants/config';
 export default function HomePage() {
-  useEffect(() => {
-    document.title = config.html.title;
-  }, []);
+  useSeo({ title: 'Sajesan Ghimire | Electrical Engineer in Nepal', description: SITE_DESCRIPTION, path: '/', schema: { '@context': 'https://schema.org', '@graph': [PERSON, { '@type': 'WebSite', '@id': `${SITE_URL}/#website`, url: `${SITE_URL}/`, name: 'Sajesan Ghimire', publisher: { '@id': PERSON['@id'] } }] } });
   return (
     <div className="bg-primary relative z-0 min-h-screen portfolio-shell">
       <a href="#about" className="skip-to-content">

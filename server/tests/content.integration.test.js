@@ -223,6 +223,35 @@ test(
           assert.equal((await request('/api/media/' + image._id, 'DELETE')).status, 200);
         }
       );
+      await t.test('search pages and sitemap only expose published content', async () => {
+        const Blog = (await import('../models/blogModel.js')).default;
+        const published = await Blog.create({ title: 'Solar search article', slug: 'seo-published-test', description: 'Solar engineering research', content: '<h2>Solar design</h2><p>Indexable article</p>', coverImage: 'https://example.com/solar.jpg', isPublished: true });
+        const draft = await Blog.create({ title: 'Private draft', slug: 'seo-private-test', isPublished: false });
+        const originalFetch = globalThis.fetch;
+        globalThis.fetch = (input, options) => String(input) === 'https://sajesanghimire.com.np/index.html'
+          ? Promise.resolve(new Response('<html><head><title>Home</title><script src="/assets/app.js"></script></head><body><div id="root"></div></body></html>'))
+          : originalFetch(input, options);
+        try {
+          const htmlResponse = await fetch(base + '/blogs/seo-published-test');
+          assert.equal(htmlResponse.status, 200);
+          assert.match(htmlResponse.headers.get('content-type'), /text\/html/);
+          const html = await htmlResponse.text();
+          assert.match(html, /BlogPosting/);
+          assert.match(html, /Indexable article/);
+          assert.equal((await fetch(base + '/blogs/seo-private-test')).status, 404);
+          assert.equal((await fetch(base + '/blogs/does-not-exist')).status, 404);
+          const sitemapResponse = await fetch(base + '/sitemap.xml');
+          assert.equal(sitemapResponse.status, 200);
+          assert.match(sitemapResponse.headers.get('content-type'), /xml/);
+          const xml = await sitemapResponse.text();
+          assert.match(xml, /seo-published-test/);
+          assert.doesNotMatch(xml, /seo-private-test|\/admin|\/login/);
+          assert.equal((await Blog.findById(published._id)).views, 0, 'search rendering never inflates view counts');
+        } finally {
+          globalThis.fetch = originalFetch;
+          await Blog.deleteMany({ _id: { $in: [published._id, draft._id] } });
+        }
+      });
       await t.test('password changes require current credentials and invalidate existing sessions', async () => {
         const nextPassword = 'temporary-replacement-password';
         assert.equal((await request('/api/users/password', 'PUT', { currentPassword: 'temporary-integration-password', newPassword: nextPassword }, false)).status, 401);

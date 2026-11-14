@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ErrorBoundary from './components/ErrorBoundary';
 import { lazy, Suspense, useEffect } from 'react';
 import { useAuth } from './hooks/useAuth';
+import useSeo from './hooks/useSeo';
 import type { ReactNode } from 'react';
 import HomePage from './pages/HomePage';
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
@@ -22,6 +23,9 @@ const LinkedInList = lazy(() => import('./pages/admin/LinkedInList'));
 function RouteScroll() {
   const { pathname, hash } = useLocation();
   useEffect(() => {
+    let robots = document.head.querySelector<HTMLMetaElement>('meta[name="robots"]');
+    if (!robots) { robots = document.createElement('meta'); robots.name = 'robots'; document.head.append(robots); }
+    if (pathname === '/login' || pathname.startsWith('/admin')) robots.content = 'noindex, nofollow';
     // Wait until route content mounts and any project dialog releases its scroll lock.
     let observer: MutationObserver | undefined;
     let timeout: ReturnType<typeof setTimeout> | undefined;
@@ -50,6 +54,12 @@ function RouteScroll() {
     };
   }, [pathname, hash]);
   return null;
+}
+
+function NotFound() {
+  const { pathname } = useLocation();
+  useSeo({ title: 'Page not found | Sajesan Ghimire', description: 'The requested page could not be found.', path: pathname, noindex: true });
+  return <main className="p-8 pt-28"><h1>Page not found</h1><a href="/">Return home</a></main>;
 }
 
 function AdminRoute({ children }: { children: ReactNode }) {
@@ -161,9 +171,7 @@ const App = () => {
               <Route
                 path="*"
                 element={
-                  <div className="p-8">
-                    Page not found. <a href="/">Return home</a>
-                  </div>
+                  <NotFound />
                 }
               />
             </Routes>

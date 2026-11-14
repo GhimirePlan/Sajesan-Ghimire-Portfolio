@@ -11,6 +11,7 @@ import blogRoutes from './routes/blogRoutes.js';
 import commentRoutes from './routes/commentRoutes.js';
 import projectRoutes from './routes/projectRoutes.js';
 import mediaRoutes from './routes/mediaRoutes.js';
+import seoRoutes from './routes/seoRoutes.js';
 import linkedinRoutes from './routes/linkedinRoutes.js';
 import experienceRoutes, { publicExperience } from './routes/experienceRoutes.js';
 
@@ -66,6 +67,7 @@ app.use('/api', async (req, res, next) => {
       .json({ message: 'Content service is temporarily unavailable. Please try again later.' });
   }
 });
+app.use(seoRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/comments', commentRoutes);

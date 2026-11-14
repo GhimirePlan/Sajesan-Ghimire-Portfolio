@@ -1,4 +1,5 @@
 import './projects.css';
+import useSeo, { SITE_URL, PERSON } from '../../hooks/useSeo';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, useSearchParams } from 'react-router-dom';
@@ -199,11 +200,15 @@ export default function Projects() {
     : 'all';
   const selected = catalog.find(p => p.id === params.get('project'));
   const invalidProject = !loading && !error && params.has('project') && !selected;
-  useEffect(() => {
-    document.title = selected
-      ? `${selected.title} | Sajesan Ghimire`
-      : 'Engineering Projects | Sajesan Ghimire';
-  }, [selected]);
+  useSeo({
+    title: selected ? `${selected.title} | Sajesan Ghimire` : 'Electrical Engineering Projects | Sajesan Ghimire',
+    description: selected?.description || 'Explore solar PV, power systems, electrical design, and automation projects by Sajesan Ghimire, electrical engineer in Nepal.',
+    path: selected ? `/projects?project=${encodeURIComponent(selected.id)}` : '/projects',
+    image: selected?.coverImage,
+    schema: selected ? { '@context': 'https://schema.org', '@type': 'CreativeWork', name: selected.title, description: selected.description, author: PERSON, url: `${SITE_URL}/projects?project=${encodeURIComponent(selected.id)}` } : {
+      '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Electrical Engineering Projects', url: `${SITE_URL}/projects`, author: PERSON,
+    },
+  });
   const visible = useMemo(
     () =>
       catalog.filter(
@@ -353,13 +358,16 @@ export default function Projects() {
             const Icon = icons[project.discipline];
             const capacity = project.tags?.find(tag => /\b(?:k|M)Wp?\b/i.test(tag));
             return (
-              <motion.button
+              <motion.a
                 key={project.id}
-                type="button"
+                href={`/projects?project=${encodeURIComponent(project.id)}`}
                 className="catalog-project-card"
                 aria-label={`View details: ${project.title} — ${project.subtitle || project.group}`}
                 aria-haspopup="dialog"
-                onClick={() => openProject(project)}
+                onClick={event => {
+                  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                  event.preventDefault(); openProject(project);
+                }}
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true, amount: 0.1 }}
@@ -390,7 +398,7 @@ export default function Projects() {
                   <span>{disciplines.find(d => d.id === project.discipline)?.label}</span>
                   <FiArrowUpRight size={18} aria-hidden="true" />
                 </span>
-              </motion.button>
+              </motion.a>
             );
           })}
         </div>
