@@ -31,7 +31,8 @@
     "react-quill-new": "^3.8.3",
     "react-router-dom": "^7.18.5",
     "react-toastify": "^11.1.0",
-    "react-vertical-timeline-component": "^3.6.0"
+    "react-vertical-timeline-component": "^3.6.0",
+    "sanitize-html": "^2.18.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

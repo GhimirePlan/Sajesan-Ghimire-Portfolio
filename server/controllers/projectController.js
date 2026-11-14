@@ -1,6 +1,6 @@
 import ContentState from '../models/contentStateModel.js';
 import Project from '../models/projectModel.js';
-import seeds from '../data/projects.json' with { type: 'json' };
+import seeds from '../data/projects.js';
 import { contentPayload, sendContentError } from '../lib/content.js';
 async function initialized() {
   return (
