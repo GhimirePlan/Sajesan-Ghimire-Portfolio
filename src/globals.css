@@ -480,3 +480,115 @@ section[id] {
 .portrait-composition {
   overflow: clip;
 }
+
+.linkedin-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.linkedin-profile-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+  color: #c9b5ff;
+  font-size: 12px;
+}
+.linkedin-post-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+.linkedin-update-card {
+  border: 1px solid #ffffff12;
+  border-radius: 18px;
+  background: #101021;
+  padding: 25px;
+  min-width: 0;
+  align-self: start;
+}
+.linkedin-post-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.linkedin-post-author img {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  background: #151030;
+}
+.linkedin-post-labels {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+.linkedin-post-labels span {
+  color: #aaa6c3;
+  font-size: 10px;
+  border: 1px solid #ffffff12;
+  border-radius: 20px;
+  padding: 4px 10px;
+}
+.linkedin-post-labels .linkedin-featured-label {
+  color: #c9b5ff;
+  border-color: #c9b5ff26;
+  background: #915eff0b;
+}
+.linkedin-post-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 18px;
+  border-top: 1px solid #ffffff0d;
+  margin-top: 24px;
+  padding-top: 18px;
+}
+.linkedin-post-actions a,
+.linkedin-post-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #c9b5ff;
+}
+.linkedin-post-actions button {
+  color: #aaa6c3;
+}
+.linkedin-post-actions svg {
+  transition: transform 180ms ease;
+}
+.linkedin-preview {
+  border-top: 1px solid #ffffff0d;
+  padding-top: 20px;
+  margin-top: 20px;
+}
+.linkedin-preview iframe {
+  display: block;
+  border: 0;
+  border-radius: 10px;
+  background: #fff;
+}
+@media (max-width: 767px) {
+  .linkedin-post-grid {
+    grid-template-columns: 1fr;
+  }
+  .linkedin-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .linkedin-update-card {
+    padding: 20px;
+  }
+}
+.linkedin-single-post {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 720px;
+}

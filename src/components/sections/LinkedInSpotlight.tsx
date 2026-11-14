@@ -1,172 +1,157 @@
-import { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { SectionWrapper } from '../../hoc';
-import { textVariant } from '../../utils/motion';
-import { styles } from '../../constants/styles';
-import { config } from '../../constants/config';
-import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi';
+import { FiArrowUpRight, FiChevronDown } from 'react-icons/fi';
 import { BsLinkedin } from 'react-icons/bs';
+import { SectionWrapper } from '../../hoc';
+import { Header } from '../atoms/Header';
+import { config } from '../../constants/config';
+import portrait from '../../assets/profile.webp';
 
-interface LinkedInPost {
-  _id: string;
-  url: string;
-  tag: string;
-  isFeatured: boolean;
-}
-
-const LinkedInSpotlight = () => {
-  const [posts, setPosts] = useState<LinkedInPost[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
-
-  const fetchPosts = async () => {
-    try {
-      const { data } = await axios.get(`${config.apiBaseUrl}/api/linkedin`);
-      setPosts(data);
-      setLoading(false);
-    } catch (error) {
-      console.error('Failed to fetch LinkedIn posts');
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
-  const nextSlide = useCallback(() => {
-    setCurrentIndex(prevIndex => (prevIndex + 1) % posts.length);
-  }, [posts.length]);
-
-  const prevSlide = useCallback(() => {
-    setCurrentIndex(prevIndex => (prevIndex - 1 + posts.length) % posts.length);
-  }, [posts.length]);
-
-  const getEmbedUrl = (url: string) => {
-    if (!url) return '';
-    if (url.includes('embed')) return url;
-
-    // Handle standard LinkedIn post URLs
-    // Format 1 (Activity): https://www.linkedin.com/posts/username_activity-7200155208451837952-abcd
-    // Format 2 (UGC Post): https://www.linkedin.com/posts/username_ugcPost-7462566842079887360-abcd
-
-    const activityMatch = url.match(/activity-([0-9]+)/);
-    const ugcPostMatch = url.match(/ugcPost-([0-9]+)/);
-    const urnMatch = url.match(/activity:([0-9]+)/);
-    const simpleIdMatch = url.match(/([0-9]{10,})/);
-
-    // Prioritize ugcPost if found
-    if (ugcPostMatch) {
-      return `https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:${ugcPostMatch[1]}`;
-    }
-
-    const id = activityMatch?.[1] || urnMatch?.[1] || simpleIdMatch?.[0];
-
-    if (id) {
-      return `https://www.linkedin.com/embed/feed/update/urn:li:share:${id}`;
-    }
-
-    return url; // Fallback
-  };
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-[300px]">
-        <div className="w-10 h-10 border-4 border-[#915EFF] border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
+type LinkedInPost = { _id: string; url: string; tag: string; isFeatured: boolean };
+type PostCard = LinkedInPost & { tags: string[]; embedUrl: string | null };
+function normalizePost(post: LinkedInPost): PostCard | null {
+  try {
+    const url = new URL(post.url);
+    if (url.protocol !== 'https:' || !['linkedin.com', 'www.linkedin.com'].includes(url.hostname))
+      return null;
+    const match = url.pathname.match(/(?:ugcPost[-:]|activity[-:]|share:)(\d+)/);
+    const id = match?.[1];
+    const kind = url.pathname.includes('ugcPost') ? 'ugcPost' : 'share';
+    return {
+      ...post,
+      url: `https://www.linkedin.com${url.pathname}`,
+      tags: post.tag ? [post.tag] : [],
+      embedUrl: id ? `https://www.linkedin.com/embed/feed/update/urn:li:${kind}:${id}` : null,
+    };
+  } catch {
+    return null;
   }
-
-  if (posts.length === 0) return null;
-
+}
+function LinkedInSpotlight() {
+  const [posts, setPosts] = useState<PostCard[]>([]);
+  const [state, setState] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [preview, setPreview] = useState<string | null>(null);
+  useEffect(() => {
+    const controller = new AbortController();
+    axios
+      .get<LinkedInPost[]>(`${config.apiBaseUrl}/api/linkedin`, { signal: controller.signal })
+      .then(({ data }) => {
+        const unique = new Map<string, PostCard>();
+        for (const entry of data) {
+          const post = normalizePost(entry);
+          if (!post) continue;
+          const key = post.embedUrl || post.url;
+          const existing = unique.get(key);
+          if (existing) {
+            existing.tags = [...new Set([...existing.tags, ...post.tags])];
+            existing.isFeatured ||= post.isFeatured;
+          } else unique.set(key, post);
+        }
+        setPosts([...unique.values()]);
+        setState('ready');
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) setState('error');
+      });
+    return () => controller.abort();
+  }, []);
   return (
     <>
-      <motion.div variants={textVariant()}>
-        <p className={`${styles.sectionSubText} !text-[14px] sm:!text-[18px]`}>
-          Professional Updates
+      <div className="linkedin-section-heading">
+        <Header useMotion={false} p="Professional updates" h2="On LinkedIn" />
+        <a
+          className="linkedin-profile-link"
+          href="https://www.linkedin.com/in/sajesan/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Visit my profile <FiArrowUpRight size={16} aria-hidden="true" />
+        </a>
+      </div>
+      <p className="text-secondary text-sm leading-7 mt-4 max-w-xl">
+        Project updates, professional milestones, and conversations about energy and engineering.
+      </p>
+      {state === 'loading' && (
+        <p role="status" className="text-secondary text-sm mt-7">
+          Loading updates…
         </p>
-        <div className="flex items-center gap-3">
-          <BsLinkedin className="text-[#0A66C2] text-[28px] sm:text-[36px]" />
-          <h2 className={`${styles.sectionHeadText} !text-[30px] sm:!text-[42px]`}>
-            LinkedIn updates
-          </h2>
-        </div>
-      </motion.div>
-
-      <div className="mt-8 relative group">
-        <div className="overflow-hidden rounded-3xl bg-tertiary/30 backdrop-blur-sm border border-white/10 p-2 sm:p-6 flex items-center justify-center">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={posts[currentIndex]._id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.4 }}
-              className="w-full max-w-[500px] relative"
-            >
-              {posts[currentIndex].isFeatured && (
-                <div className="absolute -top-3 -right-3 z-20 bg-gradient-to-r from-[#915EFF] to-[#7b4ed1] text-white px-4 py-1.5 rounded-full text-[12px] font-bold shadow-lg flex items-center gap-1.5 border border-white/20 pointer-events-none">
-                  FEATURED
-                </div>
-              )}
-
-              <div className="absolute -top-3 -left-3 z-20 pointer-events-none">
-                <span className="bg-black/80 backdrop-blur-md text-white px-3 py-1.5 rounded-full text-[12px] font-bold border border-white/20 shadow-xl flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 bg-[#915EFF] rounded-full animate-pulse" />#
-                  {posts[currentIndex].tag}
-                </span>
+      )}
+      {state !== 'loading' && !posts.length && (
+        <p role="status" className="text-secondary text-sm mt-7">
+          {state === 'error'
+            ? 'Updates are temporarily unavailable. You can view them on LinkedIn.'
+            : 'Follow my LinkedIn profile for the latest updates.'}
+        </p>
+      )}
+      <div className={`linkedin-post-grid ${posts.length === 1 ? 'linkedin-single-post' : ''}`}>
+        {posts.map(post => (
+          <article className="linkedin-update-card" key={post._id}>
+            <div className="linkedin-post-author">
+              <img src={portrait} width={40} height={40} loading="lazy" alt="" />
+              <div>
+                <p className="text-white text-sm font-medium">Sajesan Ghimire</p>
+                <p className="text-secondary text-xs mt-1">Electrical engineer & researcher</p>
               </div>
-
-              <div className="w-full bg-white rounded-xl overflow-hidden shadow-2xl border border-white/5">
-                <iframe
-                  loading="lazy"
-                  src={getEmbedUrl(posts[currentIndex].url)}
-                  height="500"
-                  width="100%"
-                  frameBorder="0"
-                  allowFullScreen={true}
-                  title="LinkedIn Post"
-                  className="w-full"
-                ></iframe>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* Navigation Buttons */}
-        {posts.length > 1 && (
-          <>
-            <button
-              onClick={prevSlide}
-              className="absolute left-2 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/40 hover:bg-[#915EFF] text-white transition-all backdrop-blur-md border border-white/10 opacity-0 group-hover:opacity-100 hidden sm:block"
-            >
-              <HiOutlineChevronLeft size={24} />
-            </button>
-            <button
-              onClick={nextSlide}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/40 hover:bg-[#915EFF] text-white transition-all backdrop-blur-md border border-white/10 opacity-0 group-hover:opacity-100 hidden sm:block"
-            >
-              <HiOutlineChevronRight size={24} />
-            </button>
-
-            {/* Pagination Dots */}
-            <div className="flex justify-center gap-2 mt-6">
-              {posts.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    index === currentIndex ? 'w-8 bg-[#915EFF]' : 'w-2 bg-white/20'
-                  }`}
-                />
+              <BsLinkedin
+                size={20}
+                className="text-[#c9b5ff] ml-auto shrink-0"
+                aria-label="LinkedIn"
+              />
+            </div>
+            <div className="linkedin-post-labels">
+              {post.isFeatured && <span className="linkedin-featured-label">Featured update</span>}
+              {post.tags.map(tag => (
+                <span key={tag}>{tag}</span>
               ))}
             </div>
-          </>
-        )}
+            <div className="linkedin-post-actions">
+              <a href={post.url} target="_blank" rel="noopener noreferrer">
+                Read on LinkedIn <FiArrowUpRight size={15} aria-hidden="true" />
+              </a>
+              {post.embedUrl && (
+                <button
+                  type="button"
+                  aria-expanded={preview === post._id}
+                  aria-controls={`linkedin-preview-${post._id}`}
+                  onClick={() => setPreview(preview === post._id ? null : post._id)}
+                >
+                  {preview === post._id ? 'Hide preview' : 'Preview post'}
+                  <FiChevronDown
+                    size={15}
+                    className={preview === post._id ? 'rotate-180' : ''}
+                    aria-hidden="true"
+                  />
+                </button>
+              )}
+            </div>
+            {preview === post._id && post.embedUrl && (
+              <div className="linkedin-preview" id={`linkedin-preview-${post._id}`}>
+                <iframe
+                  src={post.embedUrl}
+                  title="LinkedIn post by Sajesan Ghimire"
+                  height="500"
+                  width="100%"
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                />
+                <p className="text-secondary text-xs leading-6 mt-3">
+                  If the preview is unavailable,{' '}
+                  <a
+                    className="underline"
+                    href={post.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    open the post on LinkedIn
+                  </a>
+                  .
+                </p>
+              </div>
+            )}
+          </article>
+        ))}
       </div>
     </>
   );
-};
-
+}
 export default SectionWrapper(LinkedInSpotlight, 'linkedin');
