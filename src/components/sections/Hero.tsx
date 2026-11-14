@@ -18,7 +18,7 @@ export default function Hero() {
         <h1 className="text-white font-semibold tracking-tight text-[40px] sm:text-[52px] lg:text-[64px] leading-[1.1]">
           {config.hero.name}
         </h1>
-        <p className="text-[#c9b5ff] text-xl sm:text-2xl mt-5">Solar PV & power systems</p>
+        <p className="text-[#c9b5ff] text-xl sm:text-2xl mt-5">Power Systems & Renewable Energy Engineering</p>
         <p className="text-secondary text-base leading-7 mt-5 max-w-xl">
           {config.hero.bio}
         </p>
