@@ -1,68 +1,101 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, type FormEvent } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { FiArrowLeft, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
 import { useAuth } from '../../hooks/useAuth';
-import { toast } from 'react-toastify';
 import { config } from '../../constants/config';
-
-const LoginPage = () => {
+import '../../components/admin/admin.css';
+export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [show, setShow] = useState(false);
+  const [error, setError] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  async function submit(event: FormEvent) {
+    event.preventDefault();
+    setBusy(true);
+    setError('');
     try {
       const { data } = await axios.post(`${config.apiBaseUrl}/api/users/login`, {
         email,
         password,
       });
+      if (!data.isAdmin) {
+        setError('This account does not have administrator access.');
+        return;
+      }
       login(data);
-      toast.success('Logged in successfully');
-      navigate('/admin');
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Login failed');
+      navigate('/admin', { replace: true });
+    } catch (error) {
+      setError(
+        axios.isAxiosError(error)
+          ? error.response?.data?.message || 'Could not sign in. Please try again.'
+          : 'Could not sign in.'
+      );
+    } finally {
+      setBusy(false);
     }
-  };
-
+  }
   return (
-    <div className="min-h-screen flex items-center justify-center bg-primary">
-      <div className="bg-tertiary p-8 rounded-2xl shadow-2xl w-full max-w-md">
-        <h2 className="text-3xl font-bold text-white mb-8 text-center">Admin Login</h2>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-          <div className="flex flex-col gap-2">
-            <span className="text-white font-medium">Email</span>
+    <main className="admin-shell admin-login-page">
+      <div className="admin-login-card">
+        <Link className="admin-back" to="/">
+          <FiArrowLeft />
+          Back to portfolio
+        </Link>
+        <span className="admin-login-icon">
+          <FiLock size={23} />
+        </span>
+        <p className="admin-eyebrow">Portfolio studio</p>
+        <h1>Welcome back.</h1>
+        <p className="admin-login-description">
+          Sign in to manage articles, engineering projects, and media.
+        </p>
+        {error && (
+          <p role="alert" className="admin-error-banner">
+            {error}
+          </p>
+        )}
+        <form onSubmit={submit} className="admin-fields">
+          <label>
+            Email address
             <input
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="bg-primary py-4 px-6 text-white rounded-lg outline-none border-none font-medium"
+              onChange={event => setEmail(event.target.value)}
+              autoComplete="username"
               required
+              placeholder="you@example.com"
             />
-          </div>
-          <div className="flex flex-col gap-2">
-            <span className="text-white font-medium">Password</span>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              className="bg-primary py-4 px-6 text-white rounded-lg outline-none border-none font-medium"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            className="bg-[#915EFF] py-3 px-8 text-white font-bold rounded-xl hover:bg-[#7b4ed1] transition-all"
-          >
-            Login
+          </label>
+          <label>
+            Password
+            <span className="admin-password-input">
+              <input
+                aria-label="Password"
+                type={show ? 'text' : 'password'}
+                value={password}
+                onChange={event => setPassword(event.target.value)}
+                autoComplete="current-password"
+                required
+              />
+              <button
+                type="button"
+                aria-label={show ? 'Hide password' : 'Show password'}
+                onClick={() => setShow(!show)}
+              >
+                {show ? <FiEyeOff /> : <FiEye />}
+              </button>
+            </span>
+          </label>
+          <button className="admin-primary-button" type="submit" disabled={busy}>
+            {busy ? 'Signing in…' : 'Sign in'}
           </button>
         </form>
+        <p className="admin-help mt-6">Your existing administrator account is unchanged.</p>
       </div>
-    </div>
+    </main>
   );
-};
-
-export default LoginPage;
+}

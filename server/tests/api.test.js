@@ -61,7 +61,7 @@ test('public list filters drafts and excludes full article bodies', async () => 
   };
   try {
     await getBlogs({}, response());
-    assert.deepEqual(filter, { isPublished: true });
+    assert.deepEqual(filter, { isPublished: true, isArchived: { $ne: true } });
     assert.equal(projection, '-content');
     await getBlogs({ user: { isAdmin: true } }, response());
     assert.deepEqual(filter, {});
@@ -79,7 +79,7 @@ test('public article lookup cannot return drafts', async () => {
   try {
     const res = response();
     await getBlogById({ params: { idOrSlug: 'draft-slug' } }, res);
-    assert.deepEqual(filter, { slug: 'draft-slug', isPublished: true });
+    assert.deepEqual(filter, { slug: 'draft-slug', isPublished: true, isArchived: { $ne: true } });
     assert.equal(res.code, 404);
   } finally {
     Blog.findOneAndUpdate = original;

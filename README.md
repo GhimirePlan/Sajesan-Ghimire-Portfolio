@@ -80,3 +80,21 @@ discipline filters are stored in the URL. Each project has a shareable details U
 supports pointer and keyboard activation. The details dialog supports Escape, browser Back, focus
 restoration, and a persistent close toolbar. Copying a link falls back to a selectable URL when
 clipboard access is unavailable.
+
+## Publishing studio
+
+Use `/admin` for articles, projects, image uploads, moderation, and LinkedIn updates. Both content
+editors support visual formatting, HTML source, tables, image upload/paste/drop, image descriptions
+and sizing, live preview, draft recovery on the current device, and explicit draft/published status.
+Images are optimized in the browser and stored durably in the existing MongoDB database; no
+additional image hosting account is required. Archives can be restored; permanent deletion is
+available only after archiving. Images referenced by saved content cannot be deleted.
+
+The public projects catalog and homepage highlights now use the content API. The original 21
+projects can be imported idempotently through the studio, preserving their existing link IDs. New
+project creation also initializes the original catalog when needed. Featured projects are selected
+in the editor. Article and project links can be copied from their editors, lists, and public pages.
+
+Run `npm test --prefix server` for validation tests. For MongoDB integration tests against a
+separate, disposable test database, set `TEST_MONGO_URI` before running the same command; the tests
+create and remove only a database named with the `portfolio_test_` prefix.

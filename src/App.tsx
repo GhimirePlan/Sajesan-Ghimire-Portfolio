@@ -12,6 +12,9 @@ const BlogPost = lazy(() => import('./pages/BlogPost'));
 const LoginPage = lazy(() => import('./pages/admin/LoginPage'));
 const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
 const BlogList = lazy(() => import('./pages/admin/BlogList'));
+const ProjectList = lazy(() => import('./pages/admin/ProjectList'));
+const ProjectEditor = lazy(() => import('./pages/admin/ProjectEditor'));
+const MediaLibrary = lazy(() => import('./pages/admin/MediaLibrary'));
 const BlogEditor = lazy(() => import('./pages/admin/BlogEditor'));
 const CommentList = lazy(() => import('./pages/admin/CommentList'));
 const LinkedInList = lazy(() => import('./pages/admin/LinkedInList'));
@@ -78,6 +81,38 @@ const App = () => {
                 element={
                   <AdminRoute>
                     <BlogEditor />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/projects"
+                element={
+                  <AdminRoute>
+                    <ProjectList />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/projects/create"
+                element={
+                  <AdminRoute>
+                    <ProjectEditor />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/projects/edit/:id"
+                element={
+                  <AdminRoute>
+                    <ProjectEditor />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/media"
+                element={
+                  <AdminRoute>
+                    <MediaLibrary />
                   </AdminRoute>
                 }
               />

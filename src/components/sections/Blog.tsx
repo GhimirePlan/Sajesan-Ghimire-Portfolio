@@ -7,7 +7,17 @@ import { fadeIn, textVariant } from '../../utils/motion';
 import { styles } from '../../constants/styles';
 import { config } from '../../constants/config';
 
-const BlogCard = ({ _id, slug, index, title, description, coverImage, createdAt, tags }: any) => {
+const BlogCard = ({
+  _id,
+  slug,
+  index,
+  title,
+  description,
+  coverImage,
+  coverAlt,
+  createdAt,
+  tags,
+}: any) => {
   const linkPath = slug || _id;
 
   return (
@@ -24,7 +34,7 @@ const BlogCard = ({ _id, slug, index, title, description, coverImage, createdAt,
             loading="lazy"
             decoding="async"
             src={coverImage}
-            alt={title}
+            alt={coverAlt || title}
             className="w-full h-full object-cover rounded-2xl"
           />
         </div>

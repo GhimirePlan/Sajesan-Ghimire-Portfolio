@@ -1,88 +1,142 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FiFileText, FiBriefcase, FiMessageSquare, FiEye, FiArrowUpRight } from 'react-icons/fi';
 import AdminLayout from '../../components/admin/AdminLayout';
-import { HiOutlineDocumentText, HiOutlineChatAlt2, HiOutlineEye } from 'react-icons/hi';
-import { config } from '../../constants/config';
-
-const Dashboard = () => {
-  const [stats, setStats] = useState({
-    totalBlogs: 0,
-    totalComments: 0,
-    totalViews: 0,
-  });
-
+import { adminApi, errorMessage } from '../../utils/admin';
+export default function Dashboard() {
+  const [blogs, setBlogs] = useState<any[]>([]);
+  const [projects, setProjects] = useState<any[]>([]);
+  const [comments, setComments] = useState<any[]>([]);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const { data: blogs } = await axios.get(`${config.apiBaseUrl}/api/blogs/manage`, {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem('userInfo') || 'null')
-              ?.token}`,
-          },
-        });
-        const { data: comments } = await axios.get(`${config.apiBaseUrl}/api/comments`, {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem('userInfo')!).token}`,
-          },
-        });
-
-        setStats({
-          totalBlogs: blogs.length,
-          totalComments: comments.length,
-          totalViews: blogs.reduce((acc: number, blog: any) => acc + blog.views, 0),
-        });
-      } catch (error) {
-        console.error('Failed to fetch stats');
-      }
-    };
-    fetchStats();
+    void (async () => {
+      const results = await Promise.allSettled([
+        adminApi.get('/api/blogs/manage'),
+        adminApi.get('/api/projects/manage'),
+        adminApi.get('/api/comments'),
+      ]);
+      const setters = [setBlogs, setProjects, setComments];
+      results.forEach((result, index) => {
+        if (result.status === 'fulfilled') setters[index](result.value.data);
+        else setError(errorMessage(result.reason));
+      });
+      setLoading(false);
+    })();
   }, []);
-
-  const cards = [
-    {
-      name: 'Total Blogs',
-      value: stats.totalBlogs,
-      icon: <HiOutlineDocumentText className="text-blue-500" size={40} />,
-    },
-    {
-      name: 'Total Comments',
-      value: stats.totalComments,
-      icon: <HiOutlineChatAlt2 className="text-green-500" size={40} />,
-    },
-    {
-      name: 'Total Views',
-      value: stats.totalViews,
-      icon: <HiOutlineEye className="text-purple-500" size={40} />,
-    },
-  ];
-
+  const activeBlogs = blogs.filter(item => !item.isArchived);
+  const activeProjects = projects.filter(item => !item.isArchived);
+  const stats = [
+    ['Articles', activeBlogs.length, FiFileText, '/admin/blogs'],
+    ['Projects', activeProjects.length, FiBriefcase, '/admin/projects'],
+    [
+      'Awaiting moderation',
+      comments.filter(item => !item.isApproved).length,
+      FiMessageSquare,
+      '/admin/comments',
+    ],
+    [
+      'Content views',
+      blogs.reduce((n, item) => n + (item.views || 0), 0) +
+        projects.reduce((n, item) => n + (item.views || 0), 0),
+      FiEye,
+      '/admin/blogs',
+    ],
+  ] as const;
+  const recent = [
+    ...activeBlogs.map(item => ({
+      ...item,
+      kind: 'Article',
+      edit: `/admin/blogs/edit/${item._id}`,
+    })),
+    ...activeProjects.map(item => ({
+      ...item,
+      kind: 'Project',
+      edit: `/admin/projects/edit/${item.id}`,
+    })),
+  ]
+    .sort(
+      (a, b) =>
+        new Date(b.updatedAt || b.createdAt).getTime() -
+        new Date(a.updatedAt || a.createdAt).getTime()
+    )
+    .slice(0, 6);
   return (
     <AdminLayout>
-      <h2 className="text-3xl font-bold mb-8">Dashboard Overview</h2>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {cards.map(card => (
-          <div
-            key={card.name}
-            className="bg-tertiary p-8 rounded-2xl border border-white/10 flex items-center justify-between"
-          >
+      <div className="admin-page-heading">
+        <div>
+          <p className="admin-eyebrow">Your publishing workspace</p>
+          <h1>Overview</h1>
+          <p>Manage your writing, engineering projects, and professional updates.</p>
+        </div>
+        <div className="admin-heading-actions">
+          <Link className="admin-secondary-button" to="/admin/projects/create">
+            New project
+          </Link>
+          <Link className="admin-primary-button" to="/admin/blogs/create">
+            Write an article
+          </Link>
+        </div>
+      </div>
+      {error && (
+        <p role="alert" className="admin-error-banner">
+          {error}
+        </p>
+      )}
+      <div className="admin-stat-grid">
+        {stats.map(([name, count, Icon, path]) => (
+          <Link to={path} key={name} className="admin-stat-card">
             <div>
-              <p className="text-secondary font-medium mb-2">{card.name}</p>
-              <h3 className="text-4xl font-bold">{card.value}</h3>
+              <p>{name}</p>
+              <strong>{loading ? '…' : count}</strong>
             </div>
-            {card.icon}
-          </div>
+            <Icon size={21} aria-hidden="true" />
+          </Link>
         ))}
       </div>
-
-      <div className="mt-12">
-        <h3 className="text-2xl font-bold mb-6">Recent Activity</h3>
-        <div className="bg-tertiary rounded-2xl border border-white/10 p-6">
-          <p className="text-secondary">System is active. No major alerts.</p>
-        </div>
+      <div className="admin-overview-grid">
+        <section className="admin-panel">
+          <div className="admin-section-title">
+            <h2>Recently updated</h2>
+            <span>Latest saved content</span>
+          </div>
+          {recent.length ? (
+            recent.map(item => (
+              <Link className="admin-recent-row" key={item.edit} to={item.edit}>
+                <div>
+                  <p>{item.title}</p>
+                  <span>
+                    {item.kind} · {item.isPublished ? 'Published' : 'Draft'} ·{' '}
+                    {new Date(item.updatedAt || item.createdAt).toLocaleDateString()}
+                  </span>
+                </div>
+                <FiArrowUpRight />
+              </Link>
+            ))
+          ) : (
+            <p className="admin-help mt-5">
+              {loading
+                ? 'Loading activity…'
+                : 'Your recent articles and projects will appear here.'}
+            </p>
+          )}
+        </section>
+        <section className="admin-panel">
+          <h2>Publishing checklist</h2>
+          <ul className="admin-checklist">
+            <li>Use a clear title and a concise summary.</li>
+            <li>Add a thumbnail and a useful image description.</li>
+            <li>Structure the body with headings, images, and supporting links.</li>
+            <li>Preview the content, then choose Draft or Published.</li>
+          </ul>
+          <Link to="/admin/media" className="admin-text-button">
+            Manage image library ↗
+          </Link>
+          <p className="admin-help mt-5">
+            Drafts and archived content remain hidden from the public site.
+          </p>
+        </section>
       </div>
     </AdminLayout>
   );
-};
-
-export default Dashboard;
+}

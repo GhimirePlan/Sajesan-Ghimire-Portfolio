@@ -27,7 +27,8 @@ const CommentList = () => {
   const toggleStatus = async (id: string, currentStatus: boolean) => {
     try {
       const userInfo = JSON.parse(localStorage.getItem('userInfo')!);
-      await axios.put(`${config.apiBaseUrl}/api/comments/${id}`, 
+      await axios.put(
+        `${config.apiBaseUrl}/api/comments/${id}`,
         { isApproved: !currentStatus },
         { headers: { Authorization: `Bearer ${userInfo.token}` } }
       );
@@ -78,25 +79,28 @@ const CommentList = () => {
                 <td className="px-6 py-4 text-sm max-w-[150px] truncate">
                   {c.blog?.title || 'Unknown'}
                 </td>
-                <td className="px-6 py-4 text-sm max-w-[300px]">
-                  {c.comment}
-                </td>
+                <td className="px-6 py-4 text-sm max-w-[300px]">{c.comment}</td>
                 <td className="px-6 py-4">
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                    c.isApproved ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-500'
-                  }`}>
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-bold ${
+                      c.isApproved ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-500'
+                    }`}
+                  >
                     {c.isApproved ? 'Approved' : 'Pending'}
                   </span>
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex gap-4">
-                    <button 
-                      onClick={() => toggleStatus(c._id, c.isApproved)} 
+                    <button
+                      onClick={() => toggleStatus(c._id, c.isApproved)}
                       className={c.isApproved ? 'text-yellow-500' : 'text-green-500'}
                     >
                       {c.isApproved ? <HiOutlineX size={20} /> : <HiOutlineCheck size={20} />}
                     </button>
-                    <button onClick={() => deleteHandler(c._id)} className="text-red-500 hover:text-red-400">
+                    <button
+                      onClick={() => deleteHandler(c._id)}
+                      className="text-red-500 hover:text-red-400"
+                    >
                       <HiOutlineTrash size={20} />
                     </button>
                   </div>

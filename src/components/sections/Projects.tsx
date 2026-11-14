@@ -14,15 +14,34 @@ import {
   FiCpu,
   FiLink,
 } from 'react-icons/fi';
-import { projectCatalog, disciplines, type CatalogProject } from '../../constants/projectCatalog';
+import { disciplines } from '../../constants/projectCatalog';
+import axios from 'axios';
+import { config } from '../../constants/config';
+import { usePublicProjects, type ManagedProject } from '../../hooks/usePublicProjects';
+import RichContent from '../content/RichContent';
 import { fadeIn } from '../../utils/motion';
 
 const icons = { solar: FiSun, power: FiActivity, buildings: FiGrid, automation: FiCpu };
 const scopeLabel = (scope: string) =>
   scope === 'academic' ? 'Academic & research' : 'Professional';
-function ProjectDetails({ project, onClose }: { project: CatalogProject; onClose: () => void }) {
+function ProjectDetails({ project, onClose }: { project: ManagedProject; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
   const [copyState, setCopyState] = useState('');
+  const [body, setBody] = useState('');
+  const [detailError, setDetailError] = useState('');
+  useEffect(() => {
+    const controller = new AbortController();
+    axios
+      .get(`${config.apiBaseUrl}/api/projects/${encodeURIComponent(project.id)}`, {
+        signal: controller.signal,
+      })
+      .then(({ data }) => setBody(data.content || ''))
+      .catch(() => {
+        if (!controller.signal.aborted)
+          setDetailError('Full details could not be loaded. Please try again later.');
+      });
+    return () => controller.abort();
+  }, [project.id]);
   useEffect(() => {
     const dialog = ref.current;
     const previousFocus = document.activeElement as HTMLElement | null;
@@ -73,6 +92,13 @@ function ProjectDetails({ project, onClose }: { project: CatalogProject; onClose
           </button>
         </div>
         <div className="service-dialog-content">
+          {project.coverImage && (
+            <img
+              src={project.coverImage}
+              alt={project.coverAlt || project.title}
+              className="project-detail-cover"
+            />
+          )}
           <span className="project-discipline-icon">
             <Icon size={24} aria-hidden="true" />
           </span>
@@ -90,6 +116,16 @@ function ProjectDetails({ project, onClose }: { project: CatalogProject; onClose
             <h3>Overview</h3>
             <p>{project.description}</p>
           </div>
+          {body && (
+            <div className="project-detail-section">
+              <RichContent html={body} />
+            </div>
+          )}
+          {detailError && (
+            <p role="status" className="text-secondary text-xs mt-4">
+              {detailError}
+            </p>
+          )}
           {!!project.details?.length && (
             <div className="project-detail-section">
               <h3>Role & outcomes</h3>
@@ -117,6 +153,11 @@ function ProjectDetails({ project, onClose }: { project: CatalogProject; onClose
             >
               Discuss this project <FiArrowUpRight size={15} aria-hidden="true" />
             </Link>
+            {project.pdfUrl && (
+              <a href={project.pdfUrl} target="_blank" rel="noopener noreferrer">
+                View document <FiArrowUpRight size={15} aria-hidden="true" />
+              </a>
+            )}
             {project.sourceUrl && (
               <a href={project.sourceUrl} target="_blank" rel="noopener noreferrer">
                 View source <FiArrowUpRight size={15} aria-hidden="true" />
@@ -148,6 +189,7 @@ function ProjectDetails({ project, onClose }: { project: CatalogProject; onClose
 }
 export default function Projects() {
   const [params, setParams] = useSearchParams();
+  const { projects: catalog, loading, error, reload } = usePublicProjects();
   const query = params.get('q') || '';
   const scope = ['professional', 'academic'].includes(params.get('scope') || '')
     ? params.get('scope')!
@@ -155,8 +197,8 @@ export default function Projects() {
   const discipline = disciplines.some(d => d.id === params.get('discipline'))
     ? params.get('discipline')!
     : 'all';
-  const selected = projectCatalog.find(p => p.id === params.get('project'));
-  const invalidProject = params.has('project') && !selected;
+  const selected = catalog.find(p => p.id === params.get('project'));
+  const invalidProject = !loading && !error && params.has('project') && !selected;
   useEffect(() => {
     document.title = selected
       ? `${selected.title} | Sajesan Ghimire`
@@ -164,7 +206,7 @@ export default function Projects() {
   }, [selected]);
   const visible = useMemo(
     () =>
-      projectCatalog.filter(
+      catalog.filter(
         p =>
           (scope === 'all' || p.scope === scope) &&
           (discipline === 'all' || p.discipline === discipline) &&
@@ -172,7 +214,7 @@ export default function Projects() {
             .toLowerCase()
             .includes(query.trim().toLowerCase())
       ),
-    [scope, discipline, query]
+    [scope, discipline, query, catalog]
   );
   function update(key: string, value: string, replace = false) {
     const next = new URLSearchParams(params);
@@ -181,7 +223,7 @@ export default function Projects() {
     next.delete('project');
     setParams(next, { replace, preventScrollReset: true });
   }
-  function openProject(project: CatalogProject) {
+  function openProject(project: ManagedProject) {
     const next = new URLSearchParams(params);
     next.set('project', project.id);
     setParams(next, { preventScrollReset: true });
@@ -216,7 +258,7 @@ export default function Projects() {
           </p>
         </div>
         <div className="project-catalog-note">
-          <span>{projectCatalog.length}</span>
+          <span>{loading ? '—' : catalog.length}</span>
           <p>
             projects across
             <br />4 engineering disciplines
@@ -238,9 +280,7 @@ export default function Projects() {
             >
               {label}
               <span>
-                {value === 'all'
-                  ? projectCatalog.length
-                  : projectCatalog.filter(p => p.scope === value).length}
+                {value === 'all' ? catalog.length : catalog.filter(p => p.scope === value).length}
               </span>
             </button>
           ))}
@@ -296,7 +336,18 @@ export default function Projects() {
           </button>
         </div>
       )}
-      {visible.length ? (
+      {loading ? (
+        <p role="status" className="text-secondary text-sm py-12">
+          Loading projects…
+        </p>
+      ) : error ? (
+        <div className="project-empty-state">
+          <p role="status">{error}</p>
+          <button type="button" onClick={reload}>
+            Try again
+          </button>
+        </div>
+      ) : visible.length ? (
         <div className="project-browser-grid">
           {visible.map((project, index) => {
             const Icon = icons[project.discipline];
@@ -314,6 +365,14 @@ export default function Projects() {
                 viewport={{ once: true, amount: 0.1 }}
                 variants={fadeIn('up', 'tween', Math.min(index % 3, 2) * 0.04, 0.3)}
               >
+                {project.coverImage && (
+                  <img
+                    src={project.coverImage}
+                    alt={project.coverAlt || project.title}
+                    loading="lazy"
+                    className="catalog-card-cover"
+                  />
+                )}
                 <span className="catalog-card-top">
                   <span className="project-discipline-icon">
                     <Icon size={21} aria-hidden="true" />
@@ -351,7 +410,7 @@ export default function Projects() {
           Let’s discuss your project <FiArrowUpRight size={16} aria-hidden="true" />
         </Link>
       </div>
-      {selected && <ProjectDetails project={selected} onClose={closeProject} />}
+      {selected && <ProjectDetails key={selected.id} project={selected} onClose={closeProject} />}
     </section>
   );
 }

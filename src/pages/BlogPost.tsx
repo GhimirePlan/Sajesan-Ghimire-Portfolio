@@ -1,4 +1,5 @@
-import DOMPurify from 'dompurify';
+import RichContent from '../components/content/RichContent';
+import CopyLinkButton from '../components/content/CopyLinkButton';
 import portrait from '../assets/profile.webp';
 import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
@@ -189,7 +190,11 @@ const BlogPost = () => {
             animate={{ opacity: 1, scale: 1 }}
             className="relative w-full max-w-4xl mx-auto h-[300px] sm:h-[450px] rounded-2xl overflow-hidden mb-16 shadow-none border border-white/10"
           >
-            <img src={blog.coverImage} alt={blog.title} className="w-full h-full object-cover" />
+            <img
+              src={blog.coverImage}
+              alt={blog.coverAlt || blog.title}
+              className="w-full h-full object-cover"
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent" />
           </motion.div>
 
@@ -222,11 +227,16 @@ const BlogPost = () => {
 
             {/* Main Content */}
             <article className="flex-1 max-w-4xl">
-              <div
-                ref={contentRef}
-                className="blog-content text-secondary text-base leading-8 space-y-6"
-                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.content) }}
-              />
+              <div className="flex justify-end mb-5">
+                <CopyLinkButton
+                  url={`${window.location.origin}${import.meta.env.BASE_URL}blogs/${
+                    blog.slug || blog._id
+                  }`}
+                />
+              </div>
+              <div ref={contentRef}>
+                <RichContent html={blog.content} />
+              </div>
 
               {/* PDF Viewer */}
               {blog.pdfUrl && (

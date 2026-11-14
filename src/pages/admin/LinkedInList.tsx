@@ -70,14 +70,18 @@ const LinkedInList = () => {
         toast.error('You must be logged in');
         return;
       }
-      
+
       const userInfo = JSON.parse(userInfoStr);
       const authHeader = {
         headers: { Authorization: `Bearer ${userInfo.token}` },
       };
 
       if (editingPost) {
-        await axios.put(`${config.apiBaseUrl}/api/linkedin/${editingPost._id}`, formData, authHeader);
+        await axios.put(
+          `${config.apiBaseUrl}/api/linkedin/${editingPost._id}`,
+          formData,
+          authHeader
+        );
         toast.success('Post updated');
       } else {
         await axios.post(`${config.apiBaseUrl}/api/linkedin`, formData, authHeader);
@@ -128,7 +132,12 @@ const LinkedInList = () => {
             {posts.map((post: any) => (
               <tr key={post._id} className="hover:bg-white/5 transition-all">
                 <td className="px-6 py-4 font-medium truncate max-w-[400px]">
-                  <a href={post.url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+                  <a
+                    href={post.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 hover:underline"
+                  >
                     {post.url}
                   </a>
                 </td>
@@ -146,10 +155,16 @@ const LinkedInList = () => {
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex gap-4">
-                    <button onClick={() => handleEdit(post)} className="text-blue-500 hover:text-blue-400">
+                    <button
+                      onClick={() => handleEdit(post)}
+                      className="text-blue-500 hover:text-blue-400"
+                    >
                       <HiOutlinePencil size={20} />
                     </button>
-                    <button onClick={() => handleDelete(post._id)} className="text-red-500 hover:text-red-400">
+                    <button
+                      onClick={() => handleDelete(post._id)}
+                      className="text-red-500 hover:text-red-400"
+                    >
                       <HiOutlineTrash size={20} />
                     </button>
                   </div>
@@ -162,7 +177,7 @@ const LinkedInList = () => {
 
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <motion.div 
+          <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             className="bg-[#1d1836] w-full max-w-lg rounded-3xl p-8 border border-white/10 shadow-2xl"
@@ -177,7 +192,7 @@ const LinkedInList = () => {
                   type="url"
                   required
                   value={formData.url}
-                  onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                  onChange={e => setFormData({ ...formData, url: e.target.value })}
                   placeholder="https://www.linkedin.com/posts/..."
                   className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#915EFF]"
                 />
@@ -191,7 +206,7 @@ const LinkedInList = () => {
                   <label className="block text-secondary mb-2">Tag</label>
                   <select
                     value={formData.tag}
-                    onChange={(e) => setFormData({ ...formData, tag: e.target.value })}
+                    onChange={e => setFormData({ ...formData, tag: e.target.value })}
                     className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#915EFF]"
                   >
                     <option value="Tech">Tech</option>
@@ -206,7 +221,7 @@ const LinkedInList = () => {
                     <input
                       type="checkbox"
                       checked={formData.isFeatured}
-                      onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
+                      onChange={e => setFormData({ ...formData, isFeatured: e.target.checked })}
                       className="w-5 h-5 accent-[#915EFF]"
                     />
                     <span className="text-secondary">Featured</span>

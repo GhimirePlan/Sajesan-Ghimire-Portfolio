@@ -9,6 +9,8 @@ import connectDB from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import blogRoutes from './routes/blogRoutes.js';
 import commentRoutes from './routes/commentRoutes.js';
+import projectRoutes from './routes/projectRoutes.js';
+import mediaRoutes from './routes/mediaRoutes.js';
 import linkedinRoutes from './routes/linkedinRoutes.js';
 
 const app = express();
@@ -34,12 +36,10 @@ app.use('/api', (req, res, next) => {
 });
 app.get('/api/health', (req, res) => {
   const connected = mongoose.connection.readyState === 1;
-  res
-    .status(connected ? 200 : 503)
-    .json({
-      status: connected ? 'ok' : 'degraded',
-      mongodb: connected ? 'connected' : 'disconnected',
-    });
+  res.status(connected ? 200 : 503).json({
+    status: connected ? 'ok' : 'degraded',
+    mongodb: connected ? 'connected' : 'disconnected',
+  });
 });
 app.use(
   '/api',
@@ -68,20 +68,20 @@ app.use('/api/users', userRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/linkedin', linkedinRoutes);
+app.use('/api/projects', projectRoutes);
+app.use('/api/media', mediaRoutes);
 app.use((req, res) => res.status(404).json({ message: 'Endpoint not found' }));
 app.use((error, req, res, next) => {
   if (res.headersSent) return next(error);
   const status = error.status || 500;
-  res
-    .status(status)
-    .json({
-      message:
-        status === 413
-          ? 'Request is too large'
-          : status === 400
-            ? 'Invalid request'
-            : 'An unexpected error occurred',
-    });
+  res.status(status).json({
+    message:
+      status === 413
+        ? 'Request is too large'
+        : status === 400
+          ? 'Invalid request'
+          : 'An unexpected error occurred',
+  });
 });
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   app.listen(process.env.PORT || 5000, () => console.log('Portfolio API is running'));

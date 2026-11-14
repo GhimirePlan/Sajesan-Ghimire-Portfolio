@@ -14,16 +14,24 @@ const blogSchema = mongoose.Schema(
     },
     description: {
       type: String,
-      required: true,
+      required: function () {
+        return this.isPublished;
+      },
     },
     content: {
       type: String,
-      required: true,
+      required: function () {
+        return this.isPublished;
+      },
     },
     coverImage: {
       type: String,
-      required: true,
+      required: function () {
+        return this.isPublished;
+      },
     },
+    coverAlt: { type: String, default: '' },
+    isArchived: { type: Boolean, default: false },
     pdfUrl: {
       type: String,
       required: false,
@@ -38,7 +46,6 @@ const blogSchema = mongoose.Schema(
       required: true,
       default: false,
     },
-    
 
     views: {
       type: Number,

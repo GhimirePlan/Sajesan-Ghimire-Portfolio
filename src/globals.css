@@ -791,3 +791,13 @@ section[id] {
     animation: none;
   }
 }
+.adminless-project-nav {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ffffff18;
+  border-radius: 10px;
+  background: #151030;
+  color: #c9b5ff;
+}

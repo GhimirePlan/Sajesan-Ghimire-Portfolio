@@ -12,9 +12,6 @@ const router = express.Router();
 
 router.route('/').post(addComment).get(protect, admin, getAllComments);
 router.route('/:blogId').get(getCommentsByBlog);
-router
-  .route('/:id')
-  .put(protect, admin, updateCommentStatus)
-  .delete(protect, admin, deleteComment);
+router.route('/:id').put(protect, admin, updateCommentStatus).delete(protect, admin, deleteComment);
 
 export default router;

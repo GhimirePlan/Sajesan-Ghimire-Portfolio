@@ -1,139 +1,80 @@
 import Blog from '../models/blogModel.js';
-
-// @desc    Fetch all blogs
-// @route   GET /api/blogs
-// @access  Public
-const getBlogs = async (req, res) => {
+import { contentPayload, sendContentError } from '../lib/content.js';
+export async function getBlogs(req, res) {
   try {
-    const blogs = await Blog.find(req.user?.isAdmin ? {} : { isPublished: true })
+    const blogs = await Blog.find(
+      req.user?.isAdmin ? {} : { isPublished: true, isArchived: { $ne: true } }
+    )
       .select('-content')
       .sort({ createdAt: -1 })
       .limit(100)
       .lean();
     res.json(blogs);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching blogs', error: error.message });
+    sendContentError(res, error);
   }
-};
-
-// @desc    Fetch single blog
-// @route   GET /api/blogs/:idOrSlug
-// @access  Public
-const getBlogById = async (req, res) => {
-  const { idOrSlug } = req.params;
-
+}
+export async function getBlogById(req, res) {
   try {
-    let blog;
-    // Check if idOrSlug is a valid MongoDB ObjectId
-    if (idOrSlug.match(/^[0-9a-fA-F]{24}$/)) {
-      // Use findOneAndUpdate to increment views atomically and avoid validation issues with missing fields
-      blog = await Blog.findOneAndUpdate(
-        { _id: idOrSlug, ...(req.user?.isAdmin ? {} : { isPublished: true }) },
-        { $inc: { views: 1 } },
-        { new: true }
-      );
-    } else {
-      blog = await Blog.findOneAndUpdate(
-        { slug: idOrSlug, ...(req.user?.isAdmin ? {} : { isPublished: true }) },
-        { $inc: { views: 1 } },
-        { new: true }
-      );
-    }
-
-    if (blog) {
-      res.json(blog);
-    } else {
-      res.status(404).json({ message: 'Blog not found' });
-    }
+    const key = /^[a-f0-9]{24}$/i.test(req.params.idOrSlug)
+      ? { _id: req.params.idOrSlug }
+      : { slug: req.params.idOrSlug };
+    const filter = {
+      ...key,
+      ...(req.user?.isAdmin ? {} : { isPublished: true, isArchived: { $ne: true } }),
+    };
+    const blog = req.user?.isAdmin
+      ? await Blog.findOne(filter)
+      : await Blog.findOneAndUpdate(filter, { $inc: { views: 1 } }, { returnDocument: 'after' });
+    if (!blog) return res.status(404).json({ message: 'Blog not found' });
+    res.json(blog);
   } catch (error) {
-    res.status(500).json({ message: 'Server Error', error: error.message });
+    sendContentError(res, error);
   }
-};
-
-// @desc    Create a blog
-// @route   POST /api/blogs
-// @access  Private/Admin
-const createBlog = async (req, res) => {
+}
+export async function createBlog(req, res) {
   try {
-    const { title, slug, description, content, coverImage, tags, isPublished, pdfUrl } = req.body;
-
-    const blog = new Blog({
-      title,
-      slug,
-      description,
-      content,
-      coverImage,
-      tags,
-      isPublished,
-      pdfUrl,
-    });
-
-    const createdBlog = await blog.save();
-    res.status(201).json(createdBlog);
+    res.status(201).json(await Blog.create(contentPayload(req.body, 'blog')));
   } catch (error) {
-    res.status(400).json({ message: 'Error creating blog', error: error.message });
+    sendContentError(res, error);
   }
-};
-
-// @desc    Update a blog
-// @route   PUT /api/blogs/:idOrSlug
-// @access  Private/Admin
-const updateBlog = async (req, res) => {
-  const { title, slug, description, content, coverImage, tags, isPublished, pdfUrl } = req.body;
-
+}
+export async function updateBlog(req, res) {
   try {
-    const { idOrSlug } = req.params;
-    let blog;
-
-    if (idOrSlug.match(/^[0-9a-fA-F]{24}$/)) {
-      blog = await Blog.findById(idOrSlug);
-    } else {
-      blog = await Blog.findOne({ slug: idOrSlug });
-    }
-
-    if (blog) {
-      blog.title = title !== undefined ? title : blog.title;
-      blog.slug = slug !== undefined ? slug : blog.slug;
-      blog.description = description !== undefined ? description : blog.description;
-      blog.content = content !== undefined ? content : blog.content;
-      blog.coverImage = coverImage !== undefined ? coverImage : blog.coverImage;
-      blog.pdfUrl = pdfUrl !== undefined ? pdfUrl : blog.pdfUrl;
-      blog.tags = tags !== undefined ? tags : blog.tags;
-      blog.isPublished = isPublished !== undefined ? isPublished : blog.isPublished;
-
-      const updatedBlog = await blog.save();
-      res.json(updatedBlog);
-    } else {
-      res.status(404).json({ message: 'Blog not found' });
-    }
+    const key = /^[a-f0-9]{24}$/i.test(req.params.idOrSlug)
+      ? { _id: req.params.idOrSlug }
+      : { slug: req.params.idOrSlug };
+    const blog = await Blog.findOne(key);
+    if (!blog) return res.status(404).json({ message: 'Blog not found' });
+    Object.assign(blog, contentPayload({ ...blog.toObject(), ...req.body }, 'blog'));
+    res.json(await blog.save());
   } catch (error) {
-    res.status(500).json({ message: 'Error updating blog', error: error.message });
+    sendContentError(res, error);
   }
-};
-
-// @desc    Delete a blog
-// @route   DELETE /api/blogs/:idOrSlug
-// @access  Private/Admin
-const deleteBlog = async (req, res) => {
+}
+export async function deleteBlog(req, res) {
   try {
-    const { idOrSlug } = req.params;
-    let blog;
-
-    if (idOrSlug.match(/^[0-9a-fA-F]{24}$/)) {
-      blog = await Blog.findById(idOrSlug);
-    } else {
-      blog = await Blog.findOne({ slug: idOrSlug });
+    const key = /^[a-f0-9]{24}$/i.test(req.params.idOrSlug)
+      ? { _id: req.params.idOrSlug }
+      : { slug: req.params.idOrSlug };
+    if (req.query.permanent === 'true') {
+      const archived = await Blog.findOne(key);
+      if (!archived) return res.status(404).json({ message: 'Blog not found' });
+      if (!archived.isArchived)
+        return res
+          .status(400)
+          .json({ message: 'Archive the article before permanently deleting it.' });
+      await archived.deleteOne();
+      return res.json({ message: 'Article permanently deleted' });
     }
-
-    if (blog) {
-      await blog.deleteOne();
-      res.json({ message: 'Blog removed' });
-    } else {
-      res.status(404).json({ message: 'Blog not found' });
-    }
+    const blog = await Blog.findOneAndUpdate(
+      key,
+      { isArchived: true, isPublished: false },
+      { returnDocument: 'after' }
+    );
+    if (!blog) return res.status(404).json({ message: 'Blog not found' });
+    res.json({ message: 'Article archived' });
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting blog', error: error.message });
+    sendContentError(res, error);
   }
-};
-
-export { getBlogs, getBlogById, createBlog, updateBlog, deleteBlog };
+}

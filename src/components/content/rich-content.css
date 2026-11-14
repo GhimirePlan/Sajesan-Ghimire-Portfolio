@@ -1,0 +1,224 @@
+.rich-content {
+  color: #bcb5cf;
+  font-size: 15px;
+  line-height: 1.9;
+  overflow-wrap: anywhere;
+}
+.rich-content > :first-child {
+  margin-top: 0;
+}
+.rich-content p {
+  margin: 0 0 1.2em;
+}
+.rich-content h1,
+.rich-content h2,
+.rich-content h3,
+.rich-content h4 {
+  color: var(--rich-heading, #f4efff);
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 1.8em 0 0.7em;
+}
+.rich-content h1 {
+  font-size: 2em;
+}
+.rich-content h2 {
+  font-size: 1.6em;
+}
+.rich-content h3 {
+  font-size: 1.3em;
+}
+.rich-content h4 {
+  font-size: 1.1em;
+}
+.rich-content ul,
+.rich-content ol {
+  padding-left: 1.7em;
+  margin: 1em 0;
+}
+.rich-content ul {
+  list-style: disc;
+}
+.rich-content ol {
+  list-style: decimal;
+}
+.rich-content li {
+  margin: 0.4em 0;
+}
+.rich-content li[data-list='bullet'] {
+  list-style: disc;
+}
+.rich-content .ql-ui {
+  display: none;
+}
+.rich-content .ql-align-center {
+  text-align: center;
+}
+.rich-content .ql-align-right {
+  text-align: right;
+}
+.rich-content .ql-align-justify {
+  text-align: justify;
+}
+.rich-content .ql-direction-rtl {
+  direction: rtl;
+}
+.rich-content .ql-indent-1 {
+  padding-left: 2em;
+}
+.rich-content .ql-indent-2 {
+  padding-left: 4em;
+}
+.rich-content .ql-indent-3 {
+  padding-left: 6em;
+}
+.rich-content .ql-indent-4 {
+  padding-left: 8em;
+}
+.rich-content .ql-size-small {
+  font-size: 0.8em;
+}
+.rich-content .ql-size-large {
+  font-size: 1.4em;
+}
+.rich-content .ql-size-huge {
+  font-size: 2em;
+}
+.rich-content .ql-font-monospace {
+  font-family: monospace;
+}
+.rich-content .ql-font-serif {
+  font-family: Georgia, serif;
+}
+.rich-content blockquote {
+  border-left: 3px solid #915eff;
+  background: #915eff0a;
+  padding: 1em 1.3em;
+  border-radius: 0 10px 10px 0;
+  margin: 1.4em 0;
+}
+.rich-content pre,
+.rich-content .ql-code-block-container {
+  background: #090c18;
+  border: 1px solid #ffffff15;
+  border-radius: 10px;
+  padding: 1em;
+  font-size: 0.85em;
+  margin: 1.4em 0;
+  overflow-x: auto;
+  white-space: pre;
+}
+.rich-content code,
+.rich-content .ql-code-block {
+  font-family: ui-monospace, monospace;
+}
+.rich-content code {
+  color: #cfb9ff;
+}
+.rich-content .ql-code-block {
+  white-space: pre;
+}
+.rich-content a {
+  color: #c9b5ff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.rich-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1.5em auto;
+  border-radius: 12px;
+}
+.rich-content iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16/9;
+  height: auto;
+  border: 0;
+  border-radius: 12px;
+  margin: 1.5em 0;
+}
+.rich-content table {
+  border-collapse: collapse;
+  max-width: 100%;
+  width: 100%;
+  margin: 1.5em 0;
+  font-size: 0.9em;
+  table-layout: fixed;
+}
+.rich-content th,
+.rich-content td {
+  border: 1px solid #7773;
+  padding: 0.65em;
+  overflow-wrap: anywhere;
+}
+.rich-content th {
+  font-weight: 600;
+  background: #915eff0a;
+}
+.rich-content hr {
+  border: 0;
+  border-top: 1px solid #ffffff20;
+  margin: 2em 0;
+}
+.copy-link-control {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.copy-link-control > button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: #c9b5ff;
+  min-height: 36px;
+}
+.copy-link-fallback {
+  display: block;
+  position: absolute;
+  z-index: 20;
+  right: 0;
+  top: 100%;
+  padding: 12px;
+  background: #151030;
+  border: 1px solid #c9b5ff40;
+  border-radius: 10px;
+  font-size: 11px;
+  color: #aaa6c3;
+  width: min(290px, 80vw);
+}
+.copy-link-fallback input {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin-top: 7px;
+  background: #050816;
+  color: #fff;
+  font-size: 11px;
+  border: 1px solid #ffffff20;
+  border-radius: 6px;
+}
+.copy-link-fallback {
+  position: fixed;
+  inset: auto 16px 16px;
+  width: auto;
+  max-width: 500px;
+  margin-inline: auto;
+  box-shadow: 0 12px 40px #0006;
+  z-index: 1100;
+}
+.copy-link-fallback > button {
+  position: absolute;
+  right: 8px;
+  top: 6px;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  color: #d5c6ee;
+}
+.copy-link-fallback input {
+  margin-top: 12px;
+}
