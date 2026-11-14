@@ -9,12 +9,11 @@
       }
     },
     {
-      "src": "server/index.js",
+      "src": "server/handler.cjs",
       "use": "@vercel/node",
       "config": {
         "includeFiles": [
-          "server/data/**",
-          "server/node_modules/**"
+          "server/**"
         ]
       }
     }
@@ -22,7 +21,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "server/index.js"
+      "destination": "server/handler.cjs"
     },
     {
       "source": "/(.*)",
