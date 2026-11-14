@@ -314,8 +314,7 @@ const BlogPost = () => {
                     </button>
                   </div>
                   <p className="text-secondary text-sm mb-4 leading-relaxed">
-                    Electrical System Designer & Researcher passionate about sustainable energy
-                    solutions and modern web technologies.
+                    {config.hero.bio}
                   </p>
                   <Link to="/" className="text-[#915EFF] font-bold text-sm hover:underline">
                     View Portfolio

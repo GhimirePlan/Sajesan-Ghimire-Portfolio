@@ -18,8 +18,7 @@ export default function Hero() {
         </h1>
         <p className="text-[#c9b5ff] text-xl sm:text-2xl mt-5">Solar PV & power systems</p>
         <p className="text-secondary text-base leading-7 mt-5 max-w-xl">
-          Electrical design, feasibility studies, and project delivery for solar energy and building
-          services. Research in power system control and automation.
+          {config.hero.bio}
         </p>
         <div className="flex flex-wrap gap-4 mt-8">
           <a

@@ -12,6 +12,7 @@ type TConfig = {
   };
   hero: {
     name: string;
+    bio: string;
     p: string[];
   };
   contact: {
@@ -48,6 +49,7 @@ export const config: TConfig = {
   },
   hero: {
     name: 'Sajesan Ghimire',
+    bio: 'Electrical engineer and researcher focused on solar PV, power systems, and sustainable energy solutions.',
     p: ['Electrical Engineer · Solar PV & Power Systems', 'Based in Nepal'],
   },
   contact: {
