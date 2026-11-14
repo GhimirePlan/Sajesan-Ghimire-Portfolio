@@ -11,7 +11,7 @@ export const textVariant = () => {
       y: 0,
       opacity: 1,
       transition: {
-        type: 'spring',
+        type: 'tween',
         duration: 0.35,
       },
     },
@@ -20,7 +20,7 @@ export const textVariant = () => {
 
 export const fadeIn = (
   direction: TMotion['direction'],
-  type: TMotion['type'],
+  _type: TMotion['type'],
   delay: TMotion['delay'],
   duration: TMotion['duration']
 ): Variants => {
@@ -35,9 +35,9 @@ export const fadeIn = (
       y: 0,
       opacity: 1,
       transition: {
-        type,
-        delay,
-        duration,
+        type: 'tween',
+        delay: Math.min(delay, 0.16),
+        duration: Math.min(duration, 0.4),
         ease: 'easeOut',
       },
     },
@@ -65,7 +65,7 @@ export const zoomIn = (delay: TMotion['delay'], duration: TMotion['duration']) =
 
 export const slideIn = (
   direction: TMotion['direction'],
-  type: TMotion['type'],
+  _type: TMotion['type'],
   delay: TMotion['delay'],
   duration: TMotion['duration']
 ) => {
@@ -78,9 +78,9 @@ export const slideIn = (
       x: 0,
       y: 0,
       transition: {
-        type,
-        delay,
-        duration,
+        type: 'tween',
+        delay: Math.min(delay, 0.16),
+        duration: Math.min(duration, 0.4),
         ease: 'easeOut',
       },
     },

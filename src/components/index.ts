@@ -1,24 +1,16 @@
-// @ts-nocheck
-import {
-  EarthCanvas,
-  BallCanvas,
-  ComputersCanvas,
-  StarsCanvas,
-} from "./canvas";
-import Hero from "./sections/Hero";
-import Navbar from "./layout/Navbar";
-import About from "./sections/About";
-import Tech from "./sections/Tech";
-import Experience from "./sections/Experience";
-import Works from "./sections/Works";
-import Projects from "./sections/Projects";
-import Feedbacks from "./sections/Feedbacks";
-import Contact from "./sections/Contact";
-import Blog from "./sections/Blog";
-import LinkedInSpotlight from "./sections/LinkedInSpotlight";
-import CanvasLoader from "./layout/Loader";
-import Footer from "./sections/Footer";
-import ScheduleMeeting from "./ScheduleMeeting";
+import Hero from './sections/Hero';
+import Navbar from './layout/Navbar';
+import About from './sections/About';
+import Tech from './sections/Tech';
+import Experience from './sections/Experience';
+import Works from './sections/Works';
+import Projects from './sections/Projects';
+import Feedbacks from './sections/Feedbacks';
+import Contact from './sections/Contact';
+import Blog from './sections/Blog';
+import LinkedInSpotlight from './sections/LinkedInSpotlight';
+import Footer from './sections/Footer';
+import ScheduleMeeting from './ScheduleMeeting';
 
 export {
   Hero,
@@ -32,11 +24,6 @@ export {
   Contact,
   Blog,
   LinkedInSpotlight,
-  CanvasLoader,
-  EarthCanvas,
-  BallCanvas,
-  ComputersCanvas,
-  StarsCanvas,
   Footer,
   ScheduleMeeting,
 };

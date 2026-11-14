@@ -66,7 +66,11 @@ Backend regression tests cover service failure handling, draft visibility, comme
 input, missing authentication, and password hashing behavior. Live database operations and email
 delivery require owner configuration and are not verified by those tests.
 
-Portfolio content is in `src/constants/index.ts`; layout and styles are in `src/pages/HomePage.tsx`
-and `src/pages/portfolio.css`. Images use optimized WebP files, project images load lazily, system
-fonts avoid external font requests, and admin/article routes load on demand. No 3D assets load on
-the public homepage.
+Portfolio content is in `src/constants/index.ts`; layout and styles are in `src/pages/HomePage.tsx`,
+`src/components/sections`, and `src/globals.css`. Images use optimized WebP files, project images
+load lazily, system fonts avoid external font requests, and admin/article routes load on demand.
+
+The portfolio contains no WebGL scenes, 3D libraries, model assets, or pointer-tracked tilt effects.
+Entrance animations run once with small opacity/transform changes; hover effects use short CSS
+transitions. Motion respects the visitor’s reduced-motion setting. Existing project galleries,
+service details, articles, testimonials, scheduling, and contact flows remain available.

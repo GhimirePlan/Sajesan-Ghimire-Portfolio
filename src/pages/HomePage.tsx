@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Navbar from '../components/layout/Navbar';
 import Hero from '../components/sections/Hero';
 import About from '../components/sections/About';
@@ -11,9 +11,7 @@ import Feedbacks from '../components/sections/Feedbacks';
 import Contact from '../components/sections/Contact';
 import Footer from '../components/sections/Footer';
 import { config } from '../constants/config';
-const StarsCanvas = lazy(() => import('../components/canvas/Stars'));
 export default function HomePage() {
-  const [stars, setStars] = useState(false);
   useEffect(() => {
     document.title = config.html.title;
   }, []);
@@ -38,15 +36,7 @@ export default function HomePage() {
       </main>
       <div className="max-w-7xl mx-auto px-6 pb-8">
         <Footer />
-        <button className="text-secondary text-xs mt-4" onClick={() => setStars(!stars)}>
-          {stars ? 'Disable animated background' : 'Enable animated background'}
-        </button>
       </div>
-      {stars && (
-        <Suspense fallback={null}>
-          <StarsCanvas />
-        </Suspense>
-      )}
     </div>
   );
 }

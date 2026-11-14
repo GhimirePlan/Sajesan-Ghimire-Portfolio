@@ -1,10 +1,9 @@
-import { lazy, Suspense, useState, type FormEvent } from 'react';
+import { useState, type FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { FaFacebookF, FaLinkedinIn } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 import { SiResearchgate } from 'react-icons/si';
 
-const EarthCanvas = lazy(() => import('../canvas/Earth'));
 import { SectionWrapper } from '../../hoc';
 import { fadeIn } from '../../utils/motion';
 import { config } from '../../constants/config';
@@ -80,7 +79,6 @@ const Contact = () => {
   const [success, setSuccess] = useState(false);
 
   const [error, setError] = useState('');
-  const [showEarth, setShowEarth] = useState(false);
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -184,33 +182,24 @@ const Contact = () => {
 
       <motion.div
         variants={fadeIn('', 'tween', 0, 0.3)}
-        className="xl:flex-1 xl:h-auto md:h-[550px] h-[350px]"
+        className="xl:flex-1 xl:h-auto md:h-[420px] h-[300px]"
       >
-        {showEarth ? (
-          <Suspense fallback={<p className="text-secondary">Loading globe…</p>}>
-            <EarthCanvas />
-          </Suspense>
-        ) : (
-          <div className="h-full min-h-[300px] flex flex-col justify-center items-center gap-6 rounded-3xl border border-white/10 bg-tertiary/30 p-8">
-            <span className="text-[#915EFF] text-6xl" aria-hidden="true">
-              ◎
-            </span>
-            <h3 className="text-white text-2xl font-semibold text-center">
-              Discuss your next
-              <br />
-              engineering project.
-            </h3>
-            <a
-              className="text-secondary underline text-sm break-all"
-              href="mailto:contact@sajesanghimire.com.np"
-            >
-              contact@sajesanghimire.com.np
-            </a>
-            <button className="text-[#b79aff] text-sm" onClick={() => setShowEarth(true)}>
-              Explore the interactive globe
-            </button>
-          </div>
-        )}
+        <div className="h-full min-h-[300px] flex flex-col justify-center items-center gap-6 rounded-3xl border border-white/10 bg-tertiary/30 p-8">
+          <span className="text-[#915EFF] text-6xl" aria-hidden="true">
+            ◎
+          </span>
+          <h3 className="text-white text-2xl font-semibold text-center">
+            Discuss your next
+            <br />
+            engineering project.
+          </h3>
+          <a
+            className="text-secondary underline text-sm break-all"
+            href="mailto:contact@sajesanghimire.com.np"
+          >
+            contact@sajesanghimire.com.np
+          </a>
+        </div>
       </motion.div>
     </div>
   );

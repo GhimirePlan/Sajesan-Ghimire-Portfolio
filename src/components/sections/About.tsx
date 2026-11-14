@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Tilt from 'react-parallax-tilt';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiX } from 'react-icons/fi';
 
@@ -22,7 +21,7 @@ interface IServiceCard {
 }
 
 const ServiceCard: React.FC<IServiceCard> = ({ index, title, icon, description, onClick }) => (
-  <Tilt glareEnable={false} tiltEnable tiltMaxAngleX={5} tiltMaxAngleY={5} glareColor="#aaa6c3">
+  <div className="surface-interaction h-full">
     <div className="h-full w-full">
       <motion.div
         variants={fadeIn('right', 'spring', index * 0.08, 0.3)}
@@ -56,7 +55,7 @@ const ServiceCard: React.FC<IServiceCard> = ({ index, title, icon, description, 
         </div>
       </motion.div>
     </div>
-  </Tilt>
+  </div>
 );
 
 const ServiceModal: React.FC<{

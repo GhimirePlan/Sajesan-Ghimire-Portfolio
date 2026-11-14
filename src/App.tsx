@@ -1,3 +1,4 @@
+import { MotionConfig } from 'framer-motion';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -31,82 +32,84 @@ function AdminRoute({ children }: { children: ReactNode }) {
 const App = () => {
   return (
     <ErrorBoundary>
-      <BrowserRouter basename={import.meta.env.BASE_URL}>
-        <RouteScroll />
-        <Suspense
-          fallback={
-            <div role="status" className="p-8">
-              Loading…
-            </div>
-          }
-        >
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/projects" element={<ProjectsPage />} />
-            <Route path="/blogs/:slug" element={<BlogPost />} />
+      <MotionConfig reducedMotion="user">
+        <BrowserRouter basename={import.meta.env.BASE_URL}>
+          <RouteScroll />
+          <Suspense
+            fallback={
+              <div role="status" className="p-8">
+                Loading…
+              </div>
+            }
+          >
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/projects" element={<ProjectsPage />} />
+              <Route path="/blogs/:slug" element={<BlogPost />} />
 
-            {/* Admin Routes */}
-            <Route path="/login" element={<LoginPage />} />
-            <Route
-              path="/admin"
-              element={
-                <AdminRoute>
-                  <Dashboard />
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="/admin/blogs"
-              element={
-                <AdminRoute>
-                  <BlogList />
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="/admin/blogs/create"
-              element={
-                <AdminRoute>
-                  <BlogEditor />
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="/admin/blogs/edit/:id"
-              element={
-                <AdminRoute>
-                  <BlogEditor />
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="/admin/comments"
-              element={
-                <AdminRoute>
-                  <CommentList />
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="/admin/linkedin"
-              element={
-                <AdminRoute>
-                  <LinkedInList />
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="*"
-              element={
-                <div className="p-8">
-                  Page not found. <a href="/">Return home</a>
-                </div>
-              }
-            />
-          </Routes>
-        </Suspense>
-        <ToastContainer theme="dark" position="bottom-right" />
-      </BrowserRouter>
+              {/* Admin Routes */}
+              <Route path="/login" element={<LoginPage />} />
+              <Route
+                path="/admin"
+                element={
+                  <AdminRoute>
+                    <Dashboard />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/blogs"
+                element={
+                  <AdminRoute>
+                    <BlogList />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/blogs/create"
+                element={
+                  <AdminRoute>
+                    <BlogEditor />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/blogs/edit/:id"
+                element={
+                  <AdminRoute>
+                    <BlogEditor />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/comments"
+                element={
+                  <AdminRoute>
+                    <CommentList />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/linkedin"
+                element={
+                  <AdminRoute>
+                    <LinkedInList />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="*"
+                element={
+                  <div className="p-8">
+                    Page not found. <a href="/">Return home</a>
+                  </div>
+                }
+              />
+            </Routes>
+          </Suspense>
+          <ToastContainer theme="dark" position="bottom-right" />
+        </BrowserRouter>
+      </MotionConfig>
     </ErrorBoundary>
   );
 };

@@ -43,13 +43,6 @@ const LinkedInSpotlight = () => {
     setCurrentIndex(prevIndex => (prevIndex - 1 + posts.length) % posts.length);
   }, [posts.length]);
 
-  useEffect(() => {
-    if (posts.length > 1) {
-      const timer = setInterval(nextSlide, 8000); // Auto-slide every 8 seconds
-      return () => clearInterval(timer);
-    }
-  }, [nextSlide, posts.length]);
-
   const getEmbedUrl = (url: string) => {
     if (!url) return '';
     if (url.includes('embed')) return url;

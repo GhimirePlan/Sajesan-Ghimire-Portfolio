@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import Tilt from 'react-parallax-tilt';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useCallback, memo, useEffect } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
@@ -22,16 +21,7 @@ const ProjectCard: React.FC<{ index: number } & TProject> = ({
 }) => {
   return (
     <motion.div variants={fadeIn('up', 'spring', index * 0.08, 0.3)}>
-      <Tilt
-        glareEnable={false}
-        tiltEnable
-        tiltMaxAngleX={5}
-        tiltMaxAngleY={5}
-        glareColor="#aaa6c3"
-        transitionSpeed={1500}
-        scale={1}
-        gyroscope={false}
-      >
+      <div className="surface-interaction h-full">
         <div className="bg-tertiary/60 border border-white/10 w-full rounded-2xl p-5 h-[430px] flex flex-col">
           <div className="relative h-[200px] w-full">
             <img
@@ -70,7 +60,7 @@ const ProjectCard: React.FC<{ index: number } & TProject> = ({
             </div>
           </div>
         </div>
-      </Tilt>
+      </div>
     </motion.div>
   );
 };
@@ -115,7 +105,7 @@ const ProjectsWrapper = memo(
         animate="center"
         exit="exit"
         transition={{
-          x: { type: 'spring', stiffness: 300, damping: 30 },
+          x: { type: 'tween', duration: 0.25, ease: 'easeOut' },
           opacity: { duration: 0.2 },
         }}
         drag="x"
@@ -172,7 +162,7 @@ const Works = () => {
       setIsTransitioning(true);
       setDirection(newDirection);
       setCurrentPage(newPage);
-      setTimeout(() => setIsTransitioning(false), 500);
+      setTimeout(() => setIsTransitioning(false), 280);
     },
     [isTransitioning]
   );
