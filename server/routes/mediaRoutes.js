@@ -1,5 +1,6 @@
 import Blog from '../models/blogModel.js';
 import Project from '../models/projectModel.js';
+import Experience from '../models/experienceModel.js';
 import express from 'express';
 import mongoose from 'mongoose';
 import Media from '../models/mediaModel.js';
@@ -66,7 +67,8 @@ router.delete('/:id', protect, admin, async (req, res) => {
   const reference = {
     $or: [{ coverImage: { $regex: req.params.id } }, { content: { $regex: req.params.id } }],
   };
-  if ((await Blog.exists(reference)) || (await Project.exists(reference)))
+  if ((await Blog.exists(reference)) || (await Project.exists(reference)) ||
+      (await Experience.exists({ 'entries.icon': { $regex: req.params.id } })))
     return res.status(409).json({
       message:
         'This image is used by saved content. Remove it from that content before deleting it.',

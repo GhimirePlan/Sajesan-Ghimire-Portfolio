@@ -49,6 +49,31 @@ test(
         for (const path of ['/api/projects/manage', '/api/blogs/manage', '/api/media/manage'])
           assert.equal((await request(path, 'GET', undefined, false)).status, 401);
       });
+      await t.test('experience stays private for writes and caches filtered public reads', async () => {
+        assert.equal((await request('/api/experience/manage', 'GET', undefined, false)).status, 401);
+        const entry = { title: 'Electrical Engineer', companyName: 'Test Company', date: '2025 – Present', icon: '', iconBg: '#383e56', points: ['Solar design'], isPublished: true };
+        assert.equal((await request('/api/experience', 'PUT', { entries: [entry] }, false)).status, 401);
+        assert.equal((await request('/api/experience', 'PUT', { entries: [{ ...entry, icon: 'javascript:alert(1)' }] })).status, 400);
+        assert.equal((await request('/api/experience', 'PUT', { entries: [entry, { ...entry, isPublished: false }] })).status, 200);
+        const Catalog = mongoose.model('ExperienceCatalog');
+        const original = Catalog.findOne;
+        let reads = 0;
+        Catalog.findOne = function (...args) { reads++; return original.apply(this, args); };
+        try {
+          const responses = await Promise.all(Array.from({ length: 5 }, () => fetch(base + '/api/experience')));
+          for (const response of responses) {
+            assert.equal(response.status, 200);
+            assert.match(response.headers.get('cache-control'), /s-maxage=60/);
+            assert.equal((await response.json()).entries.length, 1);
+          }
+          assert.equal(reads, 1, 'concurrent public requests share a single database read');
+          await fetch(base + '/api/experience');
+          assert.equal(reads, 1, 'warm cache avoids database queries');
+        } finally { Catalog.findOne = original; }
+        assert.equal((await request('/api/experience/manage')).data.entries.length, 2);
+        await request('/api/experience', 'PUT', { entries: [] });
+        assert.deepEqual((await request('/api/experience', 'GET', undefined, false)).data.entries, []);
+      });
       await t.test('image binary persists and is served with immutable cache headers', async () => {
         const buffer = Buffer.from(
           'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aV1sAAAAASUVORK5CYII=',
@@ -72,6 +97,9 @@ test(
         const metadata = (await request('/api/media/manage')).data;
         assert.equal(metadata.length, 1);
         assert.ok(!('data' in metadata[0]));
+        await request('/api/experience', 'PUT', { entries: [{ title: 'Engineer', companyName: 'Test', date: '2025', icon: image.url, iconBg: '#383e56', points: [], isPublished: true }] });
+        assert.equal((await request('/api/media/' + image._id, 'DELETE')).status, 409, 'experience logos cannot be deleted while in use');
+        await request('/api/experience', 'PUT', { entries: [] });
         const denied = await fetch(base + '/api/media', {
           method: 'POST',
           headers: { 'Content-Type': 'image/png' },

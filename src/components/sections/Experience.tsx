@@ -4,7 +4,7 @@ import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeli
 
 import 'react-vertical-timeline-component/style.min.css';
 
-import { experiences } from '../../constants';
+import useExperience from '../../hooks/useExperience';
 import { SectionWrapper } from '../../hoc';
 import { Header } from '../atoms/Header';
 import { TExperience } from '../../types';
@@ -29,13 +29,13 @@ const ExperienceCard: React.FC<TExperience> = experience => {
       iconStyle={{ background: experience.iconBg }}
       icon={
         <div className="flex h-full w-full items-center justify-center">
-          <img
+          {experience.icon ? <img
             loading="lazy"
             decoding="async"
-            src={experience.icon}
+            src={experience.icon || undefined}
             alt={experience.companyName}
             className="h-[60%] w-[60%] object-contain"
-          />
+          /> : <span className="text-white font-semibold" aria-hidden="true">{experience.companyName.slice(0, 2).toUpperCase()}</span>}
         </div>
       }
     >
@@ -61,6 +61,7 @@ const ExperienceCard: React.FC<TExperience> = experience => {
 };
 
 const Experience = () => {
+  const experiences = useExperience();
   return (
     <>
       <Header useMotion={true} {...config.sections.experience} />

@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import {
   FiGrid,
+  FiClock,
   FiFileText,
   FiBriefcase,
   FiMessageSquare,
@@ -37,6 +38,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     ['Overview', '/admin', FiGrid],
     ['Articles', '/admin/blogs', FiFileText],
     ['Projects', '/admin/projects', FiBriefcase],
+    ['Experience', '/admin/experience', FiClock],
     ['Media library', '/admin/media', FiImage],
     ['Comments', '/admin/comments', FiMessageSquare],
     ['LinkedIn', '/admin/linkedin', FiLinkedin],
