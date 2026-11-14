@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiX } from 'react-icons/fi';
+import { FiX, FiArrowUpRight, FiZap, FiSun, FiActivity, FiCpu } from 'react-icons/fi';
 
 import { services } from '../../constants';
 import { SectionWrapper } from '../../hoc';
@@ -20,59 +20,62 @@ interface IServiceCard {
   onClick: () => void;
 }
 
-const ServiceCard: React.FC<IServiceCard> = ({ index, title, icon, description, onClick }) => (
-  <div className="surface-interaction h-full">
-    <div className="h-full w-full">
-      <motion.div
-        variants={fadeIn('right', 'spring', index * 0.08, 0.3)}
-        className="border border-white/10 w-full rounded-2xl p-[1px]"
-      >
-        <div
-          className="bg-tertiary/60 flex min-h-[260px] flex-col items-center justify-evenly rounded-[20px] px-6 py-6 cursor-pointer hover:bg-opacity-80 transition-all group"
-          role="button"
-          tabIndex={0}
-          onKeyDown={event => {
-            if (event.key === 'Enter' || event.key === ' ') {
-              event.preventDefault();
-              onClick();
-            }
-          }}
-          onClick={onClick}
-        >
-          <div className="relative">
-            <img
-              src={icon}
-              alt={title}
-              className="h-16 w-16 object-contain transition-transform duration-300 group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-20 rounded-full transition-opacity duration-300" />
-          </div>
-
-          <h3 className="text-center text-[18px] font-semibold text-white group-hover:text-[#915EFF] transition-colors duration-300">
-            {title}
-          </h3>
-          <p className="text-secondary text-center text-[14px] mt-2 line-clamp-3">{description}</p>
-        </div>
-      </motion.div>
-    </div>
-  </div>
-);
+const serviceIcons = [FiZap, FiActivity, FiSun, FiCpu];
+const ServiceCard: React.FC<IServiceCard> = ({ index, title, description, onClick }) => {
+  const Icon = serviceIcons[index] || FiZap;
+  return (
+    <motion.button
+      type="button"
+      variants={fadeIn('up', 'tween', index * 0.05, 0.3)}
+      onClick={onClick}
+      aria-haspopup="dialog"
+      className="expertise-card text-left group"
+    >
+      <span className="expertise-icon">
+        <Icon size={20} aria-hidden="true" />
+      </span>
+      <span className="expertise-title">{title}</span>
+      <span className="expertise-description">{description}</span>
+      <span className="expertise-action">
+        Explore expertise <FiArrowUpRight size={15} aria-hidden="true" />
+      </span>
+    </motion.button>
+  );
+};
 
 const ServiceModal: React.FC<{
   service: TService;
   onClose: () => void;
 }> = ({ service, onClose }) => {
-  // Prevent body scroll when modal is open
+  const panelRef = useRef<HTMLDivElement>(null);
+  // Keep keyboard focus inside the open dialog and restore it on close.
   useEffect(() => {
     const previous = document.body.style.overflow;
+    const previousFocus = document.activeElement as HTMLElement | null;
+    panelRef.current?.querySelector('button')?.focus();
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') onClose();
+      if (event.key === 'Tab') {
+        const focusable = Array.from(
+          panelRef.current?.querySelectorAll<HTMLElement>('button,a[href],[tabindex="0"]') || []
+        );
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
+      }
     };
     window.addEventListener('keydown', closeOnEscape);
     document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = previous;
       window.removeEventListener('keydown', closeOnEscape);
+      previousFocus?.focus();
     };
   }, [onClose]);
 
@@ -81,14 +84,15 @@ const ServiceModal: React.FC<{
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[100] p-4"
+      className="fixed inset-0 bg-black/80 flex items-center justify-center z-[100] p-4"
       onClick={onClose}
     >
       <motion.div
-        initial={{ scale: 0.9, opacity: 0, y: 20 }}
+        initial={{ scale: 0.98, opacity: 0, y: 8 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.9, opacity: 0, y: 20 }}
-        transition={{ type: 'spring', duration: 0.5 }}
+        exit={{ scale: 0.98, opacity: 0, y: 8 }}
+        transition={{ type: 'tween', duration: 0.2 }}
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-label={service.title}
@@ -165,16 +169,27 @@ const About = () => {
 
   return (
     <>
-      <Header useMotion={true} {...config.sections.about} />
-
-      <motion.p
-        variants={fadeIn('', '', 0.1, 1)}
-        className="text-secondary mt-4 max-w-3xl text-[16px] leading-[28px]"
-      >
-        {config.sections.about.content}
-      </motion.p>
-
-      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 max-sm:justify-center">
+      <div className="about-intro-card">
+        <div className="about-card-heading">
+          <span className="about-card-symbol" aria-hidden="true">
+            <FiZap size={23} />
+          </span>
+          <Header useMotion={false} {...config.sections.about} />
+          <p className="text-[#c9b5ff] text-sm mt-4">Design. Analyse. Deliver.</p>
+        </div>
+        <div className="about-card-copy">
+          <p className="text-secondary text-[15px] leading-7">{config.sections.about.content}</p>
+          <div className="about-focus-list">
+            <span>Solar PV systems</span>
+            <span>Electrical design</span>
+            <span>Applied research</span>
+          </div>
+          <a href="#work" className="about-experience-link">
+            Explore my experience <FiArrowUpRight size={16} aria-hidden="true" />
+          </a>
+        </div>
+      </div>
+      <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         {services.map((service, index) => (
           <ServiceCard
             key={service.title}

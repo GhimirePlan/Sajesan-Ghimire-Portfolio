@@ -20,7 +20,7 @@ export default function HomePage() {
       <a href="#about" className="skip-to-content">
         Skip to content
       </a>
-      <div className="bg-hero-pattern bg-cover bg-center bg-no-repeat">
+      <div className="hero-backdrop bg-hero-pattern bg-cover bg-center bg-no-repeat">
         <Navbar />
         <Hero />
       </div>

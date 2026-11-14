@@ -13,7 +13,7 @@ export default function Hero() {
         <p className="text-[#c9b5ff] text-xs uppercase tracking-[0.18em] mb-5">
           Electrical engineer · Nepal
         </p>
-        <h1 className="text-white font-semibold tracking-tight text-[40px] sm:text-[56px] lg:text-[68px] leading-[1.1]">
+        <h1 className="text-white font-semibold tracking-tight text-[40px] sm:text-[52px] lg:text-[64px] leading-[1.1]">
           {config.hero.name}
         </h1>
         <p className="text-[#c9b5ff] text-xl sm:text-2xl mt-5">Solar PV & power systems</p>
@@ -45,18 +45,52 @@ export default function Hero() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.08, ease: 'easeOut' }}
-        className="max-w-[340px] w-full justify-self-center md:justify-self-end"
+        className="portrait-composition max-w-[360px] w-full justify-self-center md:justify-self-end"
       >
-        <img
-          src={portrait}
-          width={640}
-          height={640}
-          alt="Sajesan Ghimire, electrical engineer"
-          className="aspect-[4/5] w-full object-cover rounded-2xl border border-white/10"
-        />
-        <p className="text-secondary text-xs mt-4 text-center">
-          Engineering design · Site coordination · Technical research
-        </p>
+        <div className="portrait-decoration" aria-hidden="true" />
+        <div className="portrait-card">
+          <div className="portrait-card-top">
+            <span className="portrait-location">
+              <span aria-hidden="true" />
+              Based in Nepal
+            </span>
+            <span className="portrait-monogram" aria-hidden="true">
+              SG
+            </span>
+          </div>
+          <div className="portrait-image-frame">
+            <img
+              src={portrait}
+              width={640}
+              height={640}
+              alt="Sajesan Ghimire, electrical engineer"
+              className="portrait-image"
+            />
+            <span className="portrait-sheen" aria-hidden="true" />
+          </div>
+          <div className="portrait-card-caption">
+            <div>
+              <p className="text-white text-base font-medium">Sajesan Ghimire</p>
+              <p className="text-secondary text-xs mt-1">Electrical engineer & researcher</p>
+            </div>
+            <a href="#contact" className="portrait-contact" aria-label="Contact Sajesan">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                aria-hidden="true"
+              >
+                <path d="M6 18 18 6M6 6h12v12" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div className="portrait-footnote">
+          <span aria-hidden="true">✦</span> Solar energy. Practical engineering.
+        </div>
       </motion.div>
     </section>
   );

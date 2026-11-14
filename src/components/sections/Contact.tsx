@@ -105,7 +105,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="xl:mt-12 xl:flex-row flex-col-reverse flex gap-10 overflow-hidden">
+    <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_.85fr] gap-6 lg:gap-8 items-start">
       <motion.div
         variants={fadeIn('', 'tween', 0, 0.3)}
         className="flex-[0.75] bg-tertiary/50 border border-white/10 p-6 sm:p-8 rounded-2xl"
@@ -180,21 +180,22 @@ const Contact = () => {
         <ScheduleMeeting />
       </motion.div>
 
-      <motion.div
-        variants={fadeIn('', 'tween', 0, 0.3)}
-        className="xl:flex-1 xl:h-auto md:h-[420px] h-[300px]"
-      >
-        <div className="h-full min-h-[300px] flex flex-col justify-center items-center gap-6 rounded-3xl border border-white/10 bg-tertiary/30 p-8">
-          <span className="text-[#915EFF] text-6xl" aria-hidden="true">
-            ◎
+      <motion.div variants={fadeIn('', 'tween', 0, 0.3)} className="lg:sticky lg:top-28">
+        <div className="flex flex-col items-start gap-5 rounded-2xl border border-white/10 bg-tertiary/30 p-6 sm:p-8">
+          <span className="expertise-icon" aria-hidden="true">
+            <MdEmail size={22} />
           </span>
-          <h3 className="text-white text-2xl font-semibold text-center">
+          <h3 className="text-white text-2xl font-medium leading-snug">
             Discuss your next
             <br />
             engineering project.
           </h3>
+          <p className="text-secondary text-sm leading-7">
+            For solar PV design, electrical engineering, and research enquiries. Share your project
+            scope and any relevant details.
+          </p>
           <a
-            className="text-secondary underline text-sm break-all"
+            className="text-[#c9b5ff] underline text-sm break-all"
             href="mailto:contact@sajesanghimire.com.np"
           >
             contact@sajesanghimire.com.np

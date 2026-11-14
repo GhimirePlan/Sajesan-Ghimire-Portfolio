@@ -12,7 +12,7 @@ const BlogCard = ({ _id, slug, index, title, description, coverImage, createdAt,
 
   return (
     <motion.div variants={fadeIn('up', 'spring', index * 0.5, 0.75)}>
-      <div className="bg-tertiary/60 border border-white/10 p-5 rounded-2xl sm:w-[360px] w-full h-full flex flex-col">
+      <div className="bg-tertiary/60 border border-white/10 p-5 rounded-2xl w-full h-full flex flex-col">
         <div className="relative w-full h-[230px]">
           <img
             loading="lazy"
@@ -93,7 +93,7 @@ const Blog = () => {
               : 'New engineering articles are on their way.'}
         </p>
       )}
-      <div className="mt-10 flex flex-wrap gap-7">
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
         {blogs.map((blog: any, index: number) => (
           <BlogCard key={blog._id} index={index} {...blog} />
         ))}
