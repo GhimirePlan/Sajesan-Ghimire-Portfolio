@@ -1,5 +1,6 @@
+import { createPortal } from 'react-dom';
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { FiX, FiArrowUpRight, FiZap, FiSun, FiActivity, FiCpu } from 'react-icons/fi';
 
 import { services } from '../../constants';
@@ -26,7 +27,10 @@ const ServiceCard: React.FC<IServiceCard> = ({ index, title, description, onClic
   return (
     <motion.button
       type="button"
-      variants={fadeIn('up', 'tween', index * 0.05, 0.3)}
+      variants={fadeIn('up', 'tween', index * 0.04, 0.35)}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.15, margin: '0px 0px -24px 0px' }}
       onClick={onClick}
       aria-haspopup="dialog"
       className="expertise-row text-left group"
@@ -79,12 +83,12 @@ const ServiceModal: React.FC<{
     };
   }, [onClose]);
 
-  return (
+  return createPortal(
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/80 flex items-center justify-center z-[100] p-4"
+      className="service-dialog-backdrop"
       onClick={onClose}
     >
       <motion.div
@@ -95,81 +99,80 @@ const ServiceModal: React.FC<{
         ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-label={service.title}
-        className="bg-tertiary rounded-[20px] p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative shadow-2xl"
-        onClick={e => e.stopPropagation()}
+        aria-labelledby="expertise-dialog-title"
+        className="service-dialog"
+        onClick={event => event.stopPropagation()}
       >
-        {/* Close button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-full bg-black-100 hover:bg-red-500 transition-colors duration-300"
-          aria-label="Close modal"
-        >
-          <FiX className="w-5 h-5 text-white" />
-        </button>
-
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-          <div className="relative">
-            <img src={service.icon} alt={service.title} className="h-16 w-16 object-contain" />
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-20 rounded-full" />
-          </div>
-          <div>
-            <h3 className="text-[24px] font-bold text-white">{service.title}</h3>
-            <p className="text-secondary text-[14px] flex items-center gap-2">
-              <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-              {service.experience} experience
-            </p>
-          </div>
+        <div className="service-dialog-toolbar">
+          <span>Expertise</span>
+          <button
+            type="button"
+            onClick={onClose}
+            className="service-dialog-close"
+            aria-label="Close modal"
+          >
+            <span>Close</span>
+            <FiX size={20} strokeWidth={2.5} aria-hidden="true" />
+          </button>
         </div>
-
-        {/* Content */}
-        <div className="space-y-8">
-          <div>
-            <h4 className="text-[18px] font-semibold text-white mb-4 flex items-center gap-2">
-              <span className="w-1 h-6 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full"></span>
-              Key Responsibilities
-            </h4>
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {service.details.map((detail, index) => (
-                <li
-                  key={index}
-                  className="text-secondary text-[14px] bg-black-100/50 p-3 rounded-lg hover:bg-black-100 transition-colors duration-300"
-                >
-                  {detail}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-[18px] font-semibold text-white mb-4 flex items-center gap-2">
-              <span className="w-1 h-6 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full"></span>
-              Tools & Technologies
-            </h4>
-            <div className="flex flex-wrap gap-2">
-              {service.tools.map((tool, index) => (
-                <span
-                  key={index}
-                  className="bg-black-100 px-4 py-2 rounded-full text-[14px] text-white hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all duration-300 cursor-default"
-                >
-                  {tool}
-                </span>
-              ))}
+        <div className="service-dialog-content">
+          <div className="flex items-start gap-4 mb-7">
+            <span className="expertise-icon shrink-0">
+              <FiZap size={22} aria-hidden="true" />
+            </span>
+            <div>
+              <h3
+                id="expertise-dialog-title"
+                className="text-xl sm:text-2xl font-semibold text-white leading-snug"
+              >
+                {service.title}
+              </h3>
+              <p className="text-secondary text-sm mt-2">{service.experience} experience</p>
             </div>
+          </div>
+          <p className="text-secondary text-sm leading-7 mb-7">{service.description}</p>
+          <h4 className="text-sm font-medium text-white mb-4">Responsibilities & scope</h4>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {service.details.map(detail => (
+              <li
+                key={detail}
+                className="text-secondary text-sm leading-6 border border-white/10 rounded-xl p-3"
+              >
+                {detail}
+              </li>
+            ))}
+          </ul>
+          <h4 className="text-sm font-medium text-white mt-7 mb-4">Tools & technologies</h4>
+          <div className="flex flex-wrap gap-2">
+            {service.tools.map(tool => (
+              <span
+                key={tool}
+                className="text-[#c9b5ff] text-xs border border-[#c9b5ff]/15 bg-[#915EFF]/5 rounded-full px-3 py-2"
+              >
+                {tool}
+              </span>
+            ))}
           </div>
         </div>
       </motion.div>
-    </motion.div>
+    </motion.div>,
+    document.body
   );
 };
 
 const About = () => {
+  const reducedMotion = useReducedMotion();
   const [selectedService, setSelectedService] = useState<TService | null>(null);
 
   return (
     <>
-      <div className="about-intro-card">
+      <motion.div
+        className="about-intro-card"
+        initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.1, margin: '0px 0px -24px 0px' }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+      >
         <div className="about-card-heading">
           <Header useMotion={false} {...config.sections.about} />
           <p className="text-secondary text-sm mt-4">
@@ -194,7 +197,7 @@ const About = () => {
             />
           ))}
         </div>
-      </div>
+      </motion.div>
 
       <AnimatePresence>
         {selectedService && (

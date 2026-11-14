@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { useInView, useReducedMotion } from 'framer-motion';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 
 import 'react-vertical-timeline-component/style.min.css';
@@ -10,8 +11,12 @@ import { TExperience } from '../../types';
 import { config } from '../../constants/config';
 
 const ExperienceCard: React.FC<TExperience> = experience => {
+  const revealRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(revealRef, { once: true, margin: '0px 0px -32px 0px', amount: 0.1 });
+  const reducedMotion = useReducedMotion();
   return (
     <VerticalTimelineElement
+      className={`experience-entry ${inView || reducedMotion ? 'is-visible' : ''}`}
       contentStyle={{
         background: '#151030',
         color: '#fff',
@@ -34,7 +39,7 @@ const ExperienceCard: React.FC<TExperience> = experience => {
         </div>
       }
     >
-      <div>
+      <div ref={revealRef}>
         <h3 className="text-[20px] font-semibold text-white">{experience.title}</h3>
         <p className="text-secondary text-[14px] font-medium" style={{ margin: 0 }}>
           {experience.companyName}

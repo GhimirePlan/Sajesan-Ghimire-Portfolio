@@ -11,9 +11,15 @@ const BlogCard = ({ _id, slug, index, title, description, coverImage, createdAt,
   const linkPath = slug || _id;
 
   return (
-    <motion.div variants={fadeIn('up', 'spring', index * 0.5, 0.75)}>
-      <div className="bg-tertiary/60 border border-white/10 p-5 rounded-2xl w-full h-full flex flex-col">
-        <div className="relative w-full h-[230px]">
+    <motion.div
+      className="h-full"
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.15, margin: '0px 0px -24px 0px' }}
+      variants={fadeIn('up', 'tween', index * 0.06, 0.4)}
+    >
+      <div className="article-card bg-tertiary/60 border border-white/10 p-5 rounded-2xl w-full h-full flex flex-col">
+        <div className="relative w-full h-[230px] overflow-hidden rounded-xl">
           <img
             loading="lazy"
             decoding="async"
