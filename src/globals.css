@@ -730,3 +730,64 @@ section[id] {
     transform: none;
   }
 }
+
+.testimonials-disclosure {
+  border-block: 1px solid #ffffff12;
+}
+.testimonials-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 0;
+  list-style: none;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.testimonials-toggle::-webkit-details-marker {
+  display: none;
+}
+.testimonials-toggle-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #c9b5ff;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.testimonials-hide {
+  display: none;
+}
+.testimonials-disclosure[open] .testimonials-hide {
+  display: inline;
+}
+.testimonials-disclosure[open] .testimonials-show {
+  display: none;
+}
+.testimonials-toggle-action svg {
+  transition: transform 180ms ease-out;
+}
+.testimonials-disclosure[open] .testimonials-toggle-action svg {
+  transform: rotate(180deg);
+}
+.testimonials-content {
+  padding: 4px 0 24px;
+}
+.testimonials-disclosure[open] .testimonials-content {
+  animation: testimonials-reveal 200ms ease-out;
+}
+@keyframes testimonials-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .testimonials-disclosure[open] .testimonials-content {
+    animation: none;
+  }
+}
