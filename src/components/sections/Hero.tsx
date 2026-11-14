@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { BsLinkedin } from 'react-icons/bs';
 import { FiArrowUpRight } from 'react-icons/fi';
 import { config } from '../../constants/config';
-import portrait from '../../assets/profile.webp';
+import portrait from '../../assets/hero-portrait.webp';
 
 export default function Hero() {
   return (
@@ -73,9 +73,11 @@ export default function Hero() {
           <div className="portrait-image-frame">
             <img
               src={portrait}
-              width={640}
-              height={640}
-              alt="Sajesan Ghimire, electrical engineer"
+              width={768}
+              height={615}
+              loading="eager"
+              decoding="async"
+              alt="Sajesan Ghimire at a solar PV installation"
               className="portrait-image"
             />
             <span className="portrait-sheen" aria-hidden="true" />
